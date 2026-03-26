@@ -1,9 +1,8 @@
 .milkshakesSection {
-  background: #362b27;
+  background: #3e3530;
   color: #fff;
-  padding: 100px 0;
+  padding: 110px 0 80px;
   width: 100%;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .container {
@@ -15,179 +14,184 @@
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 38px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  align-items: flex-start;
+  margin-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 24px;
 }
 
 .headerText {
-  max-width: 680px;
+  max-width: 650px;
 }
 
 .title {
-  font-family: var(--font-main);
-  font-size: 48px;
+  font-family: var(--font-main, sans-serif);
+  font-size: 32px;
   font-weight: 700;
-  margin: 0 0 8px;
+  margin: 0 0 12px;
+  color: #fff;
 }
 
 .subtitle {
-  font-family: var(--font-main);
-  font-size: 16px;
+  font-family: var(--font-main, sans-serif);
+  font-size: 14px;
   opacity: 0.8;
   line-height: 1.5;
+  color: #f6f2ea;
+  margin: 0;
 }
 
 .seeAllBtn {
   background: #000;
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 40px;
-  padding: 10px 22px;
-  font-family: var(--font-main);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-family: var(--font-main, sans-serif);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.2s ease;
 }
 
 .seeAllBtn:hover {
-  background: #191515;
-  transform: scale(1.04);
+  opacity: 0.8;
 }
 
 .arrowIcon {
-  margin-left: 8px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
+  gap: 28px;
 }
 
 .card {
-  background: #c9a372;
-  border-radius: 8px;
+  background: #d3a87f;
+  border-radius: 6px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 34px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .imageWrapper {
   width: 100%;
-  min-height: 340px;
+  aspect-ratio: 4/5;
   overflow: hidden;
-  background: #e2bf99;
+  background: #f6e5c9;
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.01);
-  transition: transform 0.7s ease;
-}
-
-.card:hover .image {
-  transform: scale(1.06);
 }
 
 .content {
-  padding: 26px 20px;
+  padding: 24px 24px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   color: #2c1a14;
 }
 
 .itemTitle {
-  font-family: var(--font-main);
-  font-size: 28px;
-  font-weight: 600;
-  margin: 0;
+  font-family: var(--font-main, sans-serif);
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0 0 6px;
+  color: #fff;
 }
 
 .itemDescription {
   margin: 0;
-  font-size: 15px;
-  opacity: 0.85;
+  font-size: 13px;
   line-height: 1.5;
+  color: rgba(62, 48, 40, 0.85); /* Deep rich brown for readability */
+  min-height: 40px;
 }
 
 .footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
-  margin-top: 12px;
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 
 .price {
-  font-family: var(--font-main);
-  font-size: 28px;
-  font-weight: 700;
+  font-family: var(--font-main, sans-serif);
+  font-size: 22px;
+  font-weight: 400;
   color: #fff;
 }
 
 .quantityControls {
   display: flex;
   align-items: center;
-  gap: 12px;
   background: #000;
   color: #fff;
-  padding: 8px 12px;
-  border-radius: 12px;
+  border-radius: 6px;
+  padding: 4px 6px;
+  gap: 10px;
 }
 
 .qtyBtn {
-  background: #000;
+  background: transparent;
   color: #fff;
-  border: 1px solid #fff;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  border: none;
+  width: 24px;
+  height: 24px;
   font-size: 18px;
-  font-weight: 700;
-  display: grid;
-  place-items: center;
+  font-weight: 400;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qtyBtn:hover {
+  opacity: 0.7;
 }
 
 .quantityControls span {
-  min-width: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 16px;
   text-align: center;
-  font-weight: 700;
-  font-size: 15px;
 }
 
 .addToCartBtn {
   background: #000;
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: none;
   border-radius: 6px;
-  padding: 14px;
-  font-family: var(--font-main);
-  font-weight: 700;
+  padding: 14px 0;
+  font-family: var(--font-main, sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
   cursor: pointer;
-  margin-top: 12px;
-  letter-spacing: 0.5px;
   width: 100%;
-  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.2s ease;
 }
 
 .addToCartBtn:hover {
-  background: #1a1a1a;
-  transform: translateY(-1px);
+  opacity: 0.8;
+}
+
+.cartIcon {
+  width: 15px;
+  height: 15px;
 }
 
 @media (max-width: 1100px) {
@@ -198,20 +202,14 @@
 
 @media (max-width: 768px) {
   .milkshakesSection {
-    padding: 64px 0;
+    padding: 72px 0 50px;
   }
-
   .header {
     flex-direction: column;
     align-items: flex-start;
     gap: 18px;
   }
-
   .cards {
     grid-template-columns: 1fr;
-  }
-
-  .imageWrapper {
-    min-height: 280px;
   }
 }
