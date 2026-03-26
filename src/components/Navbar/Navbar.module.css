@@ -1,85 +1,94 @@
 .navbar {
   display: flex;
   width: 100%;
-  padding: 22px 40px;
+  padding: 24px 60px;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
-  background: var(--color-dark);
-  position: sticky;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  position: absolute;
   top: 0;
+  left: 0;
   z-index: 100;
-  height: 76px;
 }
 
-.navLeft,
-.navRight {
+.navLeft {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 32px;
   flex: 1;
 }
 
 .navRight {
+  display: flex;
+  align-items: center;
   justify-content: flex-end;
+  flex: 1;
 }
 
 .navLogo {
   display: flex;
+  gap: 10px;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
+  transition: opacity 0.3s;
+  cursor: pointer;
+}
+
+.navLogo:hover {
+  opacity: 0.8;
+}
+
+.logoIcon {
+  width: 28px;
+  height: 28px;
+  color: var(--color-cream);
 }
 
 .logoText {
   font-family: var(--font-main);
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 600;
   color: var(--color-cream);
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   text-transform: uppercase;
 }
 
-.navLink {
+.navLink,
+.navLinkLower {
   font-family: var(--font-main);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--color-cream);
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, transform 0.2s;
+  text-decoration: none;
 }
 
 .navLinkLower {
-  font-family: var(--font-main);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--color-cream);
-  letter-spacing: 1px;
   text-transform: lowercase;
-  transition: opacity 0.2s;
 }
 
 .navLink:hover,
 .navLinkLower:hover {
-  opacity: 0.7;
+  opacity: 0.6;
+}
+
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 20px 30px;
+  }
 }
 
 @media (max-width: 768px) {
-  .navbar {
-    padding: 16px 20px;
-  }
-
   .navLeft {
-    gap: 16px;
+    display: none;
   }
-
-  .navRight {
-    gap: 16px;
-  }
-
-  .navLink,
-  .navLinkLower {
-    font-size: 11px;
+  
+  .navLogo {
+    flex: 1;
+    justify-content: flex-start;
   }
 }
