@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+.wrapper {
+  font-family: 'DM Sans', sans-serif;
+  background-color: #c9935a;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.section {
+  width: 100%;
+  max-width: 1280px;
+}
+
+/* ── Header ── */
+.sectionHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.titleBlock h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #2a1a0a;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.titleBlock p {
+  margin-top: 6px;
+  font-size: 0.95rem;
+  color: #5a3b1e;
+  font-weight: 300;
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+.seeAllBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #1a1410;
+  color: #f5ede3;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.seeAllBtn:hover {
+  background: #3a2b1e;
+}
+
+.seeAllBtn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ── Divider ── */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(160, 114, 64, 0.56);
+  margin-bottom: 28px;
+}
+
+/* ── Grid ── */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .cardsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 580px) {
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+  .titleBlock h2 {
+    font-size: 1.8rem;
+  }
+}
+
+/* ── Card ── */
+.card {
+  background: #2a2118;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(30, 15, 5, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(30, 15, 5, 0.35);
+}
+
+.cardImage {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.cardBody {
+  padding: 20px 20px 0 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #f5ede3;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.cardDesc {
+  font-size: 0.875rem;
+  color: #b09a84;
+  font-weight: 300;
+  line-height: 1.55;
+  flex: 1;
+}
+
+/* ── Card Footer ── */
+.cardFooter {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #f0e0cc;
+  letter-spacing: -0.3px;
+}
+
+.qtyControl {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #1a1410;
+  border-radius: 8px;
+  padding: 8px 14px;
+}
+
+.qtyBtn {
+  background: none;
+  border: none;
+  color: #f5ede3;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0;
+  width: 16px;
+  text-align: center;
+  line-height: 1;
+  transition: opacity 0.15s;
+}
+
+.qtyBtn:hover {
+  opacity: 0.7;
+}
+
+.qtyNum {
+  color: #f5ede3;
+  font-size: 0.95rem;
+  font-weight: 500;
+  min-width: 14px;
+  text-align: center;
+  user-select: none;
+}
+
+/* ── Add to Cart ── */
+.addToCart {
+  margin: 0 20px 20px 20px;
+  width: calc(100% - 40px);
+  background: #1a1410;
+  color: #f5ede3;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background 0.2s;
+}
+
+.addToCart:hover {
+  background: #3a2b1e;
+}
+
+.addToCart svg {
+  width: 17px;
+  height: 17px;
+  opacity: 0.85;
+}
