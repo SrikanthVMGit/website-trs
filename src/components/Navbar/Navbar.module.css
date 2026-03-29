@@ -46,8 +46,8 @@
 
 .navLink {
   font-family: var(--font-main);
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   text-decoration: none;
