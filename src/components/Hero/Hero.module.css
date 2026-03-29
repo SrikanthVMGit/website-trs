@@ -18,9 +18,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  /* Move text up */
-  padding-top: 130px;
-  /* Adjust top spacing */
+  /* Adjust top padding to accommodate navbar drip */
+  padding-top: 120px;
   z-index: 10;
 }
 
@@ -101,7 +100,7 @@
   pointer-events: none;
 }
 
-.heroImage {
+.heroVideo {
   width: 100%;
   height: auto;
   display: block;
@@ -110,8 +109,8 @@
 @media (max-width: 768px) {
   .container {
     padding-top: 120px;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 40px;
+    padding-right: 40px;
   }
 
   .title {

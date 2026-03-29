@@ -1,30 +1,53 @@
+import { useState, useEffect } from 'react'
 import styles from './Navbar.module.css'
+import rarelogo from '../../assets/rarelogo.png'
 
 export default function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+      setIsScrolled(scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <nav className={styles.navbar}>
-      <div className={styles.navLeft}>
-        <a href="#" className={styles.navLink}>Menu</a>
-        <a href="#" className={styles.navLink}>Collections</a>
-        <a href="#" className={styles.navLink}>Our Story</a>
-      </div>
+    <>
+      {/* Invisible SVG definition for the clip-path */}
+      <svg width="0" height="0" style={{ position: 'absolute' }}>
+        <defs>
+          <clipPath id="navbarDrip" clipPathUnits="objectBoundingBox">
+            <path d="M0,0 H1 V0.7 C0.95,0.73 0.92,0.85 0.9,0.9 C0.88,0.95 0.85,0.98 0.82,0.9 C0.79,0.82 0.77,0.75 0.75,0.7 C0.73,0.65 0.7,0.65 0.68,0.75 C0.66,0.85 0.64,1 0.61,0.92 C0.58,0.84 0.56,0.75 0.53,0.7 C0.5,0.65 0.47,0.65 0.45,0.75 C0.43,0.85 0.41,0.95 0.38,0.88 C0.35,0.81 0.33,0.72 0.3,0.68 C0.27,0.64 0.24,0.66 0.22,0.78 C0.2,0.9 0.17,1 0.14,0.91 C0.11,0.82 0.08,0.73 0.05,0.75 C0.02,0.77 0,0.7 0,0.7 Z," />
+          </clipPath>
+        </defs>
+      </svg>
 
-      <div className={styles.navLogo}>
-        <svg 
-          className={styles.logoIcon}
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
-          strokeWidth="1.5"
-        >
-          <path d="M12 2C12 2 12 6 12 8M12 16C12 18 12 22 12 22M2 12C2 12 6 12 8 12M16 12C18 12 22 12 22 12M18.36 5.64C18.36 5.64 15.54 8.46 14.12 9.88M9.88 14.12C8.46 15.54 5.64 18.36 5.64 18.36M18.36 18.36C18.36 18.36 15.54 15.54 14.12 14.12M9.88 9.88C8.46 8.46 5.64 5.64 5.64 5.64" />
-        </svg>
-        <span className={styles.logoText}>The Rare Scoop</span>
-      </div>
+      <nav className={`${styles.navbar} ${isScrolled ? styles.scrolled : ''}`}>
+        <div className={styles.navLeft}>
+          <a href="#" className={styles.navLink}>Menu</a>
+          <a href="#" className={styles.navLink}>Collections</a>
+          <a href="#" className={styles.navLink}>Our Story</a>
+        </div>
 
-      <div className={styles.navRight}>
-        <a href="#" className={styles.navLinkLower}>enquiry</a>
-      </div>
-    </nav>
-  )
+        <div className={styles.navLogo}>
+          <img
+            src={rarelogo}
+            alt="The Rare Scoop"
+            className={styles.logoImg}
+          />
+          <span className={styles.logoText}>The Rare Scoop</span>
+        </div>
+
+        <div className={styles.navRight}>
+          <a href="#" className={styles.navLinkLower}>enquiry</a>
+        </div>
+      </nav>
+    </>
+  );
 }
