@@ -1,16 +1,57 @@
+import { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
 import styles from './Hero.module.css'
-import heroImg from '../../assets/ice_cream_hero_section_1774506074577.png'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Hero() {
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+
+  useGSAP(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const initAnimation = () => {
+      const duration = video.duration
+
+      // Video scrub animation
+      gsap.to(video, {
+        currentTime: duration,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: `.${styles.hero}`,
+          start: 'top top',
+          end: '+=2000', // Scroll distance
+          scrub: 1, // Smooth scrub
+          pin: true,
+          invalidateOnRefresh: true,
+        },
+      })
+    }
+
+    if (video.readyState >= 1) {
+      initAnimation()
+    } else {
+      video.addEventListener('loadedmetadata', initAnimation)
+    }
+
+    return () => {
+      video.removeEventListener('loadedmetadata', initAnimation)
+    }
+  }, { scope: containerRef })
+
   return (
-    <section className={styles.hero}>
+    <section ref={containerRef} className={styles.hero}>
       <div className={styles.container}>
         <h1 className={styles.title}>Created for the Curious</h1>
         <p className={styles.description}>
-          The Rare Scoop is a premium cloud kitchen bringing small batch pints, 
+          The Rare Scoop is a premium cloud kitchen bringing small batch pints,
           limited drops, tasting flights, and concierge delivery to modern dessert lovers.
         </p>
-        
+
         <div className={styles.buttonGroup}>
           <button className={styles.btnPrimary}>ORDER DELIVERY</button>
           <button className={styles.btnSecondary}>EXPLORE FLAVORS</button>
@@ -18,10 +59,13 @@ export default function Hero() {
       </div>
 
       <div className={styles.imageWrapper}>
-        <img 
-          src={heroImg} 
-          alt="Artisanal Ice Creams" 
-          className={styles.heroImage}
+        <video
+          ref={videoRef}
+          src="/Fruits_falling_into_202603292025.mp4"
+          muted
+          playsInline
+          preload="auto"
+          className={styles.heroVideo}
         />
       </div>
     </section>

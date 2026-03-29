@@ -1,0 +1,155 @@
+.section {
+  width: 100%;
+  padding: 85px 0;
+  background-color: #3A2C2A;
+  color: #F6F2EA;
+  height: 100vh;
+  ;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 40px;
+}
+
+.testimonialCard {
+  background-color: #c9935a;
+  color: #3A2C2A;
+  padding: 60px 40px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.overline {
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  opacity: 0.8;
+  margin-bottom: 40px;
+  display: block;
+}
+
+.quote {
+  font-family: var(--font-main);
+  font-size: 36px;
+  line-height: 1.4;
+  font-weight: 600;
+  margin-bottom: 60px;
+}
+
+.authorInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.authorName {
+  display: block;
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.authorTitle {
+  display: block;
+  font-family: var(--font-main);
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.rating {
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.faqColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.faqItem {
+  background-color: #c9935a;
+  color: #3A2C2A;
+  padding: 32px;
+  border-radius: 12px;
+}
+
+.question {
+  font-family: var(--font-main);
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.answer {
+  font-family: var(--font-main);
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.ctaCard {
+  background-color: #000000;
+  color: #FFFFFF;
+  padding: 40px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ctaTitle {
+  font-family: var(--font-main);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.ctaDesc {
+  font-family: var(--font-main);
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.startBtn {
+  background-color: #c9935a;
+  color: #3A2C2A;
+  border-radius: 8px;
+  padding: 14px 28px;
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border: none;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.startBtn:hover {
+  background-color: #d8a46b;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+}
