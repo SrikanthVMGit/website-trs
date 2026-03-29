@@ -1,10 +1,9 @@
+/* ─── Icecreams Section ─── */
 .section {
-  padding: 85px 0;
-  background-color: #c9935a;
+  padding: 100px 0;
+  background-color: #1a1510;
   font-family: var(--font-main);
-  min-height: auto;
   width: 100%;
-  height: 100vh;
 }
 
 .container {
@@ -13,81 +12,92 @@
   padding: 0 40px;
 }
 
+/* ─── Section Header ─── */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 60px;
-  border-bottom: 1px solid rgba(58, 44, 42, 0.15);
-  padding-bottom: 30px;
+  margin-bottom: 56px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(245, 237, 227, 0.12);
 }
 
 .headerLeft {
-  max-width: 600px;
+  max-width: 540px;
 }
 
 .title {
   font-family: var(--font-main);
-  font-size: 42px;
+  font-size: clamp(32px, 4vw, 42px);
   font-weight: 700;
-  color: #1e0f05;
-  margin-bottom: 16px;
+  color: #f5ede3;
+  margin-bottom: 14px;
   letter-spacing: -1px;
   line-height: 1.1;
 }
 
 .subtitle {
   font-size: 16px;
-  color: #1e0f05;
+  color: rgba(245, 237, 227, 0.7);
   margin: 0;
-  line-height: 1.5;
-  opacity: 0.85;
+  line-height: 1.6;
 }
 
+/* ─── See All Button ─── */
 .seeAllBtn {
-  background: #000;
-  color: #fff;
-  border: none;
+  background: transparent;
+  color: #f5ede3;
+  border: 1px solid rgba(245, 237, 227, 0.25);
   padding: 10px 24px;
   border-radius: 40px;
   font-size: 13px;
   font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   cursor: pointer;
-  transition: transform 0.3s ease, background 0.3s ease;
+  transition: all 0.25s ease;
   text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .seeAllBtn:hover {
-  background: #333;
-  transform: scale(1.05);
+  background: #c9935a;
+  border-color: #c9935a;
+  color: #1a1510;
+  transform: translateY(-1px);
 }
 
+/* ─── Cards Grid ─── */
 .cardsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 24px;
 }
 
+/* ─── Card ─── */
 .card {
-  background-color: #2a2118;
-  border-radius: 4px;
+  background-color: #221a12;
+  border-radius: 12px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 400px;
-  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: 1px solid rgba(201, 147, 90, 0.1);
+  transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
+              box-shadow 0.35s ease;
 }
 
 .card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
 }
 
+/* ─── Image ─── */
 .imageContainer {
   width: 100%;
-  height: 200px;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   background-color: #1a1510;
 }
@@ -96,13 +106,14 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s ease;
+  transition: transform 0.55s ease;
 }
 
 .card:hover .image {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
+/* ─── Card Body ─── */
 .cardBody {
   padding: 24px;
   flex-grow: 1;
@@ -112,37 +123,39 @@
 
 .cardTitle {
   font-family: var(--font-main);
-  font-size: 20px;
+  font-size: 18px;
   color: #f5ede3;
   margin: 0 0 8px 0;
   font-weight: 600;
 }
 
 .cardDesc {
-  color: #c9935a;
+  color: rgba(201, 147, 90, 0.85);
   font-size: 14px;
-  line-height: 1.5;
-  margin-bottom: 24px;
-  opacity: 0.8;
+  line-height: 1.6;
+  margin-bottom: auto;
+  padding-bottom: 20px;
 }
 
+/* ─── Price Row ─── */
 .priceRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  margin-top: 4px;
 }
 
 .price {
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: #f5ede3;
 }
 
 .qtyControl {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   background-color: #1a1510;
   padding: 6px 14px;
   border-radius: 30px;
@@ -154,73 +167,75 @@
   background: none;
   border: none;
   color: #c9935a;
-  font-size: 1.3rem;
-  font-weight: 300;
+  font-size: 1.2rem;
+  font-weight: 400;
   cursor: pointer;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
+  width: 20px;
+  height: 20px;
 }
 
 .qtyValue {
   font-weight: 600;
   min-width: 18px;
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
+/* ─── Add to Cart ─── */
 .addToCartBtn {
   width: 100%;
-  background-color: #1a1510;
+  background-color: transparent;
   color: #f5ede3;
   border: 1px solid rgba(201, 147, 90, 0.3);
-  padding: 14px;
-  border-radius: 4px;
+  padding: 13px;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   transition: all 0.2s ease;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .addToCartBtn:hover {
   background-color: #c9935a;
+  border-color: #c9935a;
   color: #1a1510;
 }
 
-@media (max-width: 1200px) {
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
   .cardsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .section {
-    padding: 60px 0;
+    padding: 72px 0;
   }
 
   .container {
     padding: 0 20px;
   }
 
-  .title {
-    font-size: 32px;
-  }
-
   .header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 30px;
+    gap: 24px;
+    margin-bottom: 40px;
   }
 
   .cardsGrid {
     grid-template-columns: 1fr;
-    max-width: 400px;
-    margin: 0 auto;
   }
 }
