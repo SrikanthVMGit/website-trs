@@ -1,6 +1,7 @@
+/* ─── Art of Ice Cream Section ─── */
 .section {
   width: 100%;
-  padding: 85px 0;
+  padding: 100px 0;
   background-color: #c9935a;
   color: #3A2C2A;
 }
@@ -9,51 +10,52 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 40px;
-  display: flex;
-  gap: 100px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
   align-items: center;
 }
 
+/* ─── Left: Content ─── */
 .content {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .overline {
   font-family: var(--font-main);
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   color: #3A2C2A;
-  opacity: 0.8;
+  opacity: 0.7;
   text-transform: uppercase;
   display: block;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .title {
   font-family: var(--font-main);
-  font-size: 42px;
+  font-size: clamp(28px, 3.5vw, 40px);
   line-height: 1.2;
   font-weight: 700;
-  margin-bottom: 32px;
-  max-width: 500px;
+  margin-bottom: 20px;
 }
 
 .description {
   font-family: var(--font-main);
   font-size: 16px;
-  line-height: 1.6;
-  color: #3A2C2A;
-  opacity: 0.9;
+  line-height: 1.7;
+  color: rgba(58, 44, 42, 0.8);
   margin-bottom: 48px;
-  max-width: 500px;
 }
 
+/* ─── Step List ─── */
 .stepList {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 28px;
   margin-bottom: 48px;
 }
 
@@ -64,8 +66,9 @@
 }
 
 .stepNumber {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
   background-color: #3A2C2A;
   color: #c9935a;
   border-radius: 50%;
@@ -80,61 +83,88 @@
 
 .stepTitle {
   font-family: var(--font-main);
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  color: #3A2C2A;
 }
 
 .stepDesc {
   font-family: var(--font-main);
   font-size: 14px;
-  line-height: 1.5;
-  opacity: 0.8;
-  max-width: 400px;
+  line-height: 1.6;
+  color: rgba(58, 44, 42, 0.75);
 }
 
+/* ─── CTA Button ─── */
 .ctaBtn {
-  background-color: #000000;
-  color: #FFFFFF;
+  background-color: #3A2C2A;
+  color: #F6F2EA;
   border-radius: 8px;
-  padding: 16px 32px;
+  padding: 15px 32px;
   font-family: var(--font-main);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
   border: none;
   cursor: pointer;
+  align-self: flex-start;
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .ctaBtn:hover {
-  background-color: #222222;
+  background-color: #221a12;
   transform: translateY(-2px);
 }
 
+/* ─── Right: Image ─── */
 .imagePlaceholder {
-  flex: 1.2;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 30px 60px rgba(58, 44, 42, 0.2);
+  box-shadow: 0 24px 60px rgba(58, 44, 42, 0.25);
 }
 
 .image {
   width: 100%;
-  height: 500px;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
   display: block;
+  transition: transform 0.6s ease;
 }
 
+.imagePlaceholder:hover .image {
+  transform: scale(1.04);
+}
+
+/* ─── Responsive ─── */
 @media (max-width: 1024px) {
   .container {
-    flex-direction: column;
-    gap: 60px;
+    grid-template-columns: 1fr;
+    gap: 56px;
   }
+
   .imagePlaceholder {
-    width: 100%;
+    max-height: 480px;
   }
+
   .image {
-    height: 450px;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 72px 0;
+  }
+
+  .container {
+    padding: 0 20px;
+    gap: 48px;
+  }
+
+  .ctaBtn {
+    width: 100%;
+    text-align: center;
   }
 }

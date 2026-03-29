@@ -6,6 +6,7 @@ import Icecreams from './components/Icecreams/Icecreams'
 import Categories from './components/Categories/Categories'
 import SeasonalDrops from './components/SeasonalDrops/SeasonalDrops'
 import ArtOfIceCream from './components/ArtOfIceCream/ArtOfIceCream'
+import GuestNotes from './components/GuestNotes/GuestNotes'
 import Footer from './components/Footer/Footer'
 import './App.css'
 
@@ -20,6 +21,7 @@ function App() {
       <Thickshakes />
       <SeasonalDrops />
       <ArtOfIceCream />
+      <GuestNotes />
       <Footer />
     </div>
   )
