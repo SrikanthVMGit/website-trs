@@ -1,0 +1,254 @@
+/* FrameScrollHero.module.css */
+
+/* ── Outer: just a container, GSAP adds pinSpacing automatically ── */
+.outer {
+  width: 100%;
+  position: relative;
+}
+
+/* ── Inner: full-viewport panel, GSAP will pin this ── */
+.inner {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+  position: relative;
+}
+
+/* ── Canvas lives behind everything ── */
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+}
+
+/* ── Gradient vignette for text legibility ── */
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.50) 0%,
+      transparent 28%,
+      transparent 60%,
+      rgba(0, 0, 0, 0.72) 100%);
+}
+
+/* ── Scroll-phase overlay text ── */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.overlayText {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: clamp(28px, 3.5vw, 60px);
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  /* Luxurious warm golden glow */
+  text-shadow:
+    0 0 20px rgba(130, 94, 42, 0.75),
+    0 0 50px rgba(200, 140, 70, 0.45),
+    0 0 100px rgba(190, 120, 50, 0.20),
+    0 2px 8px rgba(0, 0, 0, 0.50);
+  /* Base padding (no glass) */
+  padding: 0 48px;
+  padding-bottom: 100px;
+  position: relative;
+  display: block;
+}
+
+
+/* ── Static hero CTA (fades out on scroll) ── */
+.heroContent {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 140px;
+  padding-inline: 40px;
+  text-align: center;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.eyebrow {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--color-golden, #C89B6D);
+  margin-bottom: 14px;
+}
+
+.title {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  /* Sized to fit full phrase on ONE line at typical desktop widths */
+  font-size: clamp(50px, 5.5vw, 86px);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.0;
+  letter-spacing: -1px;
+  white-space: nowrap;
+  /* never wrap */
+  margin-bottom: 16px;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
+}
+
+.description {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: clamp(15px, 1.5vw, 20px);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.70);
+  max-width: 480px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.buttons {
+  display: flex;
+  gap: 14px;
+  pointer-events: all;
+}
+
+.btnPrimary {
+  background: var(--color-golden, #C89B6D);
+  color: #fff;
+  border: none;
+  padding: 13px 42px;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.28s ease, transform 0.22s ease;
+}
+
+.btnPrimary:hover {
+  background: #a87848;
+  transform: translateY(-2px);
+}
+
+.btnSecondary {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 13px 42px;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: border-color 0.28s ease, background 0.28s ease, transform 0.22s ease;
+}
+
+.btnSecondary:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.07);
+  transform: translateY(-2px);
+}
+
+/* ── Scroll hint ── */
+.scrollHint {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.45);
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  animation: fadeUpIn 1.4s ease 1.8s both;
+}
+
+.chevron {
+  width: 18px;
+  height: 18px;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.35);
+  transform: rotate(45deg);
+  animation: chevronBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes chevronBounce {
+
+  0%,
+  100% {
+    transform: rotate(45deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(45deg) translateY(5px);
+  }
+}
+
+@keyframes fadeUpIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .heroContent {
+    padding-top: 110px;
+    padding-inline: 24px;
+  }
+
+  .title {
+    font-size: clamp(36px, 9vw, 58px);
+    letter-spacing: -1px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 270px;
+  }
+
+  .btnPrimary,
+  .btnSecondary {
+    width: 100%;
+    padding: 13px 24px;
+  }
+
+  .overlayText {
+    font-size: clamp(24px, 7vw, 44px);
+    padding: 0 24px;
+  }
+}

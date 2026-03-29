@@ -1,0 +1,142 @@
+.seasonalDrops {
+  width: 100%;
+  padding: 85px 0;
+  background-color: #3A2C2A;
+  color: #F6F2EA;
+  height: 100vh;
+
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  gap: 80px;
+  align-items: center;
+}
+
+.content {
+  flex: 1;
+}
+
+.overline {
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #c9935a;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-family: var(--font-main);
+  font-size: 42px;
+  line-height: 1.2;
+  font-weight: 700;
+  margin-bottom: 32px;
+}
+
+.description {
+  font-family: var(--font-main);
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(246, 242, 234, 0.7);
+  margin-bottom: 48px;
+  max-width: 500px;
+}
+
+.dropsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dropItem {
+  background-color: #c9935a;
+  border-radius: 12px;
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dropItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.dropInfo {
+  max-width: 70%;
+}
+
+.dropName {
+  font-family: var(--font-main);
+  font-size: 20px;
+  font-weight: 700;
+  color: #3A2C2A;
+  margin-bottom: 8px;
+}
+
+.dropDesc {
+  font-family: var(--font-main);
+  font-size: 14px;
+  color: #3A2C2A;
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+.statusBtn {
+  background-color: #000000;
+  color: #FFFFFF;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.statusBtn:hover {
+  background-color: #222222;
+}
+
+.imageWrapper {
+  flex: 1.2;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.image {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.imageWrapper:hover .image {
+  transform: scale(1.05);
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    gap: 60px;
+  }
+
+  .imageWrapper {
+    width: 100%;
+  }
+
+  .image {
+    height: 400px;
+  }
+}
