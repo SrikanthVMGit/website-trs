@@ -1,118 +1,140 @@
-import { useState } from "react";
+"use client";
+
+import { useState, useRef } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import styles from "./Thickshakes.module.css";
 
-// Assets
 import chocolateImg from "../../assets/chocolate_hazelnut_shake.png";
 import saltedCaramelImg from "../../assets/salted_caramel_shake.png";
 import peanutButterImg from "../../assets/peanut_butter_fudge_shake.png";
 
-const SHAKE_DATA = [
+/* Data */
+const data = [
   {
     id: 1,
     title: "Chocolate Hazelnut",
-    description: "Dark cocoa, toasted hazelnut, and dense velvet texture.",
+    description: "Dark cocoa, hazelnut blend",
     price: 289,
     image: chocolateImg,
   },
   {
     id: 2,
     title: "Salted Caramel",
-    description: "Buttery caramel depth balanced with a clean sea-salt finish.",
+    description: "Sweet caramel + salt",
     price: 279,
     image: saltedCaramelImg,
   },
   {
     id: 3,
     title: "Peanut Butter Fudge",
-    description: "Creamy peanut butter base with ribbons of rich dark fudge.",
+    description: "Rich peanut butter mix",
     price: 299,
     image: peanutButterImg,
   },
 ];
 
-const Thickshakes = () => {
-  const [quantities, setQuantities] = useState<{ [key: number]: number }>({
-    1: 1,
-    2: 1,
-    3: 1,
-  });
+/* 🔥 Tilt Card Component */
+const TiltCard = ({ item, active, setActive }: any) => {
+  const ref = useRef<HTMLDivElement>(null);
 
-  const updateQty = (id: number, delta: number) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [id]: Math.max(1, prev[id] + delta),
-    }));
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const rotateX = useSpring(y, { stiffness: 90, damping: 18 });
+  const rotateY = useSpring(x, { stiffness: 90, damping: 18 });
+
+  const handleMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+
+    const rect = ref.current.getBoundingClientRect();
+
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    // Smooth premium tilt
+    const rX = ((mouseY / rect.height) - 0.5) * -20;
+    const rY = ((mouseX / rect.width) - 0.5) * 20;
+
+    x.set(rY);
+    y.set(rX);
+  };
+
+  const handleLeave = () => {
+    setActive(null);
+    x.set(0);
+    y.set(0);
   };
 
   return (
-    <section className={styles.section} id="thickshakes">
+    <motion.div
+      ref={ref}
+      className={`${styles.card} ${
+        active && active !== item.id ? styles.blur : ""
+      } ${active === item.id ? styles.active : ""}`}
+      style={{
+        rotateX,
+        rotateY,
+      }}
+      onMouseMove={handleMove}
+      onMouseEnter={() => setActive(item.id)}
+      onMouseLeave={handleLeave}
+      whileTap={{ scale: 0.96 }}
+    >
+      {/* Image */}
+      <div className={styles.imageContainer}>
+        <img src={item.image} className={styles.image} alt={item.title} />
+      </div>
+
+      {/* Content */}
+      <div className={styles.cardBody}>
+        <h3>{item.title}</h3>
+        <p>{item.description}</p>
+        <span>₹ {item.price}</span>
+
+        <button className={styles.addBtn}>
+          Add to Cart
+        </button>
+      </div>
+    </motion.div>
+  );
+};
+
+/* 🔥 Main Component */
+const Thickshakes = () => {
+  const [active, setActive] = useState<number | null>(null);
+
+  return (
+    <section className={styles.section}>
       <div className={styles.container}>
-        <div className={styles.header}>
-          <div className={styles.headerLeft}>
-            <h2 className={styles.title}>Thick Shakes</h2>
-            <p className={styles.subtitle}>
-              Dessert-first blends with luxurious body. <br />
-              Built to be spoonable treats.
-            </p>
-          </div>
-          <button className={styles.seeAllBtn}>
-            SEE ALL
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </button>
+
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: "60px" }}>
+          <h2
+            style={{
+              fontSize: "2.8rem",
+              color: "#f5ede3",
+              marginBottom: "10px",
+            }}
+          >
+            Thick Shakes
+          </h2>
+          <p style={{ color: "#c9935a" }}>
+            Premium, Electric Indulgence
+          </p>
         </div>
 
+        {/* Cards */}
         <div className={styles.cardsGrid}>
-        {SHAKE_DATA.map((shake) => (
-          <div key={shake.id} className={styles.card}>
-            <div className={styles.imageContainer}>
-              <img
-                src={shake.image}
-                alt={shake.title}
-                className={styles.image}
-                loading="lazy"
-              />
-            </div>
-            
-            <div className={styles.cardBody}>
-              <h3 className={styles.cardTitle}>{shake.title}</h3>
-              <p className={styles.cardDesc}>{shake.description}</p>
-              
-              <div className={styles.priceRow}>
-                <span className={styles.price}>₹ {shake.price}</span>
-                <div className={styles.qtyControl}>
-                  <button 
-                    className={styles.qtyBtn}
-                    onClick={() => updateQty(shake.id, -1)}
-                    aria-label="Decrease quantity"
-                  >
-                    -
-                  </button>
-                  <span className={styles.qtyValue}>{quantities[shake.id]}</span>
-                  <button 
-                    className={styles.qtyBtn}
-                    onClick={() => updateQty(shake.id, 1)}
-                    aria-label="Increase quantity"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              <button className={styles.addToCartBtn}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
-                  <line x1="3" y1="6" x2="21" y2="6"></line>
-                  <path d="M16 10a4 4 0 0 1-8 0"></path>
-                </svg>
-                ADD TO CART
-              </button>
-            </div>
-          </div>
-        ))}
+          {data.map((item) => (
+            <TiltCard
+              key={item.id}
+              item={item}
+              active={active}
+              setActive={setActive}
+            />
+          ))}
         </div>
+
       </div>
     </section>
   );

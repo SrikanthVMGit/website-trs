@@ -1,9 +1,9 @@
-/* ─── Categories Section ─── */
-.categoriesSection {
-  background-color: var(--color-golden);
-  padding: 100px 0;
+/* Categories.module.css */
+
+.section {
+  padding: 80px 0;
+  background-color: #c9935a;
   width: 100%;
-  color: var(--color-dark);
 }
 
 .container {
@@ -12,154 +12,146 @@
   padding: 0 40px;
 }
 
-/* ─── Section Header ─── */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 56px;
-  padding-bottom: 28px;
-  border-bottom: 1px solid rgba(58, 44, 42, 0.15);
-}
-
-.headerText {
-  max-width: 540px;
+  margin-bottom: 50px;
 }
 
 .title {
-  font-family: var(--font-main);
-  font-size: clamp(32px, 4vw, 42px);
-  font-weight: 700;
-  margin-bottom: 14px;
-  letter-spacing: -1px;
-  line-height: 1.1;
+  font-size: 42px;
+  font-weight: 800;
+  color: #1a1510;
 }
 
 .subtitle {
-  font-family: var(--font-main);
-  font-size: 16px;
-  line-height: 1.6;
-  color: rgba(58, 44, 42, 0.75);
+  max-width: 450px;
+  color: rgba(26, 21, 16, 0.75);
+  font-size: 14px;
 }
 
-/* ─── See All Button ─── */
 .seeAllBtn {
-  background: var(--color-black);
-  color: #fff;
+  background: #1a1510;
+  color: #e6a556;
+  padding: 12px 28px;
+  border-radius: 30px;
   border: none;
-  padding: 10px 24px;
-  border-radius: 40px;
-  font-family: var(--font-main);
-  font-size: 13px;
   font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 10px;
   cursor: pointer;
-  transition: transform 0.25s ease, background 0.25s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
-  flex-shrink: 0;
+  transition: transform 0.2s ease;
 }
 
 .seeAllBtn:hover {
-  background: #333;
-  transform: translateY(-1px);
+  transform: scale(1.05);
 }
 
-.arrowIcon {
-  font-size: 16px;
-}
-
-/* ─── Grid ─── */
-.grid {
+.cardsGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
-/* ─── Card ─── */
+/* ================= CARD ================= */
 .card {
   position: relative;
-  aspect-ratio: 2 / 3;
+  height: 520px;
+  background: #1a1510;
+  border-radius: 18px;
   overflow: hidden;
-  border-radius: 12px;
   cursor: pointer;
 }
 
-.cardImage {
+.imageContainer {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
-  display: block;
+  opacity: 0.85;
 }
 
-.imageOverlay {
+.cardLabel {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.65) 100%);
-  z-index: 1;
+  bottom: 30px;
+  left: 25px;
+  z-index: 5;
+  transition: all 0.4s ease;
 }
 
-.cardContent {
+.cardLabel h3 {
+  color: #fff;
+  font-size: 22px;
+  margin: 0;
+  font-weight: 700;
+}
+
+.cardLabel p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* 🌊 MARQUEE REVEAL */
+.marqueeOverlay {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 24px;
-  z-index: 2;
-  color: #fff;
-  transition: transform 0.35s ease;
+  height: 35%; 
+  background: #9f6f35ec;
+  display: flex;
+  align-items: center;
+  transform: translateY(101%); /* Start hidden below */
+  transition: transform 0.5s cubic-bezier(0.7, 0, 0.2, 1);
+  z-index: 10;
 }
 
-.cardTitle {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 4px;
-  font-family: var(--font-main);
+.card:hover .marqueeOverlay {
+  transform: translateY(0);
 }
 
-.cardDescription {
-  font-size: 13px;
-  opacity: 0.75;
-  font-family: var(--font-main);
+.card:hover .cardLabel {
+  transform: translateY(-10px);
+  opacity: 0;
 }
 
-.card:hover .cardImage {
-  transform: scale(1.08);
+.card:hover .imageContainer {
+  transform: scale(1.1);
 }
 
-.card:hover .cardContent {
-  transform: translateY(-4px);
+.marqueeInner {
+  display: flex;
+  white-space: nowrap;
+  animation: scrollMarquee 8s linear infinite;
 }
 
-/* ─── Responsive ─── */
-@media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.marqueePart {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  padding-right: 25px;
 }
 
-@media (max-width: 640px) {
-  .categoriesSection {
-    padding: 72px 0;
-  }
+.marqueePart span {
+  font-size: 20px;
+  font-weight: 900;
+  color: #1a1510;
+  letter-spacing: 1px;
+}
 
-  .container {
-    padding: 0 20px;
-  }
+.marqueeCircle {
+  width: 8px;
+  height: 8px;
+  background: #c9935a;
+  border-radius: 50%;
+}
 
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-    margin-bottom: 40px;
-  }
-
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
+@keyframes scrollMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
