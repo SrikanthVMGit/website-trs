@@ -1,0 +1,187 @@
+/* ─── Seasonal Drops Section ─── */
+.seasonalDrops {
+  width: 100%;
+  padding: 100px 0;
+  background-color: #3A2C2A;
+  color: #F6F2EA;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+/* ─── Left: Content ─── */
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.overline {
+  font-family: var(--font-main);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #c9935a;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-family: var(--font-main);
+  font-size: clamp(28px, 3.5vw, 40px);
+  line-height: 1.2;
+  font-weight: 700;
+  margin-bottom: 20px;
+  max-width: 500px;
+}
+
+.description {
+  font-family: var(--font-main);
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(246, 242, 234, 0.65);
+  margin-bottom: 48px;
+}
+
+/* ─── Drops List ─── */
+.dropsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dropItem {
+  background-color: rgba(201, 147, 90, 0.12);
+  border: 1px solid rgba(201, 147, 90, 0.2);
+  border-radius: 12px;
+  padding: 20px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.dropItem:hover {
+  background-color: rgba(201, 147, 90, 0.2);
+  transform: translateX(4px);
+}
+
+.dropInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.dropName {
+  font-family: var(--font-main);
+  font-size: 17px;
+  font-weight: 700;
+  color: #F6F2EA;
+  margin-bottom: 4px;
+}
+
+.dropDesc {
+  font-family: var(--font-main);
+  font-size: 13px;
+  color: rgba(246, 242, 234, 0.6);
+  line-height: 1.5;
+}
+
+/* ─── Status Buttons ─── */
+.statusBtn {
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-family: var(--font-main);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.statusBtn:hover { opacity: 0.85; }
+
+.live {
+  background-color: #c9935a;
+  color: #1a1510;
+}
+
+.reserve {
+  background-color: #3A2C2A;
+  color: #F6F2EA;
+  border: 1px solid rgba(246, 242, 234, 0.3);
+}
+
+.waitlist {
+  background-color: transparent;
+  color: rgba(246, 242, 234, 0.6);
+  border: 1px solid rgba(246, 242, 234, 0.2);
+}
+
+/* ─── Right: Image ─── */
+.imageWrapper {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+.image {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.imageWrapper:hover .image {
+  transform: scale(1.04);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 56px;
+  }
+
+  .imageWrapper {
+    max-height: 480px;
+  }
+
+  .image {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 640px) {
+  .seasonalDrops {
+    padding: 72px 0;
+  }
+
+  .container {
+    padding: 0 20px;
+    gap: 48px;
+  }
+
+  .dropItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .statusBtn {
+    align-self: flex-start;
+  }
+}

@@ -1,19 +1,29 @@
 import Navbar from './components/Navbar/Navbar'
-import Hero from './components/Hero/Hero'
-import Categories from './components/Categories/Categories'
+import FrameScrollHero from './components/Hero/FrameScrollHero'
 import Thickshakes from './components/Thickshakes/Thickshakes'
 import Milkshakes from './components/Milkshakes/Milkshakes'
+import Icecreams from './components/Icecreams/Icecreams'
+import Categories from './components/Categories/Categories'
+import SeasonalDrops from './components/SeasonalDrops/SeasonalDrops'
+import ArtOfIceCream from './components/ArtOfIceCream/ArtOfIceCream'
+import GuestNotes from './components/GuestNotes/GuestNotes'
+import Footer from './components/Footer/Footer'
 import './App.css'
 
 function App() {
   return (
-    <main>
+    <div className="appWrapper">
       <Navbar />
-      <Hero />
+      <FrameScrollHero />
       <Categories />
-      <Thickshakes />
+      <Icecreams />
       <Milkshakes />
-    </main>
+      <Thickshakes />
+      <SeasonalDrops />
+      <ArtOfIceCream />
+      <GuestNotes />
+      <Footer />
+    </div>
   )
 }
 

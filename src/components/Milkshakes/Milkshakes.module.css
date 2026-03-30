@@ -1,7 +1,8 @@
-.milkshakesSection {
-  background: #3e3530;
-  color: #fff;
-  padding: 110px 0 80px;
+/* ─── Milkshakes Section ─── */
+.section {
+  padding: 100px 0;
+  background-color: #c9935a;
+  font-family: var(--font-main);
   width: 100%;
 }
 
@@ -11,205 +12,223 @@
   padding: 0 40px;
 }
 
+/* ─── Section Header ─── */
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 40px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 24px;
+  align-items: flex-end;
+  margin-bottom: 56px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(58, 44, 42, 0.15);
 }
 
-.headerText {
-  max-width: 650px;
+.headerLeft {
+  max-width: 540px;
 }
 
 .title {
-  font-family: var(--font-main, sans-serif);
-  font-size: 32px;
+  font-family: var(--font-main);
+  font-size: clamp(32px, 4vw, 42px);
   font-weight: 700;
-  margin: 0 0 12px;
-  color: #fff;
+  color: #1a1510;
+  margin-bottom: 14px;
+  letter-spacing: -1px;
+  line-height: 1.1;
 }
 
 .subtitle {
-  font-family: var(--font-main, sans-serif);
-  font-size: 14px;
-  opacity: 0.8;
-  line-height: 1.5;
-  color: #f6f2ea;
+  font-size: 16px;
+  color: rgba(26, 21, 16, 0.75);
   margin: 0;
+  line-height: 1.6;
 }
 
+/* ─── See All Button ─── */
 .seeAllBtn {
-  background: #000;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-family: var(--font-main, sans-serif);
+  background: #1a1510;
+  color: #f5ede3;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 40px;
   font-size: 13px;
   font-weight: 600;
-  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: opacity 0.2s ease;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .seeAllBtn:hover {
-  opacity: 0.8;
+  background: #000;
+  transform: translateY(-1px);
 }
 
-.arrowIcon {
-  font-size: 14px;
-}
-
-.cards {
+/* ─── Cards Grid ─── */
+.cardsGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
 
+/* ─── Card ─── */
 .card {
-  background: #d3a87f;
-  border-radius: 6px;
+  background-color: #f5ede3;
+  border-radius: 12px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
+              box-shadow 0.35s ease;
 }
 
-.imageWrapper {
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(58, 44, 42, 0.25);
+}
+
+/* ─── Image ─── */
+.imageContainer {
   width: 100%;
-  aspect-ratio: 4/5;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
-  background: #f6e5c9;
+  background-color: #e8ddd0;
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.55s ease;
 }
 
-.content {
-  padding: 24px 24px;
+.card:hover .image {
+  transform: scale(1.06);
+}
+
+/* ─── Card Body ─── */
+.cardBody {
+  padding: 24px;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  color: #2c1a14;
 }
 
-.itemTitle {
-  font-family: var(--font-main, sans-serif);
-  font-size: 20px;
-  font-weight: 500;
-  margin: 0 0 6px;
-  color: #fff;
+.cardTitle {
+  font-family: var(--font-main);
+  font-size: 18px;
+  color: #1a1510;
+  margin: 0 0 8px 0;
+  font-weight: 700;
 }
 
-.itemDescription {
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.5;
-  color: rgba(62, 48, 40, 0.85); /* Deep rich brown for readability */
-  min-height: 40px;
+.cardDesc {
+  color: rgba(26, 21, 16, 0.65);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: auto;
+  padding-bottom: 20px;
 }
 
-.footer {
+/* ─── Price Row ─── */
+.priceRow {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-top: 6px;
-  margin-bottom: 6px;
+  align-items: center;
+  margin-bottom: 16px;
+  margin-top: 4px;
 }
 
 .price {
-  font-family: var(--font-main, sans-serif);
-  font-size: 22px;
-  font-weight: 400;
-  color: #fff;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #1a1510;
 }
 
-.quantityControls {
+.qtyControl {
   display: flex;
   align-items: center;
-  background: #000;
-  color: #fff;
-  border-radius: 6px;
-  padding: 4px 6px;
-  gap: 10px;
+  gap: 14px;
+  background-color: #1a1510;
+  padding: 6px 14px;
+  border-radius: 30px;
+  color: #f5ede3;
 }
 
 .qtyBtn {
-  background: transparent;
-  color: #fff;
+  background: none;
   border: none;
-  width: 24px;
-  height: 24px;
-  font-size: 18px;
+  color: #c9935a;
+  font-size: 1.2rem;
   font-weight: 400;
   cursor: pointer;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 1;
+  width: 20px;
+  height: 20px;
 }
 
-.qtyBtn:hover {
-  opacity: 0.7;
-}
-
-.quantityControls span {
-  font-size: 14px;
+.qtyValue {
   font-weight: 600;
-  min-width: 16px;
+  min-width: 18px;
   text-align: center;
+  font-size: 1rem;
 }
 
+/* ─── Add to Cart ─── */
 .addToCartBtn {
-  background: #000;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 14px 0;
-  font-family: var(--font-main, sans-serif);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.8px;
-  cursor: pointer;
   width: 100%;
+  background-color: #1a1510;
+  color: #f5ede3;
+  border: none;
+  padding: 13px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 8px;
-  transition: opacity 0.2s ease;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .addToCartBtn:hover {
-  opacity: 0.8;
+  background-color: #000;
 }
 
-.cartIcon {
-  width: 15px;
-  height: 15px;
-}
-
-@media (max-width: 1100px) {
-  .cards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 768px) {
-  .milkshakesSection {
-    padding: 72px 0 50px;
+@media (max-width: 640px) {
+  .section {
+    padding: 72px 0;
+  }
+
+  .container {
+    padding: 0 20px;
   }
   .header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 18px;
+    gap: 24px;
+    margin-bottom: 40px;
   }
-  .cards {
+
+  .cardsGrid {
     grid-template-columns: 1fr;
   }
 }
