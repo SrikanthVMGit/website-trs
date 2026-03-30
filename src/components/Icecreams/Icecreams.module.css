@@ -1,14 +1,9 @@
-/* ─── SECTION ─── */
+/* Icecreams.module.css — staggered reveal animation */
+
 .section {
   padding: 100px 0;
   background-color: #1a1510;
   width: 100%;
-}
-.title {
-  font-size: 42px;
-  font-weight: 800;
-  color: #f5ede3; /* matches your dark theme */
-
 }
 
 .container {
@@ -17,16 +12,55 @@
   padding: 0 40px;
 }
 
+/* Header */
+.header {
+  margin-bottom: 56px;
+}
+
+.eyebrow {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: rgba(201, 147, 90, 0.65);
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 800;
+  color: #f5ede3;
+  margin-bottom: 10px;
+  line-height: 1;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: rgba(245, 237, 227, 0.5);
+  max-width: 380px;
+}
+
+/* Grid */
 .cardsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 28px;
 }
 
-/* ─── FLIP CARD ─── */
+/* ── Flip card: starts hidden, reveals on scroll ── */
 .flipCard {
   perspective: 1200px;
   height: 500px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .flipCardInner {
@@ -37,28 +71,24 @@
   transform-style: preserve-3d;
 }
 
-/* Flip trigger */
 .isFlipped {
   transform: rotateY(180deg);
 }
 
-/* ─── FRONT + BACK ─── */
+/* Front + Back shared */
 .cardFront,
 .cardBack {
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
-
   background-color: #221a12;
-  border: 1px solid rgba(201, 147, 90, 0.15);
-
+  border: 1px solid rgba(201, 147, 90, 0.12);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
 
-/* ─── FRONT ─── */
 .cardFront {
   display: flex;
   flex-direction: column;
@@ -69,6 +99,8 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   overflow: hidden;
+  position: relative;
+  cursor: pointer;
 }
 
 .image {
@@ -78,8 +110,36 @@
   transition: transform 0.6s ease;
 }
 
-.cardFront:hover .image {
-  transform: scale(1.08);
+.imageContainer:hover .image {
+  transform: scale(1.07);
+}
+
+/* Hover overlay hint */
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.imageContainer:hover .imageOverlay {
+  opacity: 1;
+}
+
+.viewDetails {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #f5ede3;
+  border: 1px solid rgba(245,237,227,0.4);
+  padding: 8px 18px;
+  border-radius: 20px;
 }
 
 /* Body */
@@ -94,109 +154,32 @@
   color: #f5ede3;
   font-size: 1.2rem;
   font-weight: 700;
+  margin-bottom: 8px;
 }
 
 .cardDesc {
-  color: rgba(245, 237, 227, 0.7);
-  font-size: 0.9rem;
-  margin-top: 6px;
+  color: rgba(245, 237, 227, 0.58);
+  font-size: 0.875rem;
+  line-height: 1.6;
 }
 
-/* Bottom align */
-.cardBottom {
-  margin-top: auto;
-}
-
-/* Price + Button */
-.priceRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 16px;
-}
-
-.price {
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: #f5ede3;
-}
-
-.addToCartBtn {
-  width: 100%;
-  background: transparent;
-  color: #f5ede3;
-  border: 1px solid rgba(201, 147, 90, 0.3);
-  padding: 12px;
-  border-radius: 8px;
-  margin-top: 14px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.addToCartBtn:hover {
-  background: #c9935a;
-  color: #1a1510;
-}
-
-/* Details button */
-.detailsBtn {
-  margin-top: 12px;
-  align-self: flex-start;
-
-  background: rgba(201, 147, 90, 0.1);
-  border: 1px solid rgba(201, 147, 90, 0.3);
-  color: #c9935a;
-
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.8rem;
-}
-
-/* ─── BACK ─── */
+/* ── Back face ── */
 .cardBack {
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
   padding: 28px;
-
   background: linear-gradient(135deg, #1a1510 0%, #2d241a 100%);
 }
 
-/* Frost glow */
 .cardBack::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    circle at 50% -20%,
-    rgba(201, 147, 90, 0.12),
-    transparent
-  );
+  background: radial-gradient(circle at 50% -20%, rgba(201, 147, 90, 0.1), transparent);
   pointer-events: none;
 }
 
-/* Moving frost layer */
-.cardBack::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    45deg,
-    transparent 45%,
-    rgba(255, 255, 255, 0.05) 50%,
-    transparent 55%
-  );
-  background-size: 200% 200%;
-  animation: frostMove 5s linear infinite;
-}
-
-@keyframes frostMove {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* Back content */
 .backContent {
   display: flex;
   flex-direction: column;
@@ -206,42 +189,52 @@
 
 .detailHeader {
   color: #c9935a;
-  font-size: 0.7rem;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   margin-bottom: 10px;
 }
 
 .backTitle {
   color: #f5ede3;
   font-size: 1.4rem;
-  margin-bottom: 14px;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
 
 .ingredientsList {
   list-style: none;
   padding: 0;
   margin: 0;
-  color: rgba(245, 237, 227, 0.7);
+  color: rgba(245, 237, 227, 0.65);
   font-size: 0.9rem;
-  line-height: 1.7;
+  line-height: 2;
 }
 
-/* Back button */
 .flipBackBtn {
   margin-top: auto;
-  padding: 10px;
+  padding: 11px;
   background: transparent;
-  border: 1px solid rgba(245, 237, 227, 0.2);
+  border: 1px solid rgba(245, 237, 227, 0.18);
   color: #f5ede3;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: 0.3s;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 13px;
+  transition: background 0.3s, border-color 0.3s;
 }
 
 .flipBackBtn:hover {
-  background: #c9935a;
-  color: #1a1510;
+  background: rgba(201, 147, 90, 0.18);
   border-color: #c9935a;
-  box-shadow: 0 0 12px rgba(201, 147, 90, 0.4);
+  color: #c9935a;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .cardsGrid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .cardsGrid { grid-template-columns: 1fr; }
+  .flipCard { height: 440px; }
 }
