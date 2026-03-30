@@ -1,9 +1,14 @@
-/* ─── Icecreams Section ─── */
+/* ─── SECTION ─── */
 .section {
   padding: 100px 0;
   background-color: #1a1510;
-  font-family: var(--font-main);
   width: 100%;
+}
+.title {
+  font-size: 42px;
+  font-weight: 800;
+  color: #f5ede3; /* matches your dark theme */
+
 }
 
 .container {
@@ -12,138 +17,102 @@
   padding: 0 40px;
 }
 
-/* ─── Section Header ─── */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 56px;
-  padding-bottom: 28px;
-  border-bottom: 1px solid rgba(245, 237, 227, 0.12);
-}
-
-.headerLeft {
-  max-width: 540px;
-}
-
-.title {
-  font-family: var(--font-main);
-  font-size: clamp(32px, 4vw, 42px);
-  font-weight: 700;
-  color: #f5ede3;
-  margin-bottom: 14px;
-  letter-spacing: -1px;
-  line-height: 1.1;
-}
-
-.subtitle {
-  font-size: 16px;
-  color: rgba(245, 237, 227, 0.7);
-  margin: 0;
-  line-height: 1.6;
-}
-
-/* ─── See All Button ─── */
-.seeAllBtn {
-  background: transparent;
-  color: #f5ede3;
-  border: 1px solid rgba(245, 237, 227, 0.25);
-  padding: 10px 24px;
-  border-radius: 40px;
-  font-size: 13px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.seeAllBtn:hover {
-  background: #c9935a;
-  border-color: #c9935a;
-  color: #1a1510;
-  transform: translateY(-1px);
-}
-
-/* ─── Cards Grid ─── */
 .cardsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 28px;
 }
 
-/* ─── Card ─── */
-.card {
-  background-color: #221a12;
-  border-radius: 12px;
+/* ─── FLIP CARD ─── */
+.flipCard {
+  perspective: 1200px;
+  height: 500px;
+}
+
+.flipCardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+/* Flip trigger */
+.isFlipped {
+  transform: rotateY(180deg);
+}
+
+/* ─── FRONT + BACK ─── */
+.cardFront,
+.cardBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
   overflow: hidden;
+
+  background-color: #221a12;
+  border: 1px solid rgba(201, 147, 90, 0.15);
+
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* ─── FRONT ─── */
+.cardFront {
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(201, 147, 90, 0.1);
-  transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
-              box-shadow 0.35s ease;
 }
 
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
-}
-
-/* ─── Image ─── */
+/* Image */
 .imageContainer {
   width: 100%;
   aspect-ratio: 4 / 3;
   overflow: hidden;
-  background-color: #1a1510;
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.55s ease;
+  transition: transform 0.6s ease;
 }
 
-.card:hover .image {
-  transform: scale(1.06);
+.cardFront:hover .image {
+  transform: scale(1.08);
 }
 
-/* ─── Card Body ─── */
+/* Body */
 .cardBody {
   padding: 24px;
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .cardTitle {
-  font-family: var(--font-main);
-  font-size: 18px;
   color: #f5ede3;
-  margin: 0 0 8px 0;
-  font-weight: 600;
+  font-size: 1.2rem;
+  font-weight: 700;
 }
 
 .cardDesc {
-  color: rgba(201, 147, 90, 0.85);
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: auto;
-  padding-bottom: 20px;
+  color: rgba(245, 237, 227, 0.7);
+  font-size: 0.9rem;
+  margin-top: 6px;
 }
 
-/* ─── Price Row ─── */
+/* Bottom align */
+.cardBottom {
+  margin-top: auto;
+}
+
+/* Price + Button */
 .priceRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  margin-top: 4px;
+  margin-top: 16px;
 }
 
 .price {
@@ -152,90 +121,127 @@
   color: #f5ede3;
 }
 
-.qtyControl {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  background-color: #1a1510;
-  padding: 6px 14px;
-  border-radius: 30px;
-  color: #f5ede3;
-  border: 1px solid rgba(201, 147, 90, 0.2);
-}
-
-.qtyBtn {
-  background: none;
-  border: none;
-  color: #c9935a;
-  font-size: 1.2rem;
-  font-weight: 400;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  width: 20px;
-  height: 20px;
-}
-
-.qtyValue {
-  font-weight: 600;
-  min-width: 18px;
-  text-align: center;
-  font-size: 1rem;
-}
-
-/* ─── Add to Cart ─── */
 .addToCartBtn {
   width: 100%;
-  background-color: transparent;
+  background: transparent;
   color: #f5ede3;
   border: 1px solid rgba(201, 147, 90, 0.3);
-  padding: 13px;
+  padding: 12px;
   border-radius: 8px;
-  font-weight: 600;
+  margin-top: 14px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: all 0.2s ease;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  transition: 0.3s;
 }
 
 .addToCartBtn:hover {
-  background-color: #c9935a;
-  border-color: #c9935a;
+  background: #c9935a;
   color: #1a1510;
 }
 
-/* ─── Responsive ─── */
-@media (max-width: 1024px) {
-  .cardsGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* Details button */
+.detailsBtn {
+  margin-top: 12px;
+  align-self: flex-start;
+
+  background: rgba(201, 147, 90, 0.1);
+  border: 1px solid rgba(201, 147, 90, 0.3);
+  color: #c9935a;
+
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
 }
 
-@media (max-width: 640px) {
-  .section {
-    padding: 72px 0;
-  }
+/* ─── BACK ─── */
+.cardBack {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
 
-  .container {
-    padding: 0 20px;
-  }
+  background: linear-gradient(135deg, #1a1510 0%, #2d241a 100%);
+}
 
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-    margin-bottom: 40px;
-  }
+/* Frost glow */
+.cardBack::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% -20%,
+    rgba(201, 147, 90, 0.12),
+    transparent
+  );
+  pointer-events: none;
+}
 
-  .cardsGrid {
-    grid-template-columns: 1fr;
-  }
+/* Moving frost layer */
+.cardBack::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 55%
+  );
+  background-size: 200% 200%;
+  animation: frostMove 5s linear infinite;
+}
+
+@keyframes frostMove {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Back content */
+.backContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  z-index: 2;
+}
+
+.detailHeader {
+  color: #c9935a;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.backTitle {
+  color: #f5ede3;
+  font-size: 1.4rem;
+  margin-bottom: 14px;
+}
+
+.ingredientsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: rgba(245, 237, 227, 0.7);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* Back button */
+.flipBackBtn {
+  margin-top: auto;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid rgba(245, 237, 227, 0.2);
+  color: #f5ede3;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.flipBackBtn:hover {
+  background: #c9935a;
+  color: #1a1510;
+  border-color: #c9935a;
+  box-shadow: 0 0 12px rgba(201, 147, 90, 0.4);
 }

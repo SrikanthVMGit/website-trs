@@ -1,62 +1,83 @@
-import styles from './Categories.module.css'
-import catGeneral from '../../assets/cat_general.png'
-import catMilkshakes from '../../assets/cat_milkshakes.png'
-import catThickshakes from '../../assets/cat_thickshakes.png'
-import catIcecreams from '../../assets/cat_icecreams.png'
+"use client";
 
-const categories = [
-  {
-    title: 'Categories',
-    description: 'Browse by format',
-    image: catGeneral
-  },
-  {
-    title: 'Milk Shakes',
-    description: 'Classic & airy',
-    image: catMilkshakes
-  },
-  {
-    title: 'Thick Shakes',
-    description: 'Dessert-style blends',
-    image: catThickshakes
-  },
-  {
-    title: 'Ice Creams',
-    description: 'Signature pints',
-    image: catIcecreams
-  }
-]
+import React from "react";
+import styles from "./Categories.module.css";
 
-export default function Categories() {
+const CATEGORIES = [
+  { 
+    id: 1, 
+    title: "Categories", 
+    sub: "Browse by format", 
+    img: "https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=800", 
+    marquee: "EXPLORE ALL • EXPLORE ALL •" 
+  },
+  { 
+    id: 2, 
+    title: "Milk Shakes", 
+    sub: "Classic & airy", 
+    img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?q=80&w=800", 
+    marquee: "CREAMY • SMOOTH • FRESH •" 
+  },
+  { 
+    id: 3, 
+    title: "Thick Shakes", 
+    sub: "Dessert-style blends", 
+    img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=800", 
+    marquee: "RICH • THICK • INDULGENT •" 
+  },
+  { 
+    id: 4, 
+    title: "Ice Creams", 
+    sub: "Signature pints", 
+    img: "https://images.unsplash.com/photo-1501443762994-82bd5dace89a?q=80&w=800", 
+    marquee: "COLD • CHURNED • SWEET •" 
+  },
+];
+
+const Categories = () => {
   return (
-    <section className={styles.categoriesSection}>
+    <section className={styles.section}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <div className={styles.headerText}>
+          <div>
             <h2 className={styles.title}>Categories</h2>
             <p className={styles.subtitle}>
               The house favourites, refined and memorable. Slowly churned for a remarkably clean finish.
             </p>
           </div>
           <button className={styles.seeAllBtn}>
-            See All 
-            <span className={styles.arrowIcon}>→</span>
+            SEE ALL <span>→</span>
           </button>
         </div>
 
-        <div className={styles.grid}>
-          {categories.map((cat, idx) => (
-            <div key={idx} className={styles.card}>
-              <div className={styles.imageOverlay}></div>
-              <img src={cat.image} alt={cat.title} className={styles.cardImage} />
-              <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>{cat.title}</h3>
-                <p className={styles.cardDescription}>{cat.description}</p>
+        <div className={styles.cardsGrid}>
+          {CATEGORIES.map((cat) => (
+            <div key={cat.id} className={styles.card}>
+              <div className={styles.imageContainer}>
+                <img src={cat.img} alt={cat.title} className={styles.image} />
+              </div>
+
+              <div className={styles.cardLabel}>
+                <h3>{cat.title}</h3>
+                <p>{cat.sub}</p>
+              </div>
+
+              <div className={styles.marqueeOverlay}>
+                <div className={styles.marqueeInner}>
+                  {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className={styles.marqueePart}>
+                      <span>{cat.marquee}</span>
+                      <div className={styles.marqueeCircle}></div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
+
+export default Categories;

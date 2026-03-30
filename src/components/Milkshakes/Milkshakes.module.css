@@ -1,235 +1,185 @@
-/* ─── Milkshakes Section ─── */
+/* Section */
 .section {
-  padding: 100px 0;
+  padding: 110px 0;
   background-color: #c9935a;
-  font-family: var(--font-main);
-  width: 100%;
+  min-height: 100vh;
 }
+
+
 
 .container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 40px;
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 24px;
 }
 
-/* ─── Section Header ─── */
+/* Header */
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 56px;
-  padding-bottom: 28px;
-  border-bottom: 1px solid rgba(58, 44, 42, 0.15);
-}
-
-.headerLeft {
-  max-width: 540px;
+  text-align: center;
+  margin-bottom: 60px;
 }
 
 .title {
-  font-family: var(--font-main);
-  font-size: clamp(32px, 4vw, 42px);
-  font-weight: 700;
+  font-size: 3rem;
+  font-weight: 800;
   color: #1a1510;
-  margin-bottom: 14px;
-  letter-spacing: -1px;
-  line-height: 1.1;
+  margin-bottom: 8px;
+  text-align: left;
 }
 
 .subtitle {
-  font-size: 16px;
-  color: rgba(26, 21, 16, 0.75);
-  margin: 0;
-  line-height: 1.6;
+  font-size: 1.1rem;
+  color: rgba(26, 21, 16, 0.8);
+  text-align: left;
 }
 
-/* ─── See All Button ─── */
-.seeAllBtn {
-  background: #1a1510;
-  color: #f5ede3;
-  border: none;
-  padding: 10px 24px;
-  border-radius: 40px;
-  font-size: 13px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.seeAllBtn:hover {
-  background: #000;
-  transform: translateY(-1px);
-}
-
-/* ─── Cards Grid ─── */
+/* Grid - Made Responsive */
 .cardsGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
 }
 
-/* ─── Card ─── */
+/* CARD */
 .card {
-  background-color: #f5ede3;
-  border-radius: 12px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
-              box-shadow 0.35s ease;
+  position: relative;
+  background: transparent;
+  border-radius: 24px;
+  cursor: pointer;
 }
 
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 48px rgba(58, 44, 42, 0.25);
+/* Glow */
+.cardGlow {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.4);
+  filter: blur(35px);
+  opacity: 0;
+  border-radius: 24px;
+  transition: opacity 0.4s ease;
+  z-index: 0;
 }
 
-/* ─── Image ─── */
-.imageContainer {
+.card:hover .cardGlow {
+  opacity: 0.6;
+}
+
+/* 🍫 DRIP CONTAINER */
+.dripWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: 60px;
   overflow: hidden;
-  background-color: #e8ddd0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 10;
+  border-radius: 24px 24px 0 0;
+  pointer-events: none; /* Prevents blocking image hover */
+}
+
+.card:hover .dripWrapper {
+  opacity: 1;
+}
+
+/* SVG WAVE */
+.dripSVG {
+  width: 200%;
+  height: 100%;
+  display: block;
+  /* Adds a 3D shadow to make the liquid look viscous and elevated */
+  filter: drop-shadow(0px 5px 4px rgba(0, 0, 0, 0.25));
+  animation: waveFlow 2.5s linear infinite;
+}
+
+/* FLOW ANIMATION */
+@keyframes waveFlow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* COLORS */
+.pink path { fill: #ff8fa3; }
+.white path { fill: #ffffff; }
+.brown path { fill: #3b2a1f; }
+
+/* Image */
+.imageContainer {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px 24px 0 0;
+  z-index: 1;
+  background: #f5ede3;
 }
 
 .image {
   width: 100%;
-  height: 100%;
+  height: 280px;
   object-fit: cover;
-  transition: transform 0.55s ease;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: block;
 }
 
 .card:hover .image {
-  transform: scale(1.06);
+  transform: scale(1.08);
 }
 
-/* ─── Card Body ─── */
+/* Body */
 .cardBody {
+  position: relative;
   padding: 24px;
-  flex-grow: 1;
+  background: #f5ede3;
+  border-radius: 0 0 24px 24px;
+  z-index: 1;
   display: flex;
   flex-direction: column;
+  gap: 6px;
 }
 
 .cardTitle {
-  font-family: var(--font-main);
-  font-size: 18px;
+  font-size: 1.4rem;
+  font-weight: 800;
   color: #1a1510;
-  margin: 0 0 8px 0;
-  font-weight: 700;
+  margin: 0;
 }
 
 .cardDesc {
-  color: rgba(26, 21, 16, 0.65);
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: auto;
-  padding-bottom: 20px;
+  font-size: 0.95rem;
+  color: rgba(26, 21, 16, 0.6);
+  margin: 0;
 }
 
-/* ─── Price Row ─── */
-.priceRow {
+/* Footer layout inside body */
+.cardFooter {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  margin-top: 4px;
+  margin-top: 16px;
 }
 
 .price {
-  font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
+  font-weight: 900;
   color: #1a1510;
 }
 
-.qtyControl {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  background-color: #1a1510;
-  padding: 6px 14px;
-  border-radius: 30px;
-  color: #f5ede3;
-}
-
-.qtyBtn {
-  background: none;
-  border: none;
-  color: #c9935a;
-  font-size: 1.2rem;
-  font-weight: 400;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  width: 20px;
-  height: 20px;
-}
-
-.qtyValue {
-  font-weight: 600;
-  min-width: 18px;
-  text-align: center;
-  font-size: 1rem;
-}
-
-/* ─── Add to Cart ─── */
 .addToCartBtn {
-  width: 100%;
-  background-color: #1a1510;
-  color: #f5ede3;
+  padding: 10px 20px;
+  border-radius: 12px;
+  background: #1a1510;
+  color: white;
   border: none;
-  padding: 13px;
-  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: all 0.2s ease;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .addToCartBtn:hover {
-  background-color: #000;
-}
-
-/* ─── Responsive ─── */
-@media (max-width: 1024px) {
-  .cardsGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .section {
-    padding: 72px 0;
-  }
-
-  .container {
-    padding: 0 20px;
-  }
-
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-    margin-bottom: 40px;
-  }
-
-  .cardsGrid {
-    grid-template-columns: 1fr;
-  }
+  background: #3b2a1f;
+  transform: translateY(-2px);
 }
