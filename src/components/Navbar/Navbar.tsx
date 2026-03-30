@@ -3,19 +3,23 @@ import styles from './Navbar.module.css'
 import rarelogo from '../../assets/rarelogo.png'
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-      setIsScrolled(scrollY > 20);
-    };
+      const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop
+      setIsScrolled(scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Close menu on scroll
+  useEffect(() => {
+    if (isScrolled) setMenuOpen(false)
+  }, [isScrolled])
 
   return (
     <>
@@ -29,25 +33,44 @@ export default function Navbar() {
       </svg>
 
       <nav className={`${styles.navbar} ${isScrolled ? styles.scrolled : ''}`}>
+
+        {/* ── Left: nav links ── */}
         <div className={styles.navLeft}>
           <a href="#" className={styles.navLink}>Menu</a>
           <a href="#" className={styles.navLink}>Collections</a>
           <a href="#" className={styles.navLink}>Our Story</a>
         </div>
 
+        {/* ── Centre: logo ── */}
         <div className={styles.navLogo}>
-          <img
-            src={rarelogo}
-            alt="The Rare Scoop"
-            className={styles.logoImg}
-          />
+          <img src={rarelogo} alt="The Rare Scoop" className={styles.logoImg} />
           <span className={styles.logoText}>The Rare Scoop</span>
         </div>
 
+        {/* ── Right: enquiry pill + hamburger ── */}
         <div className={styles.navRight}>
-          <a href="#" className={styles.navLinkLower}>enquiry</a>
+          <a href="#" className={styles.enquiryBtn}>Enquiry</a>
+
+          {/* Hamburger — mobile only */}
+          <button
+            className={`${styles.hamburger} ${menuOpen ? styles.open : ''}`}
+            onClick={() => setMenuOpen(v => !v)}
+            aria-label="Toggle menu"
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </div>
       </nav>
+
+      {/* ── Mobile drawer ── */}
+      <div className={`${styles.mobileMenu} ${menuOpen ? styles.mobileOpen : ''}`}>
+        <a href="#" className={styles.mobileLink} onClick={() => setMenuOpen(false)}>Menu</a>
+        <a href="#" className={styles.mobileLink} onClick={() => setMenuOpen(false)}>Collections</a>
+        <a href="#" className={styles.mobileLink} onClick={() => setMenuOpen(false)}>Our Story</a>
+        <a href="#" className={styles.mobileLink} onClick={() => setMenuOpen(false)}>Enquiry</a>
+      </div>
     </>
-  );
+  )
 }

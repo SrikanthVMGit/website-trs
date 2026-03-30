@@ -21,17 +21,22 @@ import styles from './FrameScrollHero.module.css'
 gsap.registerPlugin(ScrollTrigger)
 
 // ─── Config ──────────────────────────────────────────────────────
-const TOTAL_FRAMES = 121               // hero.mp4 @ 24fps × 5.04s
+// hero1.mp4 (frames 1–192) + hero2.mp4 (frames 193–384) @ 24fps × 8s each
+const TOTAL_FRAMES = 384
 const FRAME_BASE = '/frames/frame_'  // public/frames/frame_XXXX.webp
 
 const frameSrc = (n: number) =>
   `${FRAME_BASE}${String(n).padStart(4, '0')}.webp`
 
 // ─── Overlay phases (raw progress 0→1) ───────────────────────────
+// Spread across the full 16s dual-video arc:
+//   0.00 – 0.50 → hero1 (falling fruits reveal)
+//   0.50 – 1.00 → hero2 (climax / product hero)
 const PHASES = [
-  { start: 0.18, end: 0.45, text: 'Small Batch Every Drop Matters', glass: false },
-  { start: 0.55, end: 0.80, text: 'Rare Flavors Delivered to You', glass: true },
-  { start: 0.86, end: 0.98, text: 'The Rare Scoop', glass: true },
+  { start: 0.08, end: 0.35, text: 'Crafted with Obsession', glass: false },
+  { start: 0.42, end: 0.62, text: 'Small Batch · Every Drop Matters', glass: true },
+  { start: 0.68, end: 0.87, text: 'Rare Flavors Delivered to You', glass: true },
+  { start: 0.90, end: 0.99, text: 'The Rare Scoop', glass: true },
 ]
 
 // ─── Component ───────────────────────────────────────────────────
@@ -41,6 +46,8 @@ export default function FrameScrollHero() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
   const overlayTextRef = useRef<HTMLSpanElement>(null)
+  const finalBrandRef = useRef<HTMLDivElement>(null)   // logo + text lockup for last phase
+  const finalCtaRef = useRef<HTMLDivElement>(null)
   const heroContentRef = useRef<HTMLDivElement>(null)
 
   // Mutable hot-refs — never cause re-renders
@@ -113,6 +120,8 @@ export default function FrameScrollHero() {
   const updateOverlay = useCallback((progress: number) => {
     const el = overlayRef.current
     const text = overlayTextRef.current
+    const brand = finalBrandRef.current
+    const cta = finalCtaRef.current
     if (!el || !text) return
 
     const lastPhase = PHASES[PHASES.length - 1]
@@ -129,13 +138,47 @@ export default function FrameScrollHero() {
       const fade = local < 0.2 ? local / 0.2
         : (local > 0.8 && !isLast) ? (1 - local) / 0.2
           : 1
-      text.textContent = hit.text
+
       el.style.opacity = String(fade)
+
+      if (isLast) {
+        // Final phase: hide plain text, show branded lockup
+        text.style.display = 'none'
+        if (brand) brand.style.display = 'flex'
+        // CTA fades in from 30% of this phase
+        if (cta) {
+          const ctaFade = local < 0.3 ? local / 0.3 : 1
+          cta.style.opacity = String(ctaFade)
+          cta.style.transform = `translateY(${(1 - Math.min(local / 0.3, 1)) * 18}px)`
+          cta.style.pointerEvents = ctaFade > 0.5 ? 'all' : 'none'
+        }
+      } else {
+        // Earlier phases: show plain text, hide branded lockup
+        text.style.display = ''
+        text.textContent = hit.text
+        if (brand) brand.style.display = 'none'
+        if (cta) {
+          cta.style.opacity = '0'
+          cta.style.pointerEvents = 'none'
+        }
+      }
     } else if (progress > lastPhase.end) {
-      text.textContent = lastPhase.text
       el.style.opacity = '1'
+      text.style.display = 'none'
+      if (brand) { brand.style.display = 'flex' }
+      if (cta) {
+        cta.style.opacity = '1'
+        cta.style.transform = 'translateY(0)'
+        cta.style.pointerEvents = 'all'
+      }
     } else {
       el.style.opacity = '0'
+      text.style.display = ''
+      if (brand) brand.style.display = 'none'
+      if (cta) {
+        cta.style.opacity = '0'
+        cta.style.pointerEvents = 'none'
+      }
     }
   }, [])
 
@@ -182,10 +225,10 @@ export default function FrameScrollHero() {
       ScrollTrigger.create({
         trigger: innerRef.current,
         pin: true,         // GSAP pinning — works despite overflow:hidden on body
-        pinSpacing: true,         // adds spacer = gives 200vh extra scroll room
+        pinSpacing: true,         // adds spacer = gives 300vh extra scroll room
         start: 'top top',
-        end: '+=200%',     // pin lasts for 2× viewport scroll = total ~300vh
-        scrub: 1.5,
+        end: '+=300%',     // pin lasts for 3× viewport scroll = total ~400vh (16s dual-video)
+        scrub: 1.2,
         onUpdate: (self) => {
           const raw = self.progress
 
@@ -213,13 +256,32 @@ export default function FrameScrollHero() {
             heroContentRef.current.style.transform = `translateY(${raw * -50}px)`
           }
         },
-        // Hard-lock 'The Rare Scoop.' when user scrolls past the hero end
+        // Hard-lock final state when user scrolls past the hero end
         onLeave: () => {
           const el = overlayRef.current
           const text = overlayTextRef.current
+          const brand = finalBrandRef.current
+          const cta = finalCtaRef.current
           if (!el || !text) return
-          text.textContent = PHASES[PHASES.length - 1].text
           el.style.opacity = '1'
+          text.style.display = 'none'
+          if (brand) brand.style.display = 'flex'
+          if (cta) {
+            cta.style.opacity = '1'
+            cta.style.transform = 'translateY(0)'
+            cta.style.pointerEvents = 'all'
+          }
+        },
+        onEnterBack: () => {
+          const text = overlayTextRef.current
+          const brand = finalBrandRef.current
+          const cta = finalCtaRef.current
+          if (text) { text.style.display = ''; }
+          if (brand) brand.style.display = 'none'
+          if (cta) {
+            cta.style.opacity = '0'
+            cta.style.pointerEvents = 'none'
+          }
         },
       })
     }
@@ -249,9 +311,30 @@ export default function FrameScrollHero() {
         {/* Gradient vignette */}
         <div className={styles.vignette} />
 
-        {/* Scroll-phase overlay text */}
+        {/* Scroll-phase overlay text + final CTA */}
         <div ref={overlayRef} className={styles.overlay}>
-          <span ref={overlayTextRef} className={styles.overlayText} />
+          <div className={styles.overlayInner}>
+            {/* Phases 1–3: plain animated text */}
+            <span ref={overlayTextRef} className={styles.overlayText} />
+
+            {/* Phase 4 only: logo + brand name lockup (hidden by default) */}
+            <div ref={finalBrandRef} className={styles.finalBrand}>
+              <img src="/rarelogo.png" alt="The Rare Scoop" className={styles.finalBrandLogo} />
+              <span className={styles.finalBrandName}>The Rare Scoop</span>
+            </div>
+
+            {/* CTA buttons — fade in at end of phase 4 */}
+            <div ref={finalCtaRef} className={styles.finalCta}>
+              <button className={styles.finalBtnPrimary}>
+                <span className={styles.finalBtnIcon}>🛵</span>
+                <span>ORDER DELIVERY</span>
+              </button>
+              <button className={styles.finalBtnSecondary}>
+                <span className={styles.finalBtnIcon}>✦</span>
+                <span>EXPLORE FLAVORS</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Static CTA — fades out on first scroll */}
@@ -264,9 +347,15 @@ export default function FrameScrollHero() {
             Small batch pints, limited drops, tasting flights —<br />
             crafted for those who want more from dessert.
           </p>
-          <div className={styles.buttons}>
-            <button className={styles.btnPrimary}>Order Delivery</button>
-            <button className={styles.btnSecondary}>Explore Flavors</button>
+          <div className={styles.startCta}>
+            <button className={styles.startBtnPrimary}>
+              <span className={styles.startBtnIcon}>🛵</span>
+              <span>ORDER DELIVERY</span>
+            </button>
+            <button className={styles.startBtnSecondary}>
+              <span className={styles.startBtnIcon}>✦</span>
+              <span>EXPLORE FLAVORS</span>
+            </button>
           </div>
         </div>
 
