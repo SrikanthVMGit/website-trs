@@ -1,3 +1,10 @@
+/* ════════════════════════════════════════════════════
+   Navbar.module.css
+   RULES: nav size, transitions, logo, drip — UNTOUCHED.
+   Only content styles (links, enquiry, hamburger) added.
+   ════════════════════════════════════════════════════ */
+
+/* ── Base navbar — SIZE & ANIMATION UNCHANGED ── */
 .navbar {
   position: fixed;
   top: 0;
@@ -19,47 +26,50 @@
   color: var(--color-cream, #F6F2EA);
 }
 
-/* Scrolled: white + taller box = deeper drip room */
+/* Scrolled: drip state — UNTOUCHED */
 .scrolled {
   background-color: #ffffff;
   color: #2a2118;
   border-bottom: none;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   clip-path: url("#navbarDrip");
-  /* Taller height pushes drips further down */
   height: 80px;
-  /* Pin content to the top of the taller box */
   align-items: flex-start;
   padding-top: 14px;
 }
 
-/* Pull logo up to match nav links in dripped state */
+/* Logo adjusts in dripped state — UNTOUCHED */
 .scrolled .navLogo {
   top: 15px;
   transform: translateX(-50%);
 }
 
+/* ── Nav Left links ── */
 .navLeft {
   display: flex;
-  gap: 32px;
+  gap: 28px;
+  align-items: center;
 }
 
 .navLink {
   font-family: var(--font-main);
-  font-size: 17px;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-decoration: none;
   color: inherit;
-  transition: color 0.3s ease;
-  line-height: 24px;
+  opacity: 0.85;
+  transition: opacity 0.25s ease, color 0.25s ease;
+  white-space: nowrap;
 }
 
 .navLink:hover {
+  opacity: 1;
   color: #c9935a;
 }
 
+/* ── Centred logo — UNTOUCHED ── */
 .navLogo {
   position: absolute;
   left: 50%;
@@ -70,11 +80,9 @@
   gap: 10px;
 }
 
-/* The brand image logo */
 .logoImg {
   height: 32px;
   padding-bottom: 5px;
-
   width: auto;
   display: block;
   object-fit: contain;
@@ -86,7 +94,6 @@
   font-family: var(--font-main, 'Space Grotesk', sans-serif);
   font-size: 1.6rem;
   font-weight: 650;
-
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: inherit;
@@ -98,31 +105,151 @@
   filter: brightness(0);
 }
 
+/* ── Nav Right ── */
 .navRight {
   display: flex;
   align-items: center;
+  gap: 16px;
 }
 
-.navLinkLower {
+/* Enquiry — pill button */
+.enquiryBtn {
   font-family: var(--font-main);
-  font-size: 18px;
+  font-size: 11px;
   font-weight: 700;
-  text-transform: lowercase;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   text-decoration: none;
   color: inherit;
-  transition: color 0.3s ease;
-  line-height: 24px;
+  padding: 7px 20px;
+  border: 1px solid rgba(200, 155, 109, 0.55);
+  border-radius: 100px;
+  background: transparent;
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  white-space: nowrap;
 }
 
-/* Ensure text color shifts correctly */
+.enquiryBtn:hover {
+  background: rgba(200, 155, 109, 0.14);
+  border-color: rgba(200, 155, 109, 0.9);
+  color: #c9935a;
+}
+
+.scrolled .enquiryBtn {
+  border-color: rgba(42, 33, 24, 0.35);
+  color: #2a2118;
+}
+
+.scrolled .enquiryBtn:hover {
+  background: rgba(42, 33, 24, 0.07);
+  border-color: #2a2118;
+  color: #2a2118;
+}
+
+/* Ensure all right text matches scrolled colour */
 .scrolled .navLink,
-.scrolled .navLinkLower,
 .scrolled .logoText {
   color: #2a2118;
 }
 
+/* ── Hamburger button — hidden on desktop ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 1.8px;
+  /* Always white — visible on both dark navbar and light scrolled state */
+  background: #ffffff;
+  border-radius: 2px;
+  transition: transform 0.28s ease, opacity 0.28s ease, width 0.28s ease;
+  transform-origin: center;
+}
+
+.scrolled .hamburger span {
+  background: #2a2118;
+}
+
+/* X state */
+.hamburger.open span:nth-child(1) { transform: translateY(6.8px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.8px) rotate(-45deg); }
+
+/* ── Mobile drawer — hidden on desktop ── */
+.mobileMenu {
+  display: none;
+  position: fixed;
+  top: 62px;
+  left: 0;
+  width: 100%;
+  background: var(--color-dark, #3A2C2A);
+  border-top: 0.5px solid rgba(200, 155, 109, 0.18);
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease;
+  opacity: 0;
+  z-index: 999;
+}
+
+.mobileMenu.mobileOpen {
+  max-height: 320px;
+  opacity: 1;
+}
+
+.mobileLink {
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  color: var(--color-cream, #F6F2EA);
+  padding: 18px 5%;
+  border-bottom: 0.5px solid rgba(200, 155, 109, 0.12);
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.mobileLink:hover {
+  color: #c9935a;
+  background: rgba(200, 155, 109, 0.06);
+}
+
+/* Last link (Enquiry) — golden accent */
+.mobileLink:last-child {
+  color: #C89B6D;
+  border-bottom: none;
+}
+
+/* ── Responsive: show hamburger, hide nav links on mobile ── */
 @media (max-width: 768px) {
   .navLeft {
     display: none;
+  }
+
+  .enquiryBtn {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .mobileMenu {
+    display: flex;
   }
 }

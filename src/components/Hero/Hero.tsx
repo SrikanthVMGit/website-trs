@@ -46,6 +46,7 @@ export default function Hero() {
   return (
     <section ref={containerRef} className={styles.hero}>
       <div className={styles.container}>
+        <p className={styles.eyebrow}>Premium Cloud Kitchen</p>
         <h1 className={styles.title}>Created for the Curious</h1>
         <p className={styles.description}>
           The Rare Scoop is a premium cloud kitchen bringing small batch pints,
@@ -53,8 +54,14 @@ export default function Hero() {
         </p>
 
         <div className={styles.buttonGroup}>
-          <button className={styles.btnPrimary}>ORDER DELIVERY</button>
-          <button className={styles.btnSecondary}>EXPLORE FLAVORS</button>
+          <button className={styles.btnPrimary}>
+            <span className={styles.btnIcon}>🛵</span>
+            <span>ORDER DELIVERY</span>
+          </button>
+          <button className={styles.btnSecondary}>
+            <span className={styles.btnIcon}>✦</span>
+            <span>EXPLORE FLAVORS</span>
+          </button>
         </div>
       </div>
 

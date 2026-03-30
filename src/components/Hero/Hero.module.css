@@ -1,3 +1,4 @@
+/* ── Hero section ── */
 .hero {
   height: 100vh;
   width: 100%;
@@ -8,88 +9,192 @@
   overflow: hidden;
 }
 
+/* ── Content container — upper-center so bg art is visible ── */
 .container {
-  max-width: 1200px;
+  max-width: 900px;
   width: 100%;
-  height: 100%;
   margin: 0 auto;
-  padding: 0 40px;
+  /* Tight top padding: sits high so fruits/scoops dominate the lower half */
+  padding: 108px 40px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  /* Adjust top padding to accommodate navbar drip */
-  padding-top: 120px;
+  text-align: center;
   z-index: 10;
+  position: relative;
 }
 
-.title {
-  font-family: var(--font-main);
-  font-size: clamp(48px, 6.5vw, 96px);
+/* ── Eyebrow label ── */
+.eyebrow {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 11px;
   font-weight: 600;
-  color: var(--color-cream);
-  line-height: 1;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--color-golden, #C89B6D);
+  margin-bottom: 18px;
+  /* Subtle gold line flanking the label */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.eyebrow::before,
+.eyebrow::after {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: rgba(200, 155, 109, 0.55);
+}
+
+/* ── Main title ── */
+.title {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: clamp(44px, 6vw, 88px);
+  font-weight: 700;
+  color: var(--color-cream, #F5ECD7);
+  line-height: 1.0;
   letter-spacing: -1.5px;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
+  /* Warm depth glow */
+  text-shadow:
+    0 2px 30px rgba(0, 0, 0, 0.55),
+    0 0 80px rgba(200, 140, 70, 0.10);
 }
 
+/* ── Description ── */
 .description {
-  font-family: var(--font-main);
-  font-size: clamp(16px, 1.2vw, 19px);
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: clamp(14px, 1.15vw, 17px);
   font-weight: 400;
-  color: var(--color-cream);
-  max-width: 720px;
-  line-height: 1.6;
-  opacity: 0.8;
-  margin-bottom: 40px;
+  color: rgba(245, 236, 215, 0.72);
+  max-width: 580px;
+  line-height: 1.7;
+  margin-bottom: 38px;
 }
 
+/* ── Button row ── */
 .buttonGroup {
   display: flex;
+  align-items: center;
   gap: 16px;
 }
 
+/* Shared icon */
+.btnIcon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* ── PRIMARY: rich gold gradient + shimmer + glow ── */
 .btnPrimary {
-  background: var(--color-black);
-  color: var(--color-cream);
-  border: 1px solid var(--color-black);
-  padding: 14px 44px;
-  font-family: var(--font-main);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  padding: 16px 50px;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
-  transition: all 0.3s ease;
+  color: #1a0f00;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: linear-gradient(135deg,
+    #e8b86d 0%,
+    #C89B6D 35%,
+    #d4a96a 60%,
+    #b8824a 100%);
+  box-shadow:
+    0 4px 24px rgba(200, 155, 109, 0.50),
+    0 1px 0 rgba(255, 220, 160, 0.40) inset,
+    0 -1px 0 rgba(100, 60, 20, 0.30) inset;
+  transition: transform 0.22s ease, box-shadow 0.28s ease;
+}
+
+/* Shimmer sweep animation */
+.btnPrimary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(105deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.32) 50%,
+    transparent 80%);
+  animation: shimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0%   { left: -100%; }
+  55%  { left: 140%; }
+  100% { left: 140%; }
 }
 
 .btnPrimary:hover {
-  background: transparent;
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 8px 36px rgba(200, 155, 109, 0.72),
+    0 1px 0 rgba(255, 220, 160, 0.50) inset,
+    0 -1px 0 rgba(100, 60, 20, 0.30) inset;
 }
 
+.btnPrimary:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+/* ── SECONDARY: glassmorphism + golden border ── */
 .btnSecondary {
-  background: transparent;
-  color: var(--color-cream);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 14px 44px;
-  font-family: var(--font-main);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  padding: 16px 50px;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
-  transition: all 0.3s ease;
+  color: rgba(245, 236, 215, 0.92);
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(200, 155, 109, 0.40);
+  border-radius: 4px;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.28);
+  transition: transform 0.22s ease,
+              box-shadow 0.28s ease,
+              background 0.28s ease,
+              border-color 0.28s ease;
 }
 
 .btnSecondary:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--color-cream);
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.02);
+  background: rgba(200, 155, 109, 0.11);
+  border-color: rgba(200, 155, 109, 0.82);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.32),
+    0 0 0 1px rgba(200, 155, 109, 0.32),
+    0 0 22px rgba(200, 155, 109, 0.22);
 }
 
+.btnSecondary:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+/* ── Background video / image wrapper ── */
 .imageWrapper {
   position: absolute;
   bottom: -170px;
-  /* Push down significantly to hide waffle tips */
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -106,15 +211,28 @@
   display: block;
 }
 
+/* ── Responsive ── */
 @media (max-width: 768px) {
   .container {
-    padding-top: 120px;
-    padding-left: 40px;
-    padding-right: 40px;
+    padding: 100px 24px 0;
   }
 
   .title {
-    font-size: 42px;
+    font-size: 40px;
+    letter-spacing: -1px;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .btnPrimary,
+  .btnSecondary {
+    width: 100%;
+    padding: 15px 32px;
+    justify-content: center;
   }
 
   .imageWrapper {

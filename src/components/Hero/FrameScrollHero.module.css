@@ -39,7 +39,7 @@
       rgba(0, 0, 0, 0.72) 100%);
 }
 
-/* ── Scroll-phase overlay text ── */
+/* ── Scroll-phase overlay wrapper ── */
 .overlay {
   position: absolute;
   inset: 0;
@@ -51,26 +51,199 @@
   pointer-events: none;
 }
 
+/* Column stack: title on top, buttons below */
+.overlayInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
 .overlayText {
   font-family: var(--font-main, 'Space Grotesk', sans-serif);
-  font-size: clamp(28px, 3.5vw, 60px);
+  font-size: clamp(32px, 4vw, 68px);
   font-weight: 700;
   color: #ffffff;
   text-align: center;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   line-height: 1.2;
-  /* Luxurious warm golden glow */
   text-shadow:
     0 0 20px rgba(130, 94, 42, 0.75),
     0 0 50px rgba(200, 140, 70, 0.45),
     0 0 100px rgba(190, 120, 50, 0.20),
     0 2px 8px rgba(0, 0, 0, 0.50);
-  /* Base padding (no glass) */
   padding: 0 48px;
-  padding-bottom: 100px;
   position: relative;
   display: block;
+}
+
+/* ── Final-phase CTA buttons (hidden until progress ≥ 0.90) ── */
+.finalCta {
+  display: flex;
+  gap: 16px;
+  opacity: 0;
+  transform: translateY(18px);
+  pointer-events: none;
+  will-change: opacity, transform;
+  padding-bottom: 150px;
+}
+
+/* ── Final phase: logo stacked above brand name ── */
+.finalBrand {
+  display: none;
+  /* shown via JS only in last phase */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.finalBrandLogo {
+  width: clamp(40px, 4vw, 64px);
+  height: auto;
+  filter: drop-shadow(0 0 12px rgba(200, 155, 109, 0.6));
+  flex-shrink: 0;
+}
+
+.finalBrandName {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: clamp(32px, 4vw, 68px);
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  /* Match overlayText exactly so alignment is consistent */
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  text-align: center;
+  padding: 0 48px;
+  text-shadow:
+    0 0 20px rgba(130, 94, 42, 0.8),
+    0 0 55px rgba(200, 140, 70, 0.5),
+    0 0 110px rgba(190, 120, 50, 0.25),
+    0 2px 8px rgba(0, 0, 0, 0.55);
+}
+
+/* ── Extraordinary final buttons ── */
+
+/* Shared icon inside buttons */
+.finalBtnIcon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* PRIMARY: rich gold gradient + shimmer + glow */
+.finalBtnPrimary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  padding: 10px 28px;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1a0f00;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: linear-gradient(135deg,
+      #e8b86d 0%,
+      #C89B6D 35%,
+      #d4a96a 60%,
+      #b8824a 100%);
+  box-shadow:
+    0 4px 24px rgba(200, 155, 109, 0.55),
+    0 1px 0 rgba(255, 220, 160, 0.4) inset,
+    0 -1px 0 rgba(100, 60, 20, 0.3) inset;
+  transition: transform 0.22s ease, box-shadow 0.28s ease;
+}
+
+/* Animated shimmer sweep */
+.finalBtnPrimary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(105deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.35) 50%,
+      transparent 80%);
+  animation: shimmer 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+
+  60% {
+    left: 140%;
+  }
+
+  100% {
+    left: 140%;
+  }
+}
+
+.finalBtnPrimary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 8px 36px rgba(200, 155, 109, 0.75),
+    0 1px 0 rgba(255, 220, 160, 0.5) inset,
+    0 -1px 0 rgba(100, 60, 20, 0.3) inset;
+}
+
+.finalBtnPrimary:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+/* SECONDARY: glass with golden border shimmer */
+.finalBtnSecondary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  padding: 10px 28px;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(200, 155, 109, 0.45);
+  border-radius: 4px;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    0 0 0 0 rgba(200, 155, 109, 0);
+  transition: transform 0.22s ease,
+    box-shadow 0.28s ease,
+    background 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.finalBtnSecondary:hover {
+  transform: translateY(-3px) scale(1.02);
+  background: rgba(200, 155, 109, 0.12);
+  border-color: rgba(200, 155, 109, 0.85);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(200, 155, 109, 0.35),
+    0 0 20px rgba(200, 155, 109, 0.25);
+}
+
+.finalBtnSecondary:active {
+  transform: translateY(-1px) scale(0.99);
 }
 
 
@@ -82,8 +255,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* Upper-center: tight top so bg art fills the lower half */
   justify-content: flex-start;
-  padding-top: 140px;
+  padding-top: 105px;
   padding-inline: 40px;
   text-align: center;
   pointer-events: none;
@@ -92,12 +266,24 @@
 
 .eyebrow {
   font-family: var(--font-main, 'Space Grotesk', sans-serif);
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 3.5px;
+  letter-spacing: 4px;
   text-transform: uppercase;
   color: var(--color-golden, #C89B6D);
-  margin-bottom: 14px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.eyebrow::before,
+.eyebrow::after {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: rgba(200, 155, 109, 0.5);
 }
 
 .title {
@@ -169,6 +355,131 @@
   border-color: rgba(255, 255, 255, 0.6);
   background: rgba(255, 255, 255, 0.07);
   transform: translateY(-2px);
+}
+
+/* ── Start-frame premium CTA (matches end-state quality) ── */
+.startCta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  pointer-events: all;
+}
+
+.startBtnIcon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* PRIMARY: gold gradient + shimmer */
+.startBtnPrimary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  padding: 10px 28px;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1a0f00;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: linear-gradient(135deg,
+      #e8b86d 0%,
+      #C89B6D 35%,
+      #d4a96a 60%,
+      #b8824a 100%);
+  box-shadow:
+    0 4px 24px rgba(200, 155, 109, 0.50),
+    0 1px 0 rgba(255, 220, 160, 0.40) inset,
+    0 -1px 0 rgba(100, 60, 20, 0.30) inset;
+  transition: transform 0.22s ease, box-shadow 0.28s ease;
+}
+
+.startBtnPrimary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(105deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.32) 50%,
+      transparent 80%);
+  animation: startShimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes startShimmer {
+  0% {
+    left: -100%;
+  }
+
+  55% {
+    left: 140%;
+  }
+
+  100% {
+    left: 140%;
+  }
+}
+
+.startBtnPrimary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 8px 36px rgba(200, 155, 109, 0.70),
+    0 1px 0 rgba(255, 220, 160, 0.50) inset,
+    0 -1px 0 rgba(100, 60, 20, 0.30) inset;
+}
+
+.startBtnPrimary:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+/* SECONDARY: dark bg matching hero + golden border — clearly visible */
+.startBtnSecondary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  padding: 10px 28px;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245, 236, 215, 0.92);
+  /* Dark bg matching hero so text is clearly readable */
+  background: rgba(42, 28, 22, 0.82);
+  border: 1px solid rgba(200, 155, 109, 0.55);
+  border-radius: 4px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  transition: transform 0.22s ease,
+    box-shadow 0.28s ease,
+    background 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.startBtnSecondary:hover {
+  transform: translateY(-3px) scale(1.02);
+  background: rgba(200, 155, 109, 0.11);
+  border-color: rgba(200, 155, 109, 0.82);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.32),
+    0 0 0 1px rgba(200, 155, 109, 0.30),
+    0 0 22px rgba(200, 155, 109, 0.22);
+}
+
+.startBtnSecondary:active {
+  transform: translateY(-1px) scale(0.99);
 }
 
 /* ── Scroll hint ── */
@@ -250,5 +561,28 @@
   .overlayText {
     font-size: clamp(24px, 7vw, 44px);
     padding: 0 24px;
+  }
+
+  .finalBrandName {
+    font-size: clamp(24px, 7vw, 44px);
+  }
+
+  .finalBrandLogo {
+    width: clamp(32px, 7vw, 48px);
+  }
+
+  .finalCta {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .finalBtnPrimary,
+  .finalBtnSecondary {
+    width: 100%;
+    padding: 15px 32px;
+    justify-content: center;
   }
 }
