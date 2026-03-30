@@ -1,239 +1,180 @@
-/* ─── Thickshakes Section ─── */
+/* ─── SECTION ─── */
 .section {
-  padding: 100px 0;
-  background-color: #221a12;
-  font-family: var(--font-main);
-  width: 100%;
+  padding: 120px 0;
+  background: #0f0b08;
 }
 
+/* ─── CONTAINER ─── */
 .container {
   max-width: 1400px;
-  margin: 0 auto;
+  margin: auto;
   padding: 0 40px;
+
+  display: flex;              /* ✅ FIX */
+  flex-direction: column;
+  align-items: flex-start;    /* ✅ FORCE LEFT */
 }
 
-/* ─── Section Header ─── */
+/* ─── HEADER ─── */
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 56px;
-  padding-bottom: 28px;
-  border-bottom: 1px solid rgba(245, 237, 227, 0.12);
+  width: 100%;
+  margin-bottom: 60px;
+  text-align: left; /* ✅ IMPORTANT */
 }
 
-.headerLeft {
-  max-width: 540px;
-}
-
+/* ─── TITLE ─── */
 .title {
-  font-family: var(--font-main);
-  font-size: clamp(32px, 4vw, 42px);
-  font-weight: 700;
+  font-size: 3rem;
+  font-weight: 800;
   color: #f5ede3;
-  margin: 0 0 14px 0;
-  line-height: 1.1;
-  letter-spacing: -1px;
+  margin-bottom: 8px;
+  text-align: left;
+  letter-spacing: 0.5px;
+
+  text-shadow: 0 2px 10px rgba(201, 147, 90, 0.2);
 }
 
+/* ─── SUBTITLE ─── */
 .subtitle {
-  font-size: 16px;
+  font-size: 1.1rem;
   color: rgba(245, 237, 227, 0.7);
-  margin: 0;
-  line-height: 1.6;
+  text-align: left;
 }
 
-/* ─── See All Button ─── */
-.seeAllBtn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: #c9935a;
-  color: #1a1510;
-  padding: 10px 24px;
-  border-radius: 40px;
-  border: none;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.seeAllBtn:hover {
-  background-color: #d8a46b;
-  transform: translateY(-1px);
-}
-
-/* ─── Cards Grid ─── */
+/* ─── GRID ─── */
 .cardsGrid {
+  width: 100%; /* ✅ keeps grid full width */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 48px;
 }
 
-/* ─── Card ─── */
+/* ================= CARD ================= */
 .card {
-  background-color: #1a1510;
-  border-radius: 12px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid rgba(201, 147, 90, 0.1);
-  transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
-              box-shadow 0.35s ease;
+  position: relative;
+  background: #1a1510;
+  border-radius: 26px;
+  cursor: pointer;
+  z-index: 1;
+
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out, opacity 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+/* ⚡ BORDER */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  padding: 3px;
+  border-radius: 28px;
+
+  background: conic-gradient(
+    from var(--border-angle),
+    transparent 20%,
+    #c9935a,
+    #f5ede3,
+    #c9935a,
+    transparent 80%
+  );
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+
+  opacity: 0;
 }
 
-/* ─── Image ─── */
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* Glow */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  background: #c9935a;
+  filter: blur(35px);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* Hover */
+.card:hover::before {
+  opacity: 1;
+  animation: rotateBorder 2s linear infinite;
+}
+
+.card:hover::after {
+  opacity: 0.4;
+}
+
+@keyframes rotateBorder {
+  to { --border-angle: 360deg; }
+}
+
+/* Image */
 .imageContainer {
-  width: 100%;
-  aspect-ratio: 4 / 3;
   overflow: hidden;
-  background-color: #120e09;
+  border-radius: 26px 26px 0 0;
 }
 
 .image {
   width: 100%;
-  height: 100%;
+  height: 280px;
   object-fit: cover;
-  transition: transform 0.55s ease;
+  transition: transform 0.4s ease;
 }
 
 .card:hover .image {
   transform: scale(1.06);
 }
 
-/* ─── Card Body ─── */
+/* Body */
 .cardBody {
-  padding: 24px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
+  padding: 26px;
 }
 
-.cardTitle {
-  font-family: var(--font-main);
-  font-size: 18px;
+.cardBody h3 {
   color: #f5ede3;
-  margin: 0 0 8px 0;
-  font-weight: 600;
+  font-size: 1.5rem;
+  margin-bottom: 8px;
 }
 
-.cardDesc {
-  color: rgba(201, 147, 90, 0.8);
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: auto;
-  padding-bottom: 20px;
-}
-
-/* ─── Price Row ─── */
-.priceRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-  margin-top: 4px;
-}
-
-.price {
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: #f5ede3;
-}
-
-.qtyControl {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  background-color: #221a12;
-  padding: 6px 14px;
-  border-radius: 30px;
-  color: #f5ede3;
-  border: 1px solid rgba(201, 147, 90, 0.2);
-}
-
-.qtyBtn {
-  background: none;
-  border: none;
-  color: #c9935a;
-  font-size: 1.2rem;
-  font-weight: 400;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  width: 20px;
-  height: 20px;
-}
-
-.qtyValue {
-  font-weight: 600;
-  min-width: 18px;
-  text-align: center;
+.cardBody p {
+  color: rgba(201,147,90,0.7);
   font-size: 1rem;
 }
 
-/* ─── Add to Cart ─── */
-.addToCartBtn {
+.cardBody span {
+  display: block;
+  font-size: 1.3rem;
+  color: #c9935a;
+  font-weight: 800;
+  margin-top: 14px;
+}
+
+/* Button */
+.addBtn {
+  margin-top: 18px;
+  padding: 12px;
   width: 100%;
-  background-color: transparent;
-  color: #f5ede3;
-  border: 1px solid rgba(201, 147, 90, 0.3);
-  padding: 13px;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  background: #c9935a;
+  color: #000;
+  font-weight: 700;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: all 0.2s ease;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  transition: 0.25s;
 }
 
-.addToCartBtn:hover {
-  background-color: #c9935a;
-  color: #1a1510;
-  border-color: #c9935a;
-}
-
-/* ─── Responsive ─── */
-@media (max-width: 1024px) {
-  .cardsGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .section {
-    padding: 72px 0;
-  }
-
-  .container {
-    padding: 0 20px;
-  }
-
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-    margin-bottom: 40px;
-  }
-
-  .cardsGrid {
-    grid-template-columns: 1fr;
-  }
+.addBtn:hover {
+  background: #f5ede3;
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
 }
