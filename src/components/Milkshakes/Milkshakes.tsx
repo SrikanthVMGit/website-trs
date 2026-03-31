@@ -46,7 +46,6 @@ const Drip = ({ color }: { color: string }) => (
 
 export default function Milkshakes() {
   const [spotlightIdx, setSpotlightIdx] = useState(0);
-  const [paused, setPaused] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const startCycle = () => {
@@ -63,7 +62,7 @@ export default function Milkshakes() {
   }, []);
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="milkshakes">
       <div className={styles.container}>
         <div className={styles.header}>
           <p className={styles.eyebrow}>— Airy &amp; Light</p>
@@ -77,8 +76,8 @@ export default function Milkshakes() {
               key={item.id}
               className={`${styles.card} ${idx === spotlightIdx ? styles.spotlight : ''}`}
               style={{ '--accent': item.accent } as React.CSSProperties}
-              onMouseEnter={() => { setPaused(true); setSpotlightIdx(idx); if (timerRef.current) clearInterval(timerRef.current); }}
-              onMouseLeave={() => { setPaused(false); startCycle(); }}
+              onMouseEnter={() => { setSpotlightIdx(idx); if (timerRef.current) clearInterval(timerRef.current); }}
+              onMouseLeave={() => { startCycle(); }}
             >
               <div className={styles.imageContainer}>
                 <Drip color={item.color} />

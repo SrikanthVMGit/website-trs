@@ -3,7 +3,7 @@ import chefImg from '../../assets/chef_crafting_ice_cream_1774726396131.png';
 
 export default function ArtOfIceCream() {
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="art-of-ice-cream">
       <div className={styles.container}>
         <div className={styles.content}>
           <span className={styles.overline}>THE ART OF ICE CREAM</span>

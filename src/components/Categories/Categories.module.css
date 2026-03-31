@@ -1,9 +1,8 @@
 /* Categories.module.css — Pinned scroll-driven card reveal */
 
-/* ── Outer: tall scroll space (1 extra vh + N cards × 100vh) ── */
 .outer {
-  /* 5 × 100vh: 1 for entrance + 4 for each card */
-  height: 500vh;
+  /* 2 × 100vh: compact travel so a small scroll advances a card */
+  height: 200vh;
   position: relative;
 }
 
@@ -157,6 +156,18 @@
   box-shadow: none;
 }
 
+/* ── HOVER on any non-active card: lift it to spotlight level ── */
+.cardPast:hover,
+.cardFuture:hover {
+  opacity: 1;
+  transform: scale(1.03);
+  filter: none;
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.40),
+    0 0 0 2px rgba(201, 148, 90, 0.75),
+    0 0 40px rgba(201, 148, 90, 0.20);
+}
+
 /* ── Image fill ── */
 .imageContainer {
   width: 100%;
@@ -176,7 +187,7 @@
   opacity: 1;
 }
 
-.cardActive:hover .imageContainer {
+.card:hover .imageContainer {
   transform: scale(1.06);
 }
 
@@ -218,13 +229,19 @@
   z-index: 10;
 }
 
-.cardActive:hover .marqueeOverlay {
+/* Show marquee on hover for ANY card (active or not) */
+.card:hover .marqueeOverlay {
   transform: translateY(0);
 }
 
-.cardActive:hover .cardLabel {
+.card:hover .cardLabel {
   transform: translateY(-10px);
   opacity: 0;
+}
+
+/* Keep the existing active-only rules as well (they are superseded by the above but harmless) */
+.cardActive:hover .marqueeOverlay {
+  transform: translateY(0);
 }
 
 .marqueeInner {
@@ -278,16 +295,52 @@
   50%       { transform: translateY(4px); }
 }
 
-/* ── Responsive ── */
+/* ── Responsive (desktop tablets) ── */
 @media (max-width: 1024px) {
-  .outer { height: 400vh; }
+  .outer { height: 160vh; }
   .cardsGrid { grid-template-columns: repeat(2, 1fr); }
   .card { height: 340px; }
 }
 
-@media (max-width: 640px) {
-  .outer { height: 600vh; }
-  .cardsGrid { grid-template-columns: 1fr; }
-  .card { height: 280px; }
-  .header { flex-direction: column; align-items: flex-start; gap: 16px; }
+/* ── Mobile static section (rendered instead of sticky/outer) ── */
+.mobileSection {
+  background-color: #c9935a;
+  padding: 60px 0 72px;
+  width: 100%;
 }
+
+.mobileSection .container {
+  padding: 0 20px;
+}
+
+.mobileSection .header {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: 24px;
+}
+
+.mobileSection .title {
+  font-size: 30px;
+}
+
+/* 2-column card grid for mobile */
+.mobileGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.mobileGrid .card {
+  height: 220px;
+  border-radius: 14px;
+  /* Reset scroll-state transforms so all cards look identical on mobile */
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* Keep hover effects on mobile cards */
+.mobileGrid .card:active .marqueeOverlay {
+  transform: translateY(0);
+}
