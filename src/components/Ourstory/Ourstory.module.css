@@ -1,0 +1,306 @@
+/* ── Section ──────────────────────────────────────────────────────────────── */
+.ourstory {
+  background-color: #c9935a;
+  /* Matching Milkshakes background */
+  color: var(--color-dark);
+  padding: 64px 24px 96px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ourstory::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.16), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.12), transparent 20%);
+  pointer-events: none;
+}
+
+
+/* ── Container ────────────────────────────────────────────────────────────── */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ── Headings ─────────────────────────────────────────────────────────────── */
+.overline {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(26, 21, 16, 0.7);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.title {
+  font-size: clamp(2.75rem, 5vw, 4.2rem);
+  line-height: 1.05;
+  max-width: 860px;
+  font-weight: 700;
+  margin: 0;
+  color: #1a1510;
+}
+
+.description {
+  max-width: 680px;
+  line-height: 1.6;
+  font-size: clamp(1rem, 1.1vw, 1.15rem);
+  color: rgba(26, 21, 16, 0.85);
+  opacity: 0.9;
+}
+
+/* ── Carousel ─────────────────────────────────────────────────────────────── */
+.carousel {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 0 60px;
+}
+
+.carouselTrack {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.cardWrapper {
+  flex: 0 0 280px;
+  min-width: 280px;
+  position: relative;
+  overflow: visible;
+  transform-style: preserve-3d;
+  cursor: grab;
+  transition: filter 0.5s ease, opacity 0.5s ease, transform 0.35s ease-out;
+}
+
+/* Dim & blur unhovered cards when hovering inside the carouselTrack */
+.carouselTrack:hover .cardWrapper:not(:hover) {
+  filter: blur(8px);
+  opacity: 0.5;
+}
+
+.cardWrapper:active {
+  cursor: grabbing;
+}
+
+/* ── Premium Solid Card Body ─────────────────────────────────────────────── */
+.card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  background: #1a1510;
+  /* Solid espresso glass so it doesn't blend with light bg */
+  border-radius: 16px;
+
+  /* Micro borders for physical thickness feel */
+  border: 1px solid rgba(255, 185, 60, 0.12);
+
+  /* Inner rim light and outer deep shadow */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 24px 60px rgba(0, 0, 0, 0.4);
+
+  padding: 32px 28px;
+  overflow: hidden;
+  height: 310px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* ── Typography Watermark ─────────────────────────────────────────────────── */
+.watermark {
+  position: absolute;
+  top: -30px;
+  right: -10px;
+  font-family: "Playfair Display", "Times New Roman", serif;
+  font-size: 190px;
+  font-weight: 300;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.03);
+  /* Barely visible */
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+
+
+/* ── Glare (mouse-tracked warm glow) ──────────────────────────────────────── */
+.glare {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  pointer-events: none;
+  z-index: 3;
+  border-radius: 50%;
+  mix-blend-mode: overlay;
+}
+
+/* ── Orbital Ring Animation (visible ONLY on hover) ───────────────────────── */
+.orbitalRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 700px;
+  height: 700px;
+  margin-top: -350px;
+  margin-left: -350px;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 30;
+  /* 
+    rotateZ(12deg) tilts the entire ellipse so left side is lower, right is higher.
+    rotateX(74deg) squashes it into the proper orbital perspective.
+  */
+  transform: rotateZ(12deg) rotateX(74deg);
+}
+
+.cardWrapper:hover .orbitalRing {
+  opacity: 1;
+}
+
+.ringPath1 {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 185, 60, 0.12);
+  /* Faintest outer ring */
+}
+
+.ringPath2 {
+  position: absolute;
+  inset: 40px;
+  /* Middle ring where particle orbits */
+  border-radius: 50%;
+  border: 1px solid rgba(255, 185, 60, 0.35);
+  /* Brightest */
+}
+
+.ringPath3 {
+  position: absolute;
+  inset: 80px;
+  /* Inner ring */
+  border-radius: 50%;
+  border: 1px solid rgba(255, 185, 60, 0.18);
+}
+
+.particleWrapper {
+  position: absolute;
+  inset: 40px;
+  /* Match inner middle ring inset */
+  border-radius: 50%;
+  /* The rotation of particleWrapper will move the absolute particle along the 2D circle, 
+     which is squashed into a 3D ellipse by the parent's rotateX! */
+}
+
+.particle {
+  position: absolute;
+  top: -4px;
+  /* Centers it on the ring edge */
+  left: 50%;
+  width: 18px;
+  height: 8px;
+  /* Elongated pill shape matching photo */
+  margin-left: -9px;
+  background: #fbcb5f;
+  border-radius: 8px;
+  box-shadow: 0 0 16px 4px rgba(255, 200, 80, 0.5);
+}
+
+/* ── Card text ────────────────────────────────────────────────────────────── */
+/* ── Card text ────────────────────────────────────────────────────────────── */
+.cardContent {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  /* Pushes children vertically */
+  display: flex;
+  flex-direction: column;
+}
+
+.card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: #ffffff;
+}
+
+.card p {
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+.card small {
+  display: block;
+  margin-top: 28px;
+  /* Flows naturally with fixed height like image */
+  background: linear-gradient(135deg, #ffd180 0%, #d49836 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+
+/* ── Keyframes ────────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .carouselTrack {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 720px) {
+  .ourstory {
+    padding: 64px 20px;
+  }
+
+  .carousel {
+    padding: 55px 0 65px;
+  }
+
+  .carouselTrack {
+    gap: 16px;
+  }
+
+  .cardWrapper {
+    flex: 0 0 280px;
+    min-width: 280px;
+  }
+
+  .container {
+    padding: 0;
+    gap: 24px;
+  }
+}
