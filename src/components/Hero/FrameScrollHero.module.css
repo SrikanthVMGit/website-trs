@@ -25,18 +25,24 @@
   z-index: 1;
 }
 
-/* ── Gradient vignette for text legibility ── */
+/* ── Gradient vignette — strengthened centre for text legibility ── */
 .vignette {
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
   background:
+    /* top strip — keeps navbar area dark */
     linear-gradient(to bottom,
-      rgba(0, 0, 0, 0.50) 0%,
-      transparent 28%,
-      transparent 60%,
-      rgba(0, 0, 0, 0.72) 100%);
+      rgba(0, 0, 0, 0.60) 0%,
+      rgba(0, 0, 0, 0.15) 22%,
+      transparent 40%,
+      transparent 58%,
+      rgba(0, 0, 0, 0.55) 100%),
+    /* centre radial blob — darkens mid-screen behind text */
+    radial-gradient(ellipse 70% 55% at 50% 42%,
+      rgba(0, 0, 0, 0.52) 0%,
+      transparent 100%);
 }
 
 /* ── Scroll-phase overlay wrapper ── */
@@ -100,9 +106,9 @@
 }
 
 .finalBrandLogo {
-  width: clamp(40px, 4vw, 64px);
+  width: clamp(48px, 5vw, 72px);
   height: auto;
-  filter: drop-shadow(0 0 12px rgba(200, 155, 109, 0.6));
+  filter: drop-shadow(0 0 14px rgba(200, 155, 109, 0.7));
   flex-shrink: 0;
 }
 
@@ -247,7 +253,7 @@
 }
 
 
-/* ── Static hero CTA (fades out on scroll) ── */
+/* ── Static hero content — vertically centred, all text centred ── */
 .heroContent {
   position: absolute;
   inset: 0;
@@ -255,9 +261,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Upper-center: tight top so bg art fills the lower half */
-  justify-content: flex-start;
-  padding-top: 105px;
+  justify-content: center;        /* true vertical centre */
+  margin-top: -40px;              /* slight upward bias so fruits show below */
   padding-inline: 40px;
   text-align: center;
   pointer-events: none;
@@ -288,26 +293,28 @@
 
 .title {
   font-family: var(--font-main, 'Space Grotesk', sans-serif);
-  /* Sized to fit full phrase on ONE line at typical desktop widths */
-  font-size: clamp(50px, 5.5vw, 86px);
+  font-size: clamp(46px, 5.5vw, 82px);
   font-weight: 700;
   color: #fff;
   line-height: 1.0;
   letter-spacing: -1px;
   white-space: nowrap;
-  /* never wrap */
-  margin-bottom: 16px;
-  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
+  margin-bottom: 18px;
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.9),
+    0 4px 24px rgba(0, 0, 0, 0.7),
+    0 0 60px rgba(0, 0, 0, 0.5);
 }
 
 .description {
   font-family: var(--font-main, 'Space Grotesk', sans-serif);
-  font-size: clamp(15px, 1.5vw, 20px);
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.70);
-  max-width: 480px;
-  line-height: 1.6;
-  margin-bottom: 24px;
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.90);
+  max-width: 460px;
+  line-height: 1.65;
+  margin-bottom: 28px;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
 }
 
 .buttons {
@@ -377,7 +384,7 @@
   align-items: center;
   gap: 8px;
   overflow: hidden;
-  padding: 10px 28px;
+  padding: 16px 28px;
   font-family: var(--font-main, 'Space Grotesk', sans-serif);
   font-size: 11px;
   font-weight: 700;
@@ -447,7 +454,7 @@
   align-items: center;
   gap: 8px;
   overflow: hidden;
-  padding: 10px 28px;
+  padding: 16px 28px;
   font-family: var(--font-main, 'Space Grotesk', sans-serif);
   font-size: 11px;
   font-weight: 700;
@@ -585,4 +592,51 @@
     padding: 15px 32px;
     justify-content: center;
   }
+}
+
+/* ══════════════════════════════════════
+   Mobile hero — lightweight static layout
+   (replaces canvas animation on ≤768px)
+   ══════════════════════════════════════ */
+.mobileHero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 90px;
+}
+
+.mobileHeroBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  animation: heroBgKen 18s ease-in-out infinite alternate;
+}
+
+@keyframes heroBgKen {
+  from { transform: scale(1);    object-position: 50% 45%; }
+  to   { transform: scale(1.06); object-position: 50% 55%; }
+}
+
+.mobileHeroContent {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  padding: 0 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  animation: mobileContentIn 1s ease 0.3s both;
+}
+
+@keyframes mobileContentIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

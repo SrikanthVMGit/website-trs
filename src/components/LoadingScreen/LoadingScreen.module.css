@@ -1,0 +1,188 @@
+/* ═══════════════════════════════════════════════
+   LoadingScreen.module.css
+   Layout: logo  →  progress bar  →  brand name
+   Reveal: entire lockup flies up to navbar centre,
+           screen fades out behind it.
+   ═══════════════════════════════════════════════ */
+
+/* ── Full-screen overlay ── */
+.screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #0d0906;
+  /* Fade the whole screen out during fly-up */
+  transition: opacity 0.7s ease 0.55s, visibility 0.7s ease 0.55s;
+}
+
+.flyup {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* ── Decorative corner brackets ── */
+.cornerTL,
+.cornerBR {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  border-color: rgba(200, 155, 109, 0.22);
+  border-style: solid;
+  z-index: 1;
+  animation: fadeIn 1s ease 0.3s both;
+}
+
+.cornerTL {
+  top: 28px;
+  left: 28px;
+  border-width: 1px 0 0 1px;
+}
+
+.cornerBR {
+  bottom: 28px;
+  right: 28px;
+  border-width: 0 1px 1px 0;
+}
+
+/* ── Centre lockup ── */
+.lockup {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+  animation: fadeIn 0.8s ease both;
+  /* Fly-up: translate to navbar centre (≈ -45vh) + fade out */
+  transition:
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity   0.5s ease 0.1s;
+}
+
+.flyup .lockup {
+  transform: translateY(-44vh);
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Logo ── */
+.logoWrap {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: 68px;
+  height: auto;
+  position: relative;
+  z-index: 1;
+  animation: logoPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+  0%, 100% { filter: brightness(1.1) drop-shadow(0 0 8px rgba(200, 155, 109, 0.50)); }
+  50%       { filter: brightness(1.4) drop-shadow(0 0 22px rgba(200, 155, 109, 0.90)); }
+}
+
+.logoGlow {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200, 155, 109, 0.18) 0%, transparent 68%);
+  animation: glowPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { transform: scale(1);    opacity: 0.7; }
+  50%       { transform: scale(1.35); opacity: 1;   }
+}
+
+/* ── Progress bar (between logo and text) ── */
+.trackWrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: clamp(180px, 28vw, 300px);
+}
+
+.track {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  background: rgba(200, 155, 109, 0.14);
+  border-radius: 2px;
+}
+
+.fill {
+  height: 100%;
+  background: linear-gradient(90deg, #b8824a 0%, #e8b86d 60%, #C89B6D 100%);
+  border-radius: 2px;
+  transition: width 0.22s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Glowing dot at leading edge */
+.dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f0d4a8;
+  box-shadow:
+    0 0 6px 2px rgba(232, 184, 109, 0.80),
+    0 0 12px 4px rgba(200, 155, 109, 0.40);
+  transition: left 0.22s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.pct {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: rgba(200, 155, 109, 0.55);
+  min-width: 34px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Brand name ── */
+.brand {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: clamp(20px, 2.8vw, 34px);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f5ede3;
+  line-height: 1;
+  margin-top: -4px;
+}
+
+/* ── Tagline ── */
+.tagline {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(200, 155, 109, 0.55);
+  margin-top: -6px;
+  transition: opacity 0.3s ease;
+}
+
+.flyup .tagline {
+  opacity: 0;
+}
