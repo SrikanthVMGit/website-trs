@@ -8,6 +8,7 @@ import SeasonalDrops from './components/SeasonalDrops/SeasonalDrops'
 import ArtOfIceCream from './components/ArtOfIceCream/ArtOfIceCream'
 import GuestNotes from './components/GuestNotes/GuestNotes'
 import Footer from './components/Footer/Footer'
+import Ourstory from './components/Ourstory/Ourstory'
 import './App.css'
 import Enquiry from './components/Enquiry/Enquiry'
 
@@ -23,6 +24,7 @@ function App() {
       <SeasonalDrops />
       <ArtOfIceCream />
       <GuestNotes />
+      <Ourstory />
       <Enquiry />
       <Footer />
     </div>
