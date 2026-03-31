@@ -3,7 +3,7 @@ import styles from './Enquiry.module.css';
 
 const Enquiry: React.FC = () => {
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="enquiry">
       <div className={styles.container}>
         <div className={styles.header}>
           <p className={styles.getInTouch}>GET IN TOUCH</p>
