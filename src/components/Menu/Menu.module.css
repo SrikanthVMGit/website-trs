@@ -1,0 +1,409 @@
+/* Menu.module.css — Pinned scroll-driven card reveal (Copied from Categories) */
+
+.outer {
+  /* 115vh: exactly halves the travel distance so it completes in 2 scrolls instead of 4 */
+  height: 115vh;
+  position: relative;
+}
+
+/* ── Sticky inner panel — stays at top while outer scrolls ── */
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #c9935a;
+  display: flex;
+  align-items: center;
+  /* vertically centre the content */
+}
+
+/* ── Content container ── */
+.container {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+  z-index: 10;
+}
+
+/* ── Premium Decorative Background ── */
+.ambientGlow1 {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(230, 165, 86, 0.25) 0%, rgba(230, 165, 86, 0) 70%);
+  top: -100px;
+  left: -150px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(40px);
+  animation: float1 12s ease-in-out infinite alternate;
+}
+
+.ambientGlow2 {
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(26, 21, 16, 0.08) 0%, rgba(26, 21, 16, 0) 70%);
+  bottom: -200px;
+  right: -100px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(60px);
+  animation: float2 15s ease-in-out infinite alternate;
+}
+
+@keyframes float1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  100% {
+    transform: translate(60px, 40px) scale(1.1);
+  }
+}
+
+@keyframes float2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  100% {
+    transform: translate(-50px, -70px) scale(1.05);
+  }
+}
+
+.watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(150px, 28vw, 350px);
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.07);
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  pointer-events: none;
+  z-index: 1;
+  white-space: nowrap;
+  letter-spacing: -10px;
+  user-select: none;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+
+.eyebrow {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(26, 21, 16, 0.55);
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: 38px;
+  font-weight: 800;
+  color: #1a1510;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  max-width: 380px;
+  color: rgba(26, 21, 16, 0.68);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.seeAllBtn {
+  background: #1a1510;
+  color: #e6a556;
+  padding: 11px 26px;
+  border-radius: 30px;
+  border: none;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.seeAllBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* ── Progress dots ── */
+.dots {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.dot {
+  width: 22px;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(26, 21, 16, 0.2);
+  transition: background 0.4s ease, width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dotActive {
+  width: 48px;
+  background: #1a1510;
+}
+
+/* ── Cards grid ── */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+/* ═══════════════════════════════════════════
+   Card base — all transitions here
+   ═══════════════════════════════════════════ */
+.card {
+  position: relative;
+  height: 420px;
+  background: #1a1510;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  will-change: transform;
+
+  opacity: 1;
+
+  /* Snappy fast transition for the viscous delay but keeps it punchy */
+  transition:
+    transform 0.2s cubic-bezier(0.2, 1, 0.3, 1),
+    opacity 0.3s ease,
+    filter 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* ── HOVERED: Lift it to spotlight level (only applies when fanned out) ── */
+.cardHovered {
+  box-shadow:
+    0 32px 64px rgba(0, 0, 0, 0.50),
+    0 0 0 2px rgba(201, 148, 90, 0.90),
+    0 0 40px rgba(201, 148, 90, 0.30);
+}
+
+/* ── DIMMED: When another card is hovered ── */
+.cardDimmed {
+  opacity: 0.55;
+  filter: blur(3px) brightness(0.60);
+}
+
+/* ── Image fill ── */
+.imageContainer {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.90;
+  transition: opacity 0.4s ease;
+}
+
+.cardActive .image {
+  opacity: 1;
+}
+
+.card:hover .imageContainer {
+  transform: scale(1.06);
+}
+
+/* ── Card label ── */
+.cardLabel {
+  position: absolute;
+  bottom: 24px;
+  left: 20px;
+  z-index: 5;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.cardLabel h3 {
+  color: #fff;
+  font-size: 18px;
+  margin: 0;
+  font-weight: 700;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.cardLabel p {
+  color: rgba(255, 255, 255, 0.60);
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+/* Marquee on hover */
+.marqueeOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 34%;
+  background: rgba(159, 111, 53, 0.95);
+  display: flex;
+  align-items: center;
+  transform: translateY(101%);
+  transition: transform 0.45s cubic-bezier(0.7, 0, 0.2, 1);
+  z-index: 10;
+}
+
+/* Show marquee on hover for ANY card (active or not) */
+.card:hover .marqueeOverlay {
+  transform: translateY(0);
+}
+
+.card:hover .cardLabel {
+  transform: translateY(-10px);
+  opacity: 0;
+}
+
+/* Keep the existing active-only rules as well (they are superseded by the above but harmless) */
+.cardActive:hover .marqueeOverlay {
+  transform: translateY(0);
+}
+
+.marqueeInner {
+  display: flex;
+  white-space: nowrap;
+  animation: scrollMarquee 8s linear infinite;
+}
+
+.marqueePart {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-right: 18px;
+}
+
+.marqueePart span {
+  font-size: 16px;
+  font-weight: 900;
+  color: #1a1510;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.marqueeCircle {
+  width: 6px;
+  height: 6px;
+  background: #c9935a;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+@keyframes scrollMarquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ── Scroll cue ── */
+.scrollCue {
+  text-align: center;
+  margin-top: 20px;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(26, 21, 16, 0.45);
+  animation: cueBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes cueBounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+/* ── Responsive (desktop tablets) ── */
+@media (max-width: 1024px) {
+  .outer {
+    height: 120vh;
+  }
+
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card {
+    height: 340px;
+  }
+}
+
+/* ── Mobile static section (rendered instead of sticky/outer) ── */
+.mobileSection {
+  background-color: #c9935a;
+  padding: 60px 0 72px;
+  width: 100%;
+}
+
+.mobileSection .container {
+  padding: 0 20px;
+}
+
+.mobileSection .header {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: 24px;
+}
+
+.mobileSection .title {
+  font-size: 30px;
+}
+
+/* 2-column card grid for mobile */
+.mobileGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.mobileGrid .card {
+  height: 220px;
+  border-radius: 14px;
+  /* Reset scroll-state transforms so all cards look identical on mobile */
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* Keep hover effects on mobile cards */
+.mobileGrid .card:active .marqueeOverlay {
+  transform: translateY(0);
+}
