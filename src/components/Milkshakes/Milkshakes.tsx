@@ -7,9 +7,9 @@ import vanillaImg from "../../assets/vanilla_malt_milkshake.png";
 import coffeeImg from "../../assets/classic_cold_coffee_milkshake.png";
 
 const data = [
-  { id: 1, title: "Strawberry Cream", image: strawberryImg, colorClass: styles.pink, description: "Light, fruity, and irresistibly smooth — made with real strawberries." },
-  { id: 2, title: "Vanilla Malt", image: vanillaImg, colorClass: styles.white, description: "A classic malt shake with pure Madagascar vanilla and a silky finish." },
-  { id: 3, title: "Cold Coffee", image: coffeeImg, colorClass: styles.brown, description: "Bold Arabica cold brew meets whole-milk cream for a balanced kick." },
+  { id: 1, title: "Strawberry Cream", image: strawberryImg, colorClass: styles.pink, description: "Light, fruity, and irresistibly smooth — made with real strawberries.", accent: "#ff4d4d" },
+  { id: 2, title: "Vanilla Malt", image: vanillaImg, colorClass: styles.white, description: "A classic malt shake with pure Madagascar vanilla and a silky finish.", accent: "#fff" },
+  { id: 3, title: "Cold Coffee", image: coffeeImg, colorClass: styles.brown, description: "Bold Arabica cold brew meets whole-milk cream for a balanced kick.", accent: "#8b4513" },
 ];
 
 type DripOverlayProps = {
@@ -33,9 +33,10 @@ const DripOverlay = ({ colorClass }: DripOverlayProps) => (
 
 export default function Milkshakes() {
   const [spotlightIdx, setSpotlightIdx] = useState(0);
-  const [visible, setVisible] = useState<boolean[]>(data.map(() => false));
+  const [paused, setPaused] = useState(false);
+  const [revealed, setRevealed] = useState<boolean[]>(data.map(() => false));
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const refs = useRef<(HTMLDivElement | null)[]>([]);
-  const timerRef = useRef<any>(null);
 
   const startCycle = () => {
     if (timerRef.current) clearInterval(timerRef.current);
@@ -46,7 +47,7 @@ export default function Milkshakes() {
 
   useEffect(() => {
     startCycle();
-    return () => clearInterval(timerRef.current);
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
 
   /* scroll reveal */
@@ -58,7 +59,7 @@ export default function Milkshakes() {
         ([entry]) => {
           if (entry.isIntersecting) {
             setTimeout(() => {
-              setVisible((prev) => {
+              setRevealed((prev) => {
                 const copy = [...prev];
                 copy[i] = true;
                 return copy;
@@ -74,27 +75,30 @@ export default function Milkshakes() {
     });
   }, []);
 
+  useEffect(() => {
+    if (!paused) {
+      startCycle();
+    } else {
+      if (timerRef.current) clearInterval(timerRef.current);
+    }
+  }, [paused]);
+
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="milkshakes">
       <div className={styles.container}>
         <div className={styles.header}>
           <p className={styles.eyebrow}>— Airy & Light</p>
           <h2 className={styles.title}>Milk Shakes</h2>
         </div>
-
         <div className={styles.cardsGrid}>
           {data.map((item, idx) => (
             <div
               key={item.id}
               ref={(el) => { refs.current[idx] = el; }}
-              className={`${styles.card} 
-                ${visible[idx] ? styles.revealed : ""} 
-                ${idx === spotlightIdx ? styles.spotlight : ""}`}
-              onMouseEnter={() => {
-                clearInterval(timerRef.current);
-                setSpotlightIdx(idx);
-              }}
-              onMouseLeave={startCycle}
+              className={`${styles.card} ${idx === spotlightIdx ? styles.spotlight : ''} ${revealed[idx] ? styles.revealed : ''}`}
+              style={{ '--accent': item.accent } as React.CSSProperties}
+              onMouseEnter={() => { setPaused(true); setSpotlightIdx(idx); if (timerRef.current) clearInterval(timerRef.current); }}
+              onMouseLeave={() => { setPaused(false); startCycle(); }}
             >
               <DripOverlay colorClass={item.colorClass} />
 

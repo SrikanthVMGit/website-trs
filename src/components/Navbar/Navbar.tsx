@@ -16,6 +16,12 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id)
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    setMenuOpen(false)
+  }
+
   // Close menu on scroll
   useEffect(() => {
     if (isScrolled) setMenuOpen(false)
@@ -36,9 +42,9 @@ export default function Navbar() {
 
         {/* ── Left: nav links ── */}
         <div className={styles.navLeft}>
-          <a href="#" className={styles.navLink}>Menu</a>
-          <a href="#" className={styles.navLink}>Collections</a>
-          <a href="#" className={styles.navLink}>Our Story</a>
+          <button className={styles.navLink} onClick={() => scrollTo('milkshakes')}>Menu</button>
+          <button className={styles.navLink} onClick={() => scrollTo('categories')}>Collections</button>
+          <button className={styles.navLink} onClick={() => scrollTo('art-of-ice-cream')}>Our Story</button>
         </div>
 
         {/* ── Centre: logo ── */}
@@ -49,7 +55,7 @@ export default function Navbar() {
 
         {/* ── Right: enquiry pill + hamburger ── */}
         <div className={styles.navRight}>
-          <a href="#" className={styles.enquiryBtn}>Enquiry</a>
+          <button className={styles.enquiryBtn} onClick={() => scrollTo('enquiry')}>Enquiry</button>
 
           {/* Hamburger — mobile only */}
           <button
@@ -66,10 +72,10 @@ export default function Navbar() {
 
       {/* ── Mobile drawer ── */}
       <div className={`${styles.mobileMenu} ${menuOpen ? styles.mobileOpen : ''}`}>
-        <a href="#" className={styles.mobileLink} onClick={() => setMenuOpen(false)}>Menu</a>
-        <a href="#" className={styles.mobileLink} onClick={() => setMenuOpen(false)}>Collections</a>
-        <a href="#" className={styles.mobileLink} onClick={() => setMenuOpen(false)}>Our Story</a>
-        <a href="#" className={styles.mobileLink} onClick={() => setMenuOpen(false)}>Enquiry</a>
+        <button className={styles.mobileLink} onClick={() => scrollTo('milkshakes')}>Menu</button>
+        <button className={styles.mobileLink} onClick={() => scrollTo('categories')}>Collections</button>
+        <button className={styles.mobileLink} onClick={() => scrollTo('art-of-ice-cream')}>Our Story</button>
+        <button className={styles.mobileLink} onClick={() => scrollTo('enquiry')}>Enquiry</button>
       </div>
     </>
   )
