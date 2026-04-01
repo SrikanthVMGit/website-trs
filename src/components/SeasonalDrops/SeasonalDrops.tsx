@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import styles from './SeasonalDrops.module.css';
 
-const TOTAL_FRAMES = 60;
+const TOTAL_FRAMES = 50;
 
 const DROPS = [
   {
@@ -185,7 +185,7 @@ export default function SeasonalDrops() {
               transition={{ delay: 0.7 }}
             >
               <div className={styles.scrollLine} />
-              <span></span>
+              <span>Scroll to reveal</span>
             </motion.div>
           </div>
 

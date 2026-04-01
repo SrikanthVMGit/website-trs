@@ -197,7 +197,7 @@
 .frameOuter {
   position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   aspect-ratio: 3 / 4;
   border-radius: 20px;
   overflow: hidden;
