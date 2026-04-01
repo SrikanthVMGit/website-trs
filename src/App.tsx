@@ -5,6 +5,7 @@ import Thickshakes from './components/Thickshakes/Thickshakes'
 import Milkshakes from './components/Milkshakes/Milkshakes'
 import Icecreams from './components/Icecreams/Icecreams'
 import Categories from './components/Categories/Categories'
+import Menu from './components/Menu/Menu'
 import SeasonalDrops from './components/SeasonalDrops/SeasonalDrops'
 import ArtOfIceCream from './components/ArtOfIceCream/ArtOfIceCream'
 import GuestNotes from './components/GuestNotes/GuestNotes'
@@ -71,6 +72,7 @@ function App() {
 
       <Navbar />
       <FrameScrollHero onLoadProgress={handleProgress} />
+      <Menu />
       <Categories />
       <Icecreams />
       <Milkshakes />

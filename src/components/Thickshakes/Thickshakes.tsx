@@ -96,11 +96,11 @@ const Thickshakes = () => {
   useEffect(() => {
     startCycle();
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="thickshakes">
       <div className={styles.container}>
         <div className={styles.header}>
           <p className={styles.eyebrow}>— Premium Blends</p>
