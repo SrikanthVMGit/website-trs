@@ -117,15 +117,7 @@ export default function Icecreams() {
                       <li key={idx}>{d}</li>
                     ))}
                   </ul>
-                  <button
-                    className={styles.flipBackBtn}
-                    onClick={(e) => {
-                      e.stopPropagation(); // Critical to prevent re-flipping
-                      setFlippedId(null);
-                    }}
-                  >
-                    ← Back to Flavor
-                  </button>
+                  
                 </div>
               </div>
             </div>
