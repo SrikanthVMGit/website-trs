@@ -1,53 +1,81 @@
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useState } from 'react';
 import styles from './ArtOfIceCream.module.css';
-import chefImg from '../../assets/chef_crafting_ice_cream_1774726396131.png';
 
 export default function ArtOfIceCream() {
+  const targetRef = useRef(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [ripple, setRipple] = useState(false);
+
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start end", "end start"],
+  });
+
+  const yText = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  const yImage = useTransform(scrollYProgress, [0, 1], [-20, 20]);
+
+  const handleToggle = () => {
+    if (!videoRef.current) return;
+
+    // ripple trigger
+    setRipple(true);
+    setTimeout(() => setRipple(false), 500);
+
+    if (isPlaying) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      videoRef.current.muted = true; // 🔇 ALWAYS MUTED
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
   return (
-    <section className={styles.section} id="art-of-ice-cream">
+    <section ref={targetRef} className={styles.section}>
       <div className={styles.container}>
-        <div className={styles.content}>
-          <span className={styles.overline}>THE ART OF ICE CREAM</span>
+
+        {/* LEFT */}
+        <motion.div style={{ y: yText }}>
           <h2 className={styles.title}>
-            Every pint starts with culinary discipline, not shortcuts.
+            Every pint starts with <br />
+            <span className={styles.italicTitle}>culinary discipline.</span>
           </h2>
-          <p className={styles.description}>
-            The Rare Scoop operates like a tasting studio: ingredients are sourced globally, churn times are controlled precisely, and every recipe is tuned for clean finish and dense flavor.
-          </p>
+        </motion.div>
 
-          <ol className={styles.stepList}>
-            <li className={styles.stepItem}>
-              <span className={styles.stepNumber}>1</span>
-              <div>
-                <h3 className={styles.stepTitle}>Rare ingredients</h3>
-                <p className={styles.stepDesc}>Single-origin cacao, estate vanilla, saffron threads, and orchard fruit picked for depth over novelty.</p>
-              </div>
-            </li>
-            <li className={styles.stepItem}>
-              <span className={styles.stepNumber}>2</span>
-              <div>
-                <h3 className={styles.stepTitle}>Precision batching</h3>
-                <p className={styles.stepDesc}>Each batch is produced in small volumes so texture, overrun, and consistency stay intentionally controlled.</p>
-              </div>
-            </li>
-            <li className={styles.stepItem}>
-              <span className={styles.stepNumber}>3</span>
-              <div>
-                <h3 className={styles.stepTitle}>Cold-chain delivery</h3>
-                <p className={styles.stepDesc}>Insulated packaging and timed dispatch preserve the scoop exactly as it leaves the kitchen.</p>
-              </div>
-            </li>
-          </ol>
+        {/* RIGHT VIDEO */}
+        <motion.div style={{ y: yImage }} className={styles.imageWrapper}>
+          <div className={styles.imgMainWrap}>
 
-          <button className={styles.ctaBtn}>DISCOVER OUR CRAFT</button>
-        </div>
+            {/* VIDEO */}
+            <video
+              ref={videoRef}
+              className={styles.video}
+              src="/videos/Luxury.mp4"
+              loop
+              playsInline
+              muted
+            />
 
-        <div className={styles.imagePlaceholder}>
-          <img 
-            src={chefImg} 
-            alt="Chef Crafting Ice Cream" 
-            className={styles.image}
-          />
-        </div>
+            {/* OVERLAY */}
+            <div className={styles.playOverlay} onClick={handleToggle}>
+              
+              {/* Ripple */}
+              {ripple && <span className={styles.ripple}></span>}
+
+              {/* Button */}
+              <div className={styles.playBtn}>
+                {!isPlaying && <div className={styles.playIcon}></div>}
+                {isPlaying && <div className={styles.pauseIcon}></div>}
+              </div>
+
+            </div>
+
+          </div>
+        </motion.div>
+
       </div>
     </section>
   );

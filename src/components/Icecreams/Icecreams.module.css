@@ -1,66 +1,72 @@
-/* Icecreams.module.css — staggered reveal animation */
-
+/* ─── SECTION ─── */
 .section {
   padding: 100px 0;
   background-color: #1a1510;
   width: 100%;
+  min-height: 100vh;
 }
 
 .container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 40px;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Header */
+/* Header Alignment */
 .header {
-  margin-bottom: 56px;
+  margin-bottom: 64px;
+  text-align: left;
 }
 
 .eyebrow {
-  font-family: var(--font-main, 'Space Grotesk', sans-serif);
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 3.5px;
   text-transform: uppercase;
-  color: rgba(201, 147, 90, 0.65);
-  margin-bottom: 10px;
+  letter-spacing: 3.5px;
+  color: rgba(201, 147, 90, 0.7);
+  margin-bottom: 8px;
 }
 
 .title {
-  font-size: clamp(36px, 4vw, 52px);
+  font-size: clamp(36px, 5vw, 64px);
   font-weight: 800;
   color: #f5ede3;
-  margin-bottom: 10px;
-  line-height: 1;
+  line-height: 1.1;
+  margin-bottom: 16px;
 }
 
 .subtitle {
-  font-size: 14px;
+  font-size: 16px;
   color: rgba(245, 237, 227, 0.5);
-  max-width: 380px;
+  max-width: 400px;
 }
 
-/* Grid */
+/* ─── GRID ALIGNMENT ─── */
 .cardsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+  gap: 32px;
+  align-items: stretch; /* Forces all cards in a row to have same height */
 }
 
-/* ── Flip card: starts hidden, reveals on scroll ── */
+/* ─── CARD STRUCTURE ─── */
 .flipCard {
-  perspective: 1200px;
-  height: 500px;
+  perspective: 2000px;
+  height: 540px; /* Fixed height ensures perfect grid alignment */
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: blur(10px);
+  transition: 
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 0.8s ease;
 }
 
 .revealed {
   opacity: 1;
   transform: translateY(0);
+  filter: blur(0);
 }
 
 .flipCardInner {
@@ -69,38 +75,40 @@
   height: 100%;
   transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
+  cursor: pointer;
 }
 
 .isFlipped {
   transform: rotateY(180deg);
 }
 
-/* Front + Back shared */
 .cardFront,
 .cardBack {
   position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  border-radius: 20px;
-  overflow: hidden;
-  background-color: #221a12;
-  border: 1px solid rgba(201, 147, 90, 0.12);
-  -webkit-backface-visibility: hidden;
+  border-radius: 24px;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1px solid rgba(201, 147, 90, 0.12);
+  overflow: hidden;
 }
 
+/* ─── FRONT CONTENT ─── */
 .cardFront {
+  background-color: #221a12;
   display: flex;
   flex-direction: column;
+  z-index: 2;
+  transform: rotateY(0deg);
 }
 
-/* Image */
 .imageContainer {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 3; /* Ensures all images align perfectly at the top */
   overflow: hidden;
-  position: relative;
-  cursor: pointer;
+  background-color: #1a1510;
 }
 
 .image {
@@ -110,131 +118,128 @@
   transition: transform 0.6s ease;
 }
 
-.imageContainer:hover .image {
-  transform: scale(1.07);
+.flipCard:hover .image {
+  transform: scale(1.08);
 }
 
-/* Hover overlay hint */
-.imageOverlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-.imageContainer:hover .imageOverlay {
-  opacity: 1;
-}
-
-.viewDetails {
-  font-family: var(--font-main, 'Space Grotesk', sans-serif);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #f5ede3;
-  border: 1px solid rgba(245,237,227,0.4);
-  padding: 8px 18px;
-  border-radius: 20px;
-}
-
-/* Body */
 .cardBody {
-  padding: 24px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex-grow: 1; /* Pushes content to fill the card */
 }
 
 .cardTitle {
   color: #f5ede3;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .cardDesc {
-  color: rgba(245, 237, 227, 0.58);
-  font-size: 0.875rem;
+  color: rgba(245, 237, 227, 0.6);
+  font-size: 0.95rem;
   line-height: 1.6;
 }
 
-/* ── Back face ── */
+/* ─── BACK CONTENT ─── */
 .cardBack {
   transform: rotateY(180deg);
+  padding: 40px;
   display: flex;
   flex-direction: column;
-  padding: 28px;
-  background: linear-gradient(135deg, #1a1510 0%, #2d241a 100%);
-}
-
-.cardBack::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% -20%, rgba(201, 147, 90, 0.1), transparent);
-  pointer-events: none;
-}
-
-.backContent {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  z-index: 2;
-}
-
-.detailHeader {
-  color: #c9935a;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  margin-bottom: 10px;
+  background: linear-gradient(135deg, #221a12, #2d241a);
+  z-index: 1;
 }
 
 .backTitle {
-  color: #f5ede3;
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 20px;
+  color: #c9935a;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 24px;
 }
 
 .ingredientsList {
   list-style: none;
   padding: 0;
   margin: 0;
-  color: rgba(245, 237, 227, 0.65);
-  font-size: 0.9rem;
-  line-height: 2;
+}
+
+.ingredientsList li {
+  color: #f5ede3;
+  font-size: 1.1rem;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(245, 237, 227, 0.05);
 }
 
 .flipBackBtn {
   margin-top: auto;
-  padding: 11px;
+  padding: 14px;
   background: transparent;
-  border: 1px solid rgba(245, 237, 227, 0.18);
+  border: 1px solid rgba(245, 237, 227, 0.2);
   color: #f5ede3;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  font-family: var(--font-main, 'Space Grotesk', sans-serif);
-  font-size: 13px;
-  transition: background 0.3s, border-color 0.3s;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
 }
 
 .flipBackBtn:hover {
-  background: rgba(201, 147, 90, 0.18);
-  border-color: #c9935a;
-  color: #c9935a;
+  background: #f5ede3;
+  color: #1a1510;
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1100px) {
   .cardsGrid { grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 640px) {
+
+@media (max-width: 700px) {
   .cardsGrid { grid-template-columns: 1fr; }
-  .flipCard { height: 440px; }
+  .flipCard { height: 500px; }
+  .container { padding: 0 24px; }
+}
+/* ─── MOVING BORDER GLOW LINE ONLY ─── */
+.cardFront::before,
+.cardBack::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 1px; /* border thickness */
+
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    transparent 40%,
+    #c9935a 50%,
+    transparent 60%,
+    transparent 100%
+  );
+
+  background-size: 300% 300%;
+  -webkit-mask: 
+    linear-gradient(#000 0 0) content-box, 
+    linear-gradient(#000 0 0);
+  mask: 
+    linear-gradient(#000 0 0) content-box, 
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* show + animate ONLY border */
+.flipCard:hover .cardFront::before,
+.flipCard:hover .cardBack::before {
+  opacity: 1;
+  animation: borderMove 1.2s linear infinite;
+}
+
+@keyframes borderMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
 }
