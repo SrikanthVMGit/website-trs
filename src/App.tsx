@@ -11,9 +11,11 @@ import ArtOfIceCream from './components/ArtOfIceCream/ArtOfIceCream'
 import GuestNotes from './components/GuestNotes/GuestNotes'
 import Footer from './components/Footer/Footer'
 import Ourstory from './components/Ourstory/Ourstory'
+import OurStory2 from './components/ourstory2/ourstory2'
 import './App.css'
 import Enquiry from './components/Enquiry/Enquiry'
 import LoadingScreen from './components/LoadingScreen/LoadingScreen'
+
 
 
 function App() {
@@ -27,7 +29,7 @@ function App() {
 
   // RAF loop: eases displayProgress toward rawProgress at a fixed speed
   useEffect(() => {
-    const SPEED = 0.4 // % per frame — tune this for perceived smoothness (~60fps ≈ 24 seconds for full 100%)
+    const SPEED = 3 // % per frame — tune this for perceived smoothness (~60fps ≈ 24 seconds for full 100%)
     const tick = () => {
       const raw = rawProgressRef.current
       const cur = displayProgressRef.current
@@ -69,6 +71,7 @@ function App() {
           onComplete={handleLoadComplete}
         />
       )}
+      
 
       <Navbar />
       <FrameScrollHero onLoadProgress={handleProgress} />
@@ -80,6 +83,7 @@ function App() {
       <SeasonalDrops />
       <ArtOfIceCream />
       <GuestNotes />
+      <OurStory2 />
       <Ourstory />
       <Enquiry />
       <Footer />
