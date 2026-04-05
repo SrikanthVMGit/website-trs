@@ -92,7 +92,7 @@
 .card:hover .dripOverlay,
 .spotlight .dripOverlay {
   transform: translateY(0%);
-  transition: transform 3s cubic-bezier(0.25, 0.5, 0.25, 1);
+  transition: transform 2s cubic-bezier(0.25, 0.5, 0.25, 1);
 
 }
 
@@ -100,7 +100,7 @@
   width: 200%;
   height: 100%;
   display: block;
-  animation: liquidFlow 6s linear infinite;
+  animation: liquidFlow 2s linear infinite;
 }
 
 @keyframes liquidFlow {
