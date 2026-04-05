@@ -1,10 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;600;700;800&display=swap');
 
 .seasonalDrops {
-  height: 350vh; /* ← was 500vh, faster animation */
+  height: 350vh;
   background: #080707;
   color: #F6F2EA;
   position: relative;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+}
+
+.seasonalDrops * {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
 }
 
 .stickyViewport {
@@ -23,7 +28,7 @@
   margin: 0 auto;
   padding: 0 60px;
   display: grid;
-  grid-template-columns: 1fr 0.75fr; /* ← right col narrower */
+  grid-template-columns: 1fr 0.75fr;
   gap: 80px;
   align-items: center;
 }
@@ -35,10 +40,9 @@
 }
 
 .overline {
-  font-family: 'Syne', sans-serif;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.45em;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3.5px;
   color: #c9935a;
   text-transform: uppercase;
   margin-bottom: 20px;
@@ -46,20 +50,14 @@
 }
 
 .title {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(36px, 4.5vw, 68px);
-  line-height: 0.95;
+  font-size: clamp(36px, 4vw, 52px);
   font-weight: 800;
-  margin-bottom: 52px;
   letter-spacing: -0.03em;
+  margin-bottom: 52px;
 }
 
 .accentText {
   color: #c9935a;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 1.08em;
 }
 
 .dropsList {
@@ -100,9 +98,10 @@
 .dropSelected::before { transform: scaleY(1); }
 
 .dropNum {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
+  font-size: 13px;          /* was 11px */
   font-weight: 600;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
   color: rgba(201, 147, 90, 0.25);
   min-width: 32px;
   line-height: 1;
@@ -115,17 +114,16 @@
 .dropInfo { flex: 1; min-width: 0; }
 
 .dropName {
-  font-family: 'Syne', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 17px;          /* was 15px */
+  font-weight: 700;
   letter-spacing: -0.01em;
   margin-bottom: 3px;
   color: #F6F2EA;
 }
 
 .dropDesc {
-  font-family: 'Syne', sans-serif;
-  font-size: 12px;
+  font-size: 13px;          /* was 12px */
+  font-weight: 400;
   color: rgba(246, 242, 234, 0.35);
   line-height: 1.5;
 }
@@ -133,7 +131,6 @@
 .statusBtn {
   padding: 7px 14px;
   border-radius: 2px;
-  font-family: 'Syne', sans-serif;
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -180,14 +177,13 @@
 }
 .scrollLine { width: 32px; height: 1px; background: rgba(246,242,234,0.22); }
 .scrollHint span {
-  font-family: 'Syne', sans-serif;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
-/* ── Right column — SMALLER IMAGE ── */
+/* ── Right column ── */
 .rightCol {
   display: flex;
   justify-content: center;
@@ -202,23 +198,14 @@
   border-radius: 20px;
   overflow: hidden;
   transform: translateZ(0);
-  
   box-shadow:
-    0 0 0 1px rgba(201, 147, 90, 0.4),      /* solid amber border */
-    0 0 20px 4px rgba(201, 147, 90, 0.25),  /* inner glow */
-    0 0 60px 12px rgba(201, 147, 90, 0.12), /* outer soft glow */
-    0 24px 60px rgba(0, 0, 0, 0.65);        /* depth shadow */
+    0 0 0 1px rgba(201, 147, 90, 0.4),
+    0 0 20px 4px rgba(201, 147, 90, 0.25),
+    0 0 60px 12px rgba(201, 147, 90, 0.12),
+    0 24px 60px rgba(0, 0, 0, 0.65);
 }
 
-
 .frameImg {
-  /*
-    Source frames are 960×540 (16:9 landscape).
-    Container is portrait (3:4).
-    Setting width:auto + height:100% makes the image fill the full
-    container height at its native ratio — wider than the container —
-    then overflow:hidden crops the sides cleanly. No distortion, no stretch.
-  */
   width: auto;
   height: 100%;
   min-width: 100%;
@@ -284,7 +271,6 @@
   border: 1px solid rgba(255,255,255,0.06);
   border-radius: 100px;
   padding: 5px 12px;
-  font-family: 'Syne', sans-serif;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.12em;
