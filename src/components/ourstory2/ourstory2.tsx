@@ -100,7 +100,7 @@ export default function OurStory() {
      
 
       {/* Panels */}
-      <div className={styles.container}>
+      <div id="our-story-2" className={styles.container}>
         {panels.map((panel) => (
           <div
             key={panel.id}

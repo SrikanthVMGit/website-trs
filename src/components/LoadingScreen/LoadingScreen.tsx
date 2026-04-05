@@ -19,8 +19,8 @@ export default function LoadingScreen({ progress, onComplete }: Props) {
         setTimeout(() => {
           setPhase('done')
           onComplete()
-        }, 750)
-      }, 150)
+        }, 420)
+      }, 60)
     }
   }, [progress, onComplete])
 

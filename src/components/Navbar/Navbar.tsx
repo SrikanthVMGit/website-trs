@@ -44,7 +44,7 @@ export default function Navbar() {
         <div className={styles.navLeft}>
           <button className={styles.navLink} onClick={() => scrollTo('menu')}>Menu</button>
           <button className={styles.navLink} onClick={() => scrollTo('categories')}>Collections</button>
-          <button className={styles.navLink} onClick={() => scrollTo('art-of-ice-cream')}>Our Story</button>
+          <button className={styles.navLink} onClick={() => scrollTo('our-story-2')}>Our Story</button>
         </div>
 
         {/* ── Centre: logo ── */}
@@ -74,7 +74,7 @@ export default function Navbar() {
       <div className={`${styles.mobileMenu} ${menuOpen ? styles.mobileOpen : ''}`}>
         <button className={styles.mobileLink} onClick={() => scrollTo('menu')}>Menu</button>
         <button className={styles.mobileLink} onClick={() => scrollTo('categories')}>Collections</button>
-        <button className={styles.mobileLink} onClick={() => scrollTo('art-of-ice-cream')}>Our Story</button>
+        <button className={styles.mobileLink} onClick={() => scrollTo('our-story-2')}>Our Story</button>
         <button className={styles.mobileLink} onClick={() => scrollTo('enquiry')}>Enquiry</button>
       </div>
     </>

@@ -25,18 +25,28 @@ function App() {
   const [displayProgress, setDisplayProgress] = useState(0)
   const displayProgressRef = useRef(0)
   const rafRef = useRef<number>(0)
+  const lastTickRef = useRef<number>(0)
   const [loaded, setLoaded] = useState(false)
 
-  // RAF loop: eases displayProgress toward rawProgress at a fixed speed
+  // RAF loop: smooth, time-based easing that also reaches 100 quickly
   useEffect(() => {
-    const SPEED = 3 // % per frame — tune this for perceived smoothness (~60fps ≈ 24 seconds for full 100%)
-    const tick = () => {
+    const BASE_SPEED = 120 // % per second
+    const CATCH_UP = 0.2 // extra easing toward target each frame
+
+    const tick = (now: number) => {
+      if (!lastTickRef.current) lastTickRef.current = now
+      const dt = (now - lastTickRef.current) / 1000
+      lastTickRef.current = now
+
       const raw = rawProgressRef.current
       const cur = displayProgressRef.current
 
       if (cur < raw) {
-        // Never jump more than SPEED per frame — smooth crawl
-        const next = Math.min(cur + SPEED, raw)
+        const distance = raw - cur
+        const linearStep = BASE_SPEED * dt
+        const easeStep = distance * CATCH_UP
+        const step = Math.max(linearStep, easeStep)
+        const next = Math.min(cur + step, raw)
         displayProgressRef.current = next
         setDisplayProgress(next)
       }
@@ -45,12 +55,16 @@ function App() {
     }
 
     rafRef.current = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(rafRef.current)
+    return () => {
+      cancelAnimationFrame(rafRef.current)
+      lastTickRef.current = 0
+    }
   }, [])
 
   // Called by FrameScrollHero as frames load — just updates the raw target
   const handleProgress = useCallback((pct: number) => {
-    rawProgressRef.current = pct
+    // Progress should only move forward.
+    rawProgressRef.current = Math.max(rawProgressRef.current, pct)
   }, [])
 
   const handleLoadComplete = useCallback(() => {
