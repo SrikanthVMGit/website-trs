@@ -1,8 +1,8 @@
 /* Menu.module.css — Pinned scroll-driven card reveal (Copied from Categories) */
 
 .outer {
-  /* 115vh: exactly halves the travel distance so it completes in 2 scrolls instead of 4 */
-  height: 115vh;
+  /* Increased height to force complete card spread before allowing user to scroll to next section */
+  height: 250vh;
   position: relative;
 }
 
@@ -100,6 +100,7 @@
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 20px;
+  margin-top: 60px;
 }
 
 .eyebrow {
