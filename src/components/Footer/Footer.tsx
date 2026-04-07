@@ -48,22 +48,6 @@ const ArrowUpIcon = () => (
   </svg>
 )
 
-/* ── Wave Border ── */
-const WaveTop = () => (
-  <div className={styles.waveTop} aria-hidden="true">
-    <svg viewBox="0 0 1440 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M0,27 C180,54 360,0 540,27 C720,54 900,0 1080,27 C1260,54 1380,18 1440,27 L1440,54 L0,54 Z"
-        fill="#221a12"
-      />
-      <path
-        d="M0,20 C200,45 400,0 600,22 C800,44 1000,2 1200,20 C1320,30 1400,14 1440,20 L1440,0 L0,0 Z"
-        fill="rgba(201,147,90,0.06)"
-      />
-    </svg>
-  </div>
-)
-
 export default function Footer() {
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
@@ -82,9 +66,8 @@ export default function Footer() {
 
   return (
     <footer className={styles.footer}>
-
-      {/* ── Wavy top border ── */}
-      <WaveTop />
+      {/* Background Lighting matched to Enquiry */}
+      <div className={styles.bgBlob} aria-hidden="true" />
 
       <div className={styles.container}>
 
