@@ -11,22 +11,21 @@ const DROPS = [
     num: '01',
     name: 'Burnt Vanilla Fig',
     description: 'Roasted fig jam, vanilla bean custard base, toasted sugar.',
-    status: 'LIVE NOW',
-    statusType: 'live',
+    
+    
   },
   {
     num: '02',
     name: 'Yuzu Milk Sorbet',
     description: 'Bright citrus acidity softened with silk texture.',
-    status: 'RESERVE',
-    statusType: 'reserve',
+    
+    
   },
   {
     num: '03',
     name: 'Black Sesame Caramel',
     description: 'Nutty roasted sesame with dark amber ribbons.',
-    status: 'WAITLIST',
-    statusType: 'waitlist',
+    
   },
 ];
 
@@ -51,7 +50,7 @@ export default function SeasonalDrops() {
 
     for (let i = 1; i <= TOTAL_FRAMES; i++) {
       const img = new Image();
-      img.src = `/src/assets/ezgif-frame-${padFrame(i)}.jpg`;
+      img.src = `/frames/ezgif-frame-${padFrame(i)}.jpg`;
       img.onload = () => {
         loadedCount++;
         if (loadedCount === TOTAL_FRAMES) setLoaded(true);
@@ -166,12 +165,7 @@ export default function SeasonalDrops() {
                     <h3 className={styles.dropName}>{drop.name}</h3>
                     <p className={styles.dropDesc}>{drop.description}</p>
                   </div>
-                  <button
-                    className={`${styles.statusBtn} ${styles[drop.statusType as keyof typeof styles]}`}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {drop.status}
-                  </button>
+                 
                 </motion.div>
               ))}
             </div>
@@ -197,7 +191,7 @@ export default function SeasonalDrops() {
 
               <img
                 ref={imgRef}
-                src={`/src/assets/ezgif-frame-001.jpg`}
+                src={`/frames/ezgif-frame-001.jpg`}
                 alt="Caramel pour animation"
                 className={styles.frameImg}
                 style={{ opacity: loaded ? 1 : 0 }}
