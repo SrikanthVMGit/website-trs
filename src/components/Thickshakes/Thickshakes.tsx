@@ -7,6 +7,7 @@ import styles from "./Thickshakes.module.css";
 import chocolateImg from "../../assets/chocolate_hazelnut_shake.png";
 import saltedCaramelImg from "../../assets/salted_caramel_shake.png";
 import peanutButterImg from "../../assets/peanut_butter_fudge_shake.png";
+import strawberryCreamImg from "../../assets/strawberry_cream_milkshake.png";
 
 const data = [
   {
@@ -27,15 +28,23 @@ const data = [
     description: "Creamy peanut butter ribboned through a deep chocolate fudge base. Uncompromisingly rich.",
     image: peanutButterImg,
   },
+  {
+    id: 4,
+    title: "Strawberry Cream",
+    description: "Sun-kissed strawberries blended into a lush, cloud-like cream — delicately sweet and fresh.",
+    image: strawberryCreamImg,
+  },
 ];
 
 const CYCLE = 2600;
 
-const TiltCard = ({ item, active, setActive, isSpotlight }: {
+const TiltCard = ({ item, active, setActive, isSpotlight, revealed, cardRef }: {
   item: typeof data[0];
   active: number | null;
   setActive: (id: number | null) => void;
   isSpotlight: boolean;
+  revealed: boolean;
+  cardRef: (el: HTMLDivElement | null) => void;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
@@ -58,8 +67,11 @@ const TiltCard = ({ item, active, setActive, isSpotlight }: {
 
   return (
     <motion.div
-      ref={ref}
-      className={`${styles.card} ${isSpotlight ? styles.spotlight : ''} ${active && active !== item.id ? styles.blur : ""}`}
+      ref={(el) => {
+        (ref as React.MutableRefObject<HTMLDivElement | null>).current = el;
+        cardRef(el);
+      }}
+      className={`${styles.card} ${isSpotlight ? styles.spotlight : ''} ${active && active !== item.id ? styles.blur : ""} ${revealed ? styles.revealed : ""}`}
       style={{ rotateX, rotateY }}
       onMouseMove={handleMove}
       onMouseEnter={() => setActive(item.id)}
@@ -84,7 +96,13 @@ const TiltCard = ({ item, active, setActive, isSpotlight }: {
 const Thickshakes = () => {
   const [active, setActive] = useState<number | null>(null);
   const [spotlightIdx, setSpotlightIdx] = useState(0);
+  const [revealed, setRevealed] = useState<boolean[]>(data.map(() => true));
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const isDragging = useRef(false);
+  const dragStartX = useRef(0);
+  const dragScrollLeft = useRef(0);
 
   const startCycle = () => {
     if (timerRef.current) clearInterval(timerRef.current);
@@ -99,6 +117,50 @@ const Thickshakes = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /* scroll reveal */
+  useEffect(() => {
+    if (!trackRef.current) return;
+    const observers: IntersectionObserver[] = [];
+    cardRefs.current.forEach((el, i) => {
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          setRevealed(prev => {
+            const copy = [...prev];
+            copy[i] = entry.isIntersecting;
+            return copy;
+          });
+        },
+        { root: trackRef.current, threshold: 0.15 }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+    return () => observers.forEach(o => o.disconnect());
+  }, []);
+
+  /* drag-to-scroll */
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!trackRef.current) return;
+    isDragging.current = true;
+    dragStartX.current = e.clientX - trackRef.current.offsetLeft;
+    dragScrollLeft.current = trackRef.current.scrollLeft;
+    trackRef.current.setPointerCapture(e.pointerId);
+    trackRef.current.style.cursor = 'grabbing';
+  };
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging.current || !trackRef.current) return;
+    e.preventDefault();
+    const x = e.clientX - trackRef.current.offsetLeft;
+    trackRef.current.scrollLeft = dragScrollLeft.current - (x - dragStartX.current) * 1.2;
+  };
+  const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!trackRef.current) return;
+    isDragging.current = false;
+    trackRef.current.releasePointerCapture(e.pointerId);
+    trackRef.current.style.cursor = 'grab';
+  };
+
   return (
     <section className={styles.section} id="thickshakes">
       <div className={styles.container}>
@@ -108,24 +170,35 @@ const Thickshakes = () => {
           <p className={styles.subtitle}>Premium, electric indulgence — no compromise.</p>
         </div>
 
-        <div className={styles.cardsGrid}>
-          {data.map((item, idx) => (
-            <TiltCard
-              key={item.id}
-              item={item}
-              active={active}
-              setActive={(id) => {
-                setActive(id);
-                if (id !== null) {
-                  setSpotlightIdx(idx);
-                  if (timerRef.current) clearInterval(timerRef.current);
-                } else {
-                  startCycle();
-                }
-              }}
-              isSpotlight={idx === spotlightIdx}
-            />
-          ))}
+        <div className={styles.scrollWrapper}>
+          <div
+            className={styles.scrollTrack}
+            ref={trackRef}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerUp}
+            onPointerLeave={onPointerUp}
+          >
+            {data.map((item, idx) => (
+              <TiltCard
+                key={item.id}
+                item={item}
+                active={active}
+                revealed={revealed[idx]}
+                cardRef={(el) => { cardRefs.current[idx] = el; }}
+                setActive={(id) => {
+                  setActive(id);
+                  if (id !== null) {
+                    setSpotlightIdx(idx);
+                    if (timerRef.current) clearInterval(timerRef.current);
+                  } else {
+                    startCycle();
+                  }
+                }}
+                isSpotlight={idx === spotlightIdx}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

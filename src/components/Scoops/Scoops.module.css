@@ -138,29 +138,34 @@
   border-radius: 24px;
   cursor: pointer;
   overflow: hidden;
-  /* Four cards in the 1320px content frame: (1320px - 3×32px gap) / 4 = 306px */
-  flex: 0 0 clamp(240px, 306px, 306px);
-  width: clamp(240px, 306px, 306px);
+  /* Four cards in the 1320px content frame */
+  flex: 0 0 calc(25% - 24px);
+  width: calc(25% - 24px);
+  min-width: 240px;
   scroll-snap-align: start;
   opacity: 0;
-  /* Pop-up book: card lying flat, hinged at bottom edge */
-  transform: perspective(700px) rotateX(60deg) translateY(20px);
-  transform-origin: bottom center;
+  transform: scale(0.95);
   transition:
-    opacity 0.45s ease,
-    transform 0.75s cubic-bezier(0.34, 1.45, 0.64, 1),
+    opacity 0.6s ease,
+    transform 0.6s ease,
     box-shadow 0.35s ease;
+}
+
+/* Fade out sibling cards when one is hovered */
+.scrollTrack:has(.card:hover) .card:not(:hover) {
+  opacity: 0.4;
+  transform: scale(0.98);
 }
 
 /* Revealed: card snaps upright like a pop-up page */
 .revealed {
   opacity: 1;
-  transform: perspective(700px) rotateX(0deg) translateY(0);
+  transform: scale(1);
 }
 
 /* Hover: scale up + golden shadow */
 .card:hover {
-  transform: perspective(700px) rotateX(0deg) scale(1.035);
+  transform: scale(1.035);
   box-shadow:
     0 24px 68px rgba(201, 147, 90, 0.28),
     0 4px 16px rgba(0, 0, 0, 0.4);
@@ -213,11 +218,11 @@
 
   0%,
   100% {
-    transform: perspective(700px) rotateX(0deg) scale(1);
+    transform: scale(1);
   }
 
   50% {
-    transform: perspective(700px) rotateX(0deg) scale(1.018);
+    transform: scale(1.018);
   }
 }
 
@@ -297,7 +302,7 @@
   position: relative;
   overflow: visible;
   border-radius: 24px 24px 0 0;
-  background: #120e0a;
+  background: #000;
   margin-top: -24px;
   z-index: 2;
 }
@@ -317,11 +322,12 @@
   transition: transform 0.6s cubic-bezier(0.34, 1.2, 0.64, 1);
   transform-origin: bottom center;
   will-change: transform;
+  transform: scale(var(--scale-base, 1));
 }
 
 /* On hover: scoop image slowly 'floats and swells' upward */
 .card:hover .image {
-  transform: translateY(-8px) scale(1.07);
+  transform: translateY(-8px) scale(calc(var(--scale-base, 1) * 1.07));
 }
 
 /* BODY */

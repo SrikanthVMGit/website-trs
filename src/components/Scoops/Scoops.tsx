@@ -1,14 +1,16 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Scoops.module.css";
+// import ScoopsFullPage from "../ScoopsFullPage/ScoopsFullPage";
 
-import matchaVideo from "../../assets/Matcha_scoop.mp4";
-import mangoVideo from "../../assets/Mango_scoop.mp4";
-import cheesecakeVideo from "../../assets/New York Cheesecake.mp4";
-import seethaphalVideo from "../../assets/Seetapal_scoop.mp4";
-import irishCoffeeVideo from "../../assets/Irish Coffee.mp4";
-import laddoVideo from "../../assets/Devasthanam Laddo.mp4";
+import matchaVideo from "../../video/Matcha video.mp4";
+import mangoVideo from "../../video/Mango video.mp4";
+import cheesecakeVideo from "../../video/NEW YORK CHEESECAKE video.mp4";
+import seethaphalVideo from "../../video/Seethapal video.mp4";
+import irishCoffeeVideo from "../../video/Iris coffee video.mp4";
+import laddoVideo from "../../video/Devasthanam ladoo video.mp4";
 
 interface ScoopItem {
   id: number;
@@ -17,51 +19,43 @@ interface ScoopItem {
   video: string;
   price: number;
   image?: string;
+  position?: string;
+  scale?: number;
 }
 
 const data: ScoopItem[] = [
   {
     id: 1,
     title: "Japanese Matcha",
-    description: "Ceremonial-grade green tea expertly churned into a rich, earthy, and smooth scoop.",
+    description: "Ceremonial-grade green tea churned into a rich, earthy, smooth scoop.",
     video: matchaVideo,
     price: 279,
+    position: "center center",
   },
   {
     id: 2,
-    title: "Desi Mango",
-    description: "Pure essence of sun-ripened Indian mangoes blended for a vibrant tropical bite.",
-    video: mangoVideo,
-    price: 249,
+    title: "Irish Coffee",
+    description: "Rich roasted coffee blended flawlessly into a creamy dream.",
+    video: irishCoffeeVideo,
+    price: 289,
+    position: "center center",
   },
   {
     id: 3,
-    title: "New York Cheese Cake",
-    description: "Cream cheese base swirled with a buttery graham crust for the ultimate dessert.",
-    video: cheesecakeVideo,
-    price: 329,
+    title: "Devasthanam Ladoo",
+    description: "An auspicious blend of pure ghee, cardamom, and divine heritage in every bite.",
+    video: laddoVideo,
+    price: 319,
+    position: "center center",
   },
   {
     id: 4,
     title: "Seethaphal (seasonal)",
-    description: "A seasonal delight capturing the creamy, sweet floral notes of fresh custard apple.",
+    description: "Creamy and sweet floral notes of fresh custard apple.",
     video: seethaphalVideo,
     price: 299,
-  },
-  {
-    id: 5,
-    title: "Irish Coffee",
-    description: "Robust coffee flavors interwoven with caramel and whiskey notes for an elegant treat.",
-    video: irishCoffeeVideo,
-    price: 349,
-  },
-  {
-    id: 6,
-    title: "Devasthanam Laddo",
-    description: "Divine sweetness inspired by traditional offerings, bursting with rich ghee textures.",
-    video: laddoVideo,
-    price: 349,
-  },
+    position: "center 60%",
+  }
 ];
 
 const CYCLE = 2600;
@@ -85,12 +79,28 @@ function ScoopCard({
   videoRef: (el: HTMLVideoElement | null) => void;
   animDelay: number;
 }) {
-  const [quantity, setQuantity] = useState(0);
-  const handleAdd = (e: React.MouseEvent) => { e.stopPropagation(); setQuantity(1); };
-  const increment = (e: React.MouseEvent) => { e.stopPropagation(); setQuantity((q) => q + 1); };
-  const decrement = (e: React.MouseEvent) => { e.stopPropagation(); setQuantity((q) => Math.max(0, q - 1)); };
-
   const imgRef = useRef<HTMLImageElement>(null);
+  const localVideoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    if (localVideoRef.current) {
+      localVideoRef.current.playbackRate = 0.85;
+    }
+  }, []);
+
+  const handleMouseEnter = () => {
+    onEnter();
+    if (localVideoRef.current) {
+      localVideoRef.current.play().catch(() => console.error("Playback failed"));
+    }
+  };
+
+  const handleMouseLeave = () => {
+    onLeave();
+    if (localVideoRef.current) {
+      localVideoRef.current.pause();
+    }
+  };
 
   return (
     <div
@@ -98,16 +108,39 @@ function ScoopCard({
       data-card
       className={`${styles.card} ${isSpotlight ? styles.spotlight : ""} ${revealed ? styles.revealed : ""}`}
       style={{ '--anim-delay': `${animDelay}s` } as React.CSSProperties}
-      onMouseEnter={onEnter}
-      onMouseLeave={onLeave}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {isSpotlight && <div className={styles.activeBar} />}
 
       <div className={styles.imageContainer}>
         {item.video ? (
-          <video ref={videoRef} src={item.video} className={styles.image} autoPlay muted loop playsInline />
+          <video
+            ref={(el) => {
+              localVideoRef.current = el;
+              videoRef(el);
+            }}
+            src={item.video}
+            className={styles.image}
+            style={{ 
+              objectPosition: item.position || 'center 30%',
+              '--scale-base': item.scale || 1
+            } as React.CSSProperties}
+            muted
+            loop
+            playsInline
+          />
         ) : (
-          <img ref={imgRef} src={item.image} alt={item.title} className={styles.image} />
+          <img
+            ref={imgRef}
+            src={item.image}
+            alt={item.title}
+            className={styles.image}
+            style={{ 
+              objectPosition: item.position || 'center 30%',
+              '--scale-base': item.scale || 1
+            } as React.CSSProperties}
+          />
         )}
 
         {/* Real-time scooping animation overlay */}
@@ -131,17 +164,6 @@ function ScoopCard({
             <h3 className={styles.cardTitle}>{item.title}</h3>
             <p className={styles.cardDesc}>{item.description}</p>
           </div>
-          <div className={styles.qtyControl}>
-            {quantity === 0 ? (
-              <button className={styles.addBtn} onClick={handleAdd}>ADD</button>
-            ) : (
-              <>
-                <button aria-label="Decrease" className={styles.qtyBtn} onClick={decrement}>&#8722;</button>
-                <span className={styles.qtyVal}>{quantity}</span>
-                <button aria-label="Increase" className={styles.qtyBtn} onClick={increment}>+</button>
-              </>
-            )}
-          </div>
         </div>
       </div>
     </div>
@@ -150,31 +172,13 @@ function ScoopCard({
 
 export default function Scoops() {
   const [spotlightIdx, setSpotlightIdx] = useState(0);
-  const [expanded, setExpanded] = useState(false);
+  const navigate = useNavigate();
   const [paused, setPaused] = useState(false);
   const [revealed, setRevealed] = useState<boolean[]>(data.map(() => false));
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const refs = useRef<(HTMLDivElement | null)[]>([]);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const trackRef = useRef<HTMLDivElement>(null);
-
-  /* Keep videos playing and set speed without forcing time sync which causes stutter */
-  useEffect(() => {
-    const playInterval = setInterval(() => {
-      const vids = videoRefs.current.filter(Boolean) as HTMLVideoElement[];
-      vids.forEach((vid) => {
-        if (vid.playbackRate !== 0.85) {
-          vid.playbackRate = 0.85;
-        }
-        if (vid.paused) {
-          vid.play().catch(() => {});
-        }
-      });
-    }, 250);
-
-    return () => clearInterval(playInterval);
-  }, []);
-
 
   /* drag-to-scroll */
   const isDragging = useRef(false);
@@ -207,18 +211,7 @@ export default function Scoops() {
 
 
   const handleToggle = () => {
-    if (!expanded) {
-      // Scroll to card 4 (index 3)
-      if (trackRef.current) {
-        const card = trackRef.current.querySelector('[data-card]') as HTMLElement;
-        const cardW = card ? card.offsetWidth + 32 : 320;
-        trackRef.current.scrollTo({ left: cardW * 3, behavior: 'smooth' });
-      }
-    } else {
-      // Scroll back to start
-      trackRef.current?.scrollTo({ left: 0, behavior: 'smooth' });
-    }
-    setExpanded(!expanded);
+    navigate("/ScoopsPage");
   };
 
   const startCycle = () => {
@@ -274,44 +267,46 @@ export default function Scoops() {
   }, []);
 
   return (
-    <section className={styles.section} id="scoops">
-      <div className={styles.container}>
-        <div className={styles.headerRow}>
-          <div className={styles.header}>
-            <p className={styles.eyebrow}>— Signature Flavours</p>
-            <h2 className={styles.title}>Scoops</h2>
-            <p className={styles.subtitle}>Our most loved artisanal ice cream scoops, crafted with perfection.</p>
+    <>
+      <section className={styles.section} id="scoops">
+        <div className={styles.container}>
+          <div className={styles.headerRow}>
+            <div className={styles.header}>
+              <p className={styles.eyebrow}>— Signature Flavours</p>
+              <h2 className={styles.title}>Scoops</h2>
+              <p className={styles.subtitle}>Our most loved artisanal ice cream scoops, crafted with perfection.</p>
+            </div>
+            <button className={styles.seeAllBtn} onClick={handleToggle}>
+              SEE MORE <span>→</span>
+            </button>
           </div>
-          <button className={styles.seeAllBtn} onClick={handleToggle}>
-            {expanded ? 'BACK' : 'SEE MORE'} <span>{expanded ? '←' : '→'}</span>
-          </button>
-        </div>
 
-        <div className={styles.scrollWrapper}>
-          <div
-            className={styles.scrollTrack}
-            ref={trackRef}
-            onPointerDown={onPointerDown}
-            onPointerMove={onPointerMove}
-            onPointerUp={onPointerUp}
-            onPointerLeave={onPointerUp}
-          >
-            {data.map((item, idx) => (
-              <ScoopCard
-                key={item.id}
-                item={item}
-                isSpotlight={idx === spotlightIdx}
-                revealed={revealed[idx]}
-                animDelay={idx * 0.8}
-                cardRef={(el) => { refs.current[idx] = el; }}
-                videoRef={(el) => { videoRefs.current[idx] = el; }}
-                onEnter={() => { setPaused(true); setSpotlightIdx(idx); if (timerRef.current) clearInterval(timerRef.current); }}
-                onLeave={() => { setPaused(false); startCycle(); }}
-              />
-            ))}
+          <div className={styles.scrollWrapper}>
+            <div
+              className={styles.scrollTrack}
+              ref={trackRef}
+              onPointerDown={onPointerDown}
+              onPointerMove={onPointerMove}
+              onPointerUp={onPointerUp}
+              onPointerLeave={onPointerUp}
+            >
+              {data.map((item, idx) => (
+                <ScoopCard
+                  key={item.id}
+                  item={item}
+                  isSpotlight={idx === spotlightIdx}
+                  revealed={revealed[idx]}
+                  animDelay={idx * 0.8}
+                  cardRef={(el) => { refs.current[idx] = el; }}
+                  videoRef={(el) => { videoRefs.current[idx] = el; }}
+                  onEnter={() => { setPaused(true); setSpotlightIdx(idx); if (timerRef.current) clearInterval(timerRef.current); }}
+                  onLeave={() => { setPaused(false); startCycle(); }}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
