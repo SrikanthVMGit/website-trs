@@ -5,10 +5,10 @@ import pageStyles from "../ScoopsPage/ScoopsPage.module.css";
 import Enquiry from "../Enquiry/Enquiry";
 import Footer from "../Footer/Footer";
 
-import chocHazelnutImg from "../../assets/thickshakes/chocolate_hazelnut_shake.png";
-import saltedCaramelImg from "../../assets/thickshakes/salted_caramel_shake.png";
-import peanutButterImg from "../../assets/thickshakes/peanut_butter_fudge_shake.png";
-import strawberryCreamImg from "../../assets/milkshakes/strawberry_cream_milkshake.png";
+import midnightBelgianImg from "../../assets/thickshakes/midnight_belgian_silk.png";
+import alphonsoMangoImg from "../../assets/thickshakes/alphonso_mango_creamery.png";
+import berryVelvetImg from "../../assets/thickshakes/berry_velvet_crush.png";
+import darkRoastImg from "../../assets/thickshakes/dark_roast_creamshake.png";
 
 interface ThickshakeItem {
   id: number;
@@ -21,29 +21,29 @@ interface ThickshakeItem {
 const ALL_THICKSHAKES: ThickshakeItem[] = [
   {
     id: 1,
-    title: "Chocolate Hazelnut",
-    description: "Dark cocoa meets slow-roasted hazelnut in a thick, indulgent blend with a velvety finish. Made with 72% Ecuadorian cacao and Piedmont hazelnuts, this is the ultimate rich reward.",
-    poster: chocHazelnutImg,
+    title: "Midnight Belgian Silk",
+    description: "Ultra-dark 72% Belgian cacao meets smooth whipped cream in the most indulgent thickshake we've ever crafted. Every sip is a deep, complex chocolate experience with a lingering silk finish. Made with single-origin Belgian couverture.",
+    poster: midnightBelgianImg,
     isNew: true,
   },
   {
     id: 2,
-    title: "Salted Caramel",
-    description: "Rich caramel folded with hand-harvested fleur de sel from the Camargue coast — the perfect sweet-salt balance. Every sip hits differently.",
-    poster: saltedCaramelImg,
+    title: "Alphonso Mango Creamery",
+    description: "The king of Indian mangoes, slow-ripened and hand-pureed, folded into the richest cream base. A tropical masterpiece that tastes like golden summer — available only at peak mango season. Pure, honest, irresistible.",
+    poster: alphonsoMangoImg,
     isNew: true,
   },
   {
     id: 3,
-    title: "Peanut Butter Fudge",
-    description: "Creamy Skippy-grade peanut butter ribboned through a deep chocolate fudge base. Uncompromisingly rich. Perfect for those who don't do things halfway.",
-    poster: peanutButterImg,
+    title: "Berry Velvet Crush",
+    description: "Wild blackberries, Ooty strawberries, and forest raspberries — together they form a deep, jewel-toned velvet shake. Tart, sweet, and beautifully complex. Finished with a real berry compote swirl for that extra burst of freshness.",
+    poster: berryVelvetImg,
   },
   {
     id: 4,
-    title: "Strawberry Cream",
-    description: "Sun-kissed strawberries blended into a lush, cloud-like cream — delicately sweet and fresh. Made with real Ooty strawberries at peak season.",
-    poster: strawberryCreamImg,
+    title: "Dark Roast Creamshake",
+    description: "A cold brew espresso concentrate, brewed for 24 hours and ribboned through silky full-fat cream. Bold, bitter, creamy — a coffee lover's dream in a glass. The perfect antidote to afternoon slumps, served impossibly thick.",
+    poster: darkRoastImg,
   },
 ];
 

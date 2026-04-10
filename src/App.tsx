@@ -31,25 +31,13 @@ function MainContent() {
   const rafRef = useRef<number>(0)
   const lastTickRef = useRef<number>(0)
   const [loaded, setLoaded] = useState(false)
-  const isFirstRenderRef = useRef(true)
 
-  // Ensure page starts at top on mount and prevent browser scroll restoration
+  // Ensure page always starts at the very top (frame 0 of the hero)
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
-    
-    // If this is the first render, scroll to top; otherwise scroll to final hero frame
-    if (isFirstRenderRef.current) {
-      window.scrollTo(0, 0);
-      isFirstRenderRef.current = false;
-    } else {
-      // Scroll to final hero frame (95% of 300vh)
-      const heroEndScroll = window.innerHeight * 3 * 0.95;
-      setTimeout(() => {
-        window.scrollTo(0, heroEndScroll);
-      }, 100);
-    }
+    window.scrollTo(0, 0);
   }, [location]);
 
   useEffect(() => {

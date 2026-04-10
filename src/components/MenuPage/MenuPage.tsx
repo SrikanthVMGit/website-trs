@@ -11,6 +11,7 @@ import Footer from '../Footer/Footer';
 import heroVideo from '../../assets/sundaes/Ice_Cream_Sundae_A_spoon_drizzles_mango_sauce_over_scoops_of_4RRWdq1Y.mp4';
 
 // ─── Asset imports ────────────────────────────────────────────────────────────
+import rarelogo from '../../assets/common/rarelogo.png';
 import scoopsImg from '../../assets/scoops/Scoops.png';
 import sundaesImg from '../../assets/sundaes/sundaes.png';
 import thickshakesImg from '../../assets/thickshakes/cat_thickshakes.png';
@@ -23,9 +24,16 @@ import coffeePralineImg from '../../assets/icecreams/coffee_praline_ice_cream.pn
 import classicColdCoffeeImg from '../../assets/milkshakes/classic_cold_coffee_milkshake.png';
 import vanillaMaltImg from '../../assets/milkshakes/vanilla_malt_milkshake.png';
 import strawberryCreamImg from '../../assets/milkshakes/strawberry_cream_milkshake.png';
-import chocHazelnutImg from '../../assets/thickshakes/chocolate_hazelnut_shake.png';
-import peanutButterImg from '../../assets/thickshakes/peanut_butter_fudge_shake.png';
-import saltedCaramelImg from '../../assets/thickshakes/salted_caramel_shake.png';
+// ─── New Thickshake images ────────────────────────────────────────────────────
+import midnightBelgianImg from '../../assets/thickshakes/midnight_belgian_silk.png';
+import alphonsoMangoImg from '../../assets/thickshakes/alphonso_mango_creamery.png';
+import berryVelvetImg from '../../assets/thickshakes/berry_velvet_crush.png';
+import darkRoastImg from '../../assets/thickshakes/dark_roast_creamshake.png';
+// ─── New Sundae images ────────────────────────────────────────────────────────
+import berryBlissImg from '../../assets/sundaes/berry_bliss_sundae.png';
+import sithaphalRoyalImg from '../../assets/sundaes/sithaphal_royal_delight.png';
+import royalChocImg from '../../assets/sundaes/royal_chocolate_overload.png';
+import belgianNutImg from '../../assets/sundaes/belgian_nut_indulgence.png';
 import mangoScoopImg from '../../assets/scoops/Mango_scoop.png';
 import matchaImg from '../../assets/scoops/Matcha.png';
 import cheesecakeImg from '../../assets/scoops/NY Cheesecake.png';
@@ -138,9 +146,10 @@ const MENU_DATA: MenuItem[] = [
   { id: 3, name: 'N.Y. Cheesecake', sub: 'Graham core crunch', category: 'scoops', tags: ['Rich'], img: cheesecakeImg, price: '₹329', badge: 'Bestseller' },
   { id: 4, name: 'Seethaphal', sub: 'Custard apple floral notes', category: 'scoops', tags: ['Seasonal', 'Local'], img: seethaphalImg, price: '₹299' },
   // Sundaes
-  { id: 5, name: 'Classic Sundae', sub: 'Vanilla, hot fudge, cherry', category: 'sundaes', tags: ['Classic'], img: sundaesImg, price: '₹349', badge: 'Classic' },
-  { id: 6, name: 'Matcha Sundae', sub: 'Matcha ice cream, red bean', category: 'sundaes', tags: ['Premium'], img: matchaImg, price: '₹399', badge: 'New' },
-  { id: 20, name: 'Mango Sundae', sub: 'Alphonso mango, mango sorbet', category: 'sundaes', tags: ['Fruity', 'Popular'], img: mangoScoopImg, price: '₹369' },
+  { id: 5,  name: 'Berry Bliss Sundae',       sub: 'Wild berries, berry compote, whipped cream', category: 'sundaes',     tags: ['Fruity', 'Popular'], img: berryBlissImg,   price: '₹369', badge: 'Fan Fave' },
+  { id: 6,  name: 'Sithaphal Royal Delight',  sub: 'Custard apple ice cream, gold dust',          category: 'sundaes',     tags: ['Premium', 'Local'],  img: sithaphalRoyalImg, price: '₹399', badge: 'Signature' },
+  { id: 20, name: 'Royal Chocolate Overload', sub: 'Dark choc, brownie, fudge drizzle',           category: 'sundaes',     tags: ['Rich', 'Indulgent'], img: royalChocImg,   price: '₹419', badge: 'Bestseller' },
+  { id: 21, name: 'Belgian Nut Indulgence',   sub: 'Belgian choc, praline, hazelnut brittle',     category: 'sundaes',     tags: ['Luxury'],            img: belgianNutImg,  price: '₹449', badge: 'Premium' },
   // Ice Creams
   { id: 7, name: 'Black Sesame', sub: 'Toasted sesame, sea salt', category: 'icecreams', tags: ['Artisanal'], img: blackSesameImg, price: '₹310' },
   { id: 8, name: 'Rose Pistachio', sub: 'Floral notes, pistachio crunch', category: 'icecreams', tags: ['Luxury'], img: rosePistachioImg, price: '₹340', badge: 'Premium' },
@@ -149,10 +158,11 @@ const MENU_DATA: MenuItem[] = [
   { id: 10, name: 'Classic Cold Coffee', sub: 'Cold brew, whole milk', category: 'milkshakes', tags: ['Classic'], img: classicColdCoffeeImg, price: '₹220' },
   { id: 11, name: 'Vanilla Malt', sub: 'Creamy malt base', category: 'milkshakes', tags: ['Classic'], img: vanillaMaltImg, price: '₹199', badge: 'Best Value' },
   { id: 12, name: 'Strawberry Cream', sub: 'Fresh strawberries, cream', category: 'milkshakes', tags: ['Fruity'], img: strawberryCreamImg, price: '₹229' },
-  // Thickshakes
-  { id: 13, name: 'Chocolate Hazelnut', sub: 'Dark choco, hazelnut praline', category: 'thickshakes', tags: ['Rich', 'Popular'], img: chocHazelnutImg, price: '₹299', badge: 'Fan Fave' },
-  { id: 14, name: 'Peanut Butter Fudge', sub: 'Peanut butter, dark fudge', category: 'thickshakes', tags: ['Indulgent'], img: peanutButterImg, price: '₹319' },
-  { id: 15, name: 'Salted Caramel', sub: 'Sea salt, amber caramel', category: 'thickshakes', tags: ['Popular'], img: saltedCaramelImg, price: '₹289', badge: 'Bestseller' },
+  // Thickshakes — new flavours
+  { id: 13, name: 'Midnight Belgian Silk',   sub: 'Ultra-dark Belgian cacao, silk finish',    category: 'thickshakes', tags: ['Rich', 'Popular'],   img: midnightBelgianImg, price: '₹319', badge: 'Fan Fave' },
+  { id: 14, name: 'Alphonso Mango Creamery', sub: 'Sun-ripened Alphonso, rich cream',         category: 'thickshakes', tags: ['Fruity', 'Seasonal'],  img: alphonsoMangoImg,   price: '₹299' },
+  { id: 15, name: 'Berry Velvet Crush',      sub: 'Mixed berries, blackberry, cream blend',   category: 'thickshakes', tags: ['Fruity'],              img: berryVelvetImg,     price: '₹289', badge: 'New' },
+  { id: 22, name: 'Dark Roast Creamshake',   sub: 'Cold brew espresso, velvety cream',        category: 'thickshakes', tags: ['Bold', 'Bestseller'],  img: darkRoastImg,       price: '₹309', badge: 'Bestseller' },
   // Warm Specials
   { id: 16, name: 'Warm Brownie Scoop', sub: 'Fudge brownie, vanilla scoop', category: 'warm-specials', tags: ['Comfort'], img: warmSpecialsImg, price: '₹379', badge: 'Cozy' },
   { id: 17, name: 'Waffle & Cream', sub: 'Crispy waffle, soft serve', category: 'warm-specials', tags: ['Comfort', 'Popular'], img: warmSpecialsImg, price: '₹349' },
@@ -186,19 +196,37 @@ function getCategoryAccent(key: CategoryKey): string {
   return found?.accentColor ?? '#c9935a';
 }
 
+// ─── Helper: map category key to target route ─────────────────────────────────
+function getCategoryRoute(key: CategoryKey): string {
+  const ROUTES: Record<CategoryKey, string> = {
+    scoops: '/scoops',
+    sundaes: '/sundaes',
+    thickshakes: '/thickshakes',
+    'warm-specials': '/warm-specials',
+    milkshakes: '/thickshakes', // milkshakes live under same page
+    icecreams: '/sundaes',      // icecreams live under sundaes page
+    seasonal: '/',
+  };
+  return ROUTES[key] ?? '/';
+}
+
 // ═══════════════════════════════════════════════════════════════════════════════
 //  ItemCard Component
 // ═══════════════════════════════════════════════════════════════════════════════
 function ItemCard({ item }: { item: MenuItem }) {
   const [hovered, setHovered] = useState(false);
+  const navigate = useNavigate();
   const accent = getCategoryAccent(item.category);
+  const handleClick = () => navigate(getCategoryRoute(item.category));
+
   return (
     <motion.div
       variants={cardVariant}
       className={styles.itemCard}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      style={{ '--card-accent': accent } as React.CSSProperties}
+      onClick={handleClick}
+      style={{ '--card-accent': accent, cursor: 'pointer' } as React.CSSProperties}
     >
       {item.badge && <div className={styles.itemBadge}>{item.badge}</div>}
 
@@ -229,7 +257,7 @@ function ItemCard({ item }: { item: MenuItem }) {
       <div className={styles.itemFooter}>
         <span className={styles.itemPrice}>{item.price}</span>
         <div className={`${styles.itemOrder} ${hovered ? styles.itemOrderVisible : ''}`}>
-          <span>Order</span>
+          <span>View All</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" width="14" height="14">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
