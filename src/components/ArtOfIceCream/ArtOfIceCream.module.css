@@ -1,170 +1,362 @@
-/* ─── Art of Ice Cream Section ─── */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap');
+
+/* ─── SECTION ─── */
 .section {
   width: 100%;
   padding: 100px 0;
-  background-color: #c9935a;
-  color: #3A2C2A;
+  background-color: #0f0d0b;
+  position: relative;
+  overflow: hidden;
+  color: #F5EDD8;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
 }
 
+/* Background */
+.grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.blob {
+  position: absolute;
+  top: 10%;
+  right: -5%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(193, 147, 72, 0.1), transparent);
+  filter: blur(80px);
+  z-index: 1;
+}
+
+/* ─── LAYOUT ─── */
 .container {
-  max-width: 1400px;
-  margin: 0 auto;
+  max-width: 1300px;
+  margin: auto;
   padding: 0 40px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.1fr 0.9fr;
   gap: 80px;
   align-items: center;
+  position: relative;
+  z-index: 3;
 }
 
-/* ─── Left: Content ─── */
-.content {
-  display: flex;
-  flex-direction: column;
-}
-
+/* ─── TYPOGRAPHY ─── */
 .overline {
-  font-family: var(--font-main);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: #3A2C2A;
-  opacity: 0.7;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
-  display: block;
-  margin-bottom: 20px;
-}
-
-.title {
-  font-family: var(--font-main);
-  font-size: clamp(28px, 3.5vw, 40px);
-  line-height: 1.2;
-  font-weight: 700;
-  margin-bottom: 20px;
-}
-
-.description {
-  font-family: var(--font-main);
-  font-size: 16px;
-  line-height: 1.7;
-  color: rgba(58, 44, 42, 0.8);
-  margin-bottom: 48px;
-}
-
-/* ─── Step List ─── */
-.stepList {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  margin-bottom: 48px;
-}
-
-.stepItem {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-}
-
-.stepNumber {
-  width: 36px;
-  height: 36px;
-  min-width: 36px;
-  background-color: #3A2C2A;
-  color: #c9935a;
-  border-radius: 50%;
+  color: #C19348;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-family: var(--font-main);
-  font-size: 14px;
-  font-weight: 700;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.overline::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: #C19348;
+  opacity: 0.6;
   flex-shrink: 0;
 }
 
-.stepTitle {
-  font-family: var(--font-main);
-  font-size: 17px;
-  font-weight: 700;
+.title {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: clamp(34px, 4.2vw, 58px);
+  font-weight: 300;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 0 0 16px;
+  color: #F5EDD8;
+}
+
+/* Gold accent — no italic, weight contrast instead */
+.accentTitle {
+  color: #C19348;
+  font-weight: 500;
+  display: block;
+}
+
+.subtitle {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: rgba(245, 237, 216, 0.45);
+  margin-bottom: 40px;
+  letter-spacing: 0.01em;
+  max-width: 480px;
+}
+
+/* ─── GLASS CARD ─── */
+.glassCard {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(193, 147, 72, 0.15);
+  padding: 36px 40px;
+  margin-bottom: 36px;
+}
+
+.description {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.75;
+  color: rgba(245, 237, 216, 0.62);
+  margin-bottom: 28px;
+}
+
+/* ─── STEP GRID ─── */
+.stepGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(193, 147, 72, 0.15);
+  padding-top: 24px;
+  margin-top: 4px;
+}
+
+.miniStep {
+  position: relative;
+  padding-right: 16px;
+}
+
+.miniStep:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 2px;
+  height: 60%;
+  width: 1px;
+  background: rgba(193, 147, 72, 0.18);
+}
+
+.miniStep:not(:first-child) {
+  padding-left: 16px;
+}
+
+.miniNum {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: #C19348;
+  display: block;
   margin-bottom: 6px;
-  color: #3A2C2A;
 }
 
-.stepDesc {
-  font-family: var(--font-main);
+.miniTitle {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
   font-size: 14px;
-  line-height: 1.6;
-  color: rgba(58, 44, 42, 0.75);
+  font-weight: 500;
+  color: #F5EDD8;
+  display: block;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
 }
 
-/* ─── CTA Button ─── */
+.miniDesc {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: rgba(245, 237, 216, 0.32);
+  line-height: 1.4;
+}
+
+/* ─── CTA BUTTON ─── */
 .ctaBtn {
-  background-color: #3A2C2A;
-  color: #F6F2EA;
-  border-radius: 8px;
-  padding: 15px 32px;
-  font-family: var(--font-main);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.07em;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  border: none;
+  border: 1px solid #C19348;
+  background: transparent;
+  color: #C19348;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   cursor: pointer;
-  align-self: flex-start;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.35s ease;
+}
+
+.ctaBtn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #C19348;
+  transform: translateX(-101%);
+  transition: transform 0.4s cubic-bezier(0.77, 0, 0.18, 1);
+}
+
+.ctaBtn:hover::before {
+  transform: translateX(0);
 }
 
 .ctaBtn:hover {
-  background-color: #221a12;
-  transform: translateY(-2px);
+  color: #0f0d0b;
 }
 
-/* ─── Right: Image ─── */
-.imagePlaceholder {
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 24px 60px rgba(58, 44, 42, 0.25);
+.ctaBtn span {
+  position: relative;
+  z-index: 1;
 }
 
-.image {
-  width: 100%;
+.ctaArrow {
+  position: relative;
+  z-index: 1;
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.25s ease;
+  flex-shrink: 0;
+}
+
+.ctaArrow::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: -3px;
+  width: 6px;
+  height: 6px;
+  border-right: 1px solid currentColor;
+  border-top: 1px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.ctaBtn:hover .ctaArrow {
+  width: 28px;
+}
+
+/* ─── VIDEO COLUMN ─── */
+.imageWrapper {
+  position: relative;
+}
+
+.imgMainWrap {
+  position: relative;
   aspect-ratio: 3 / 4;
+  max-height: 500px;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(193, 147, 72, 0.2);
+  box-shadow: 0 0 40px rgba(193, 147, 72, 0.08);
+}
+
+.video {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.6s ease;
+  filter: sepia(10%) contrast(1.1) brightness(0.95);
+  animation: zoom 12s ease-in-out infinite alternate;
 }
 
-.imagePlaceholder:hover .image {
-  transform: scale(1.04);
+@keyframes zoom {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.08);
+  }
 }
 
-/* ─── Responsive ─── */
+.imgMainWrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Corner decoration */
+.frameDecoration {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 80px;
+  height: 80px;
+  border-top: 1px solid #C19348;
+  border-right: 1px solid #C19348;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Floating tag */
+.floatingTag {
+  position: absolute;
+  bottom: 28px;
+  left: -20px;
+  background: #0f0d0b;
+  border: 1px solid rgba(193, 147, 72, 0.4);
+  padding: 14px 20px;
+  z-index: 4;
+}
+
+.floatingTagSub {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #C19348;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.floatingTagMain {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 16px;
+  font-weight: 400;
+  color: #F5EDD8;
+  display: block;
+  letter-spacing: -0.01em;
+}
+
+/* ─── RESPONSIVE ─── */
 @media (max-width: 1024px) {
   .container {
     grid-template-columns: 1fr;
-    gap: 56px;
   }
 
-  .imagePlaceholder {
-    max-height: 480px;
+  .imageWrapper {
+    max-width: 420px;
+    margin: 0 auto;
   }
 
-  .image {
-    aspect-ratio: 16 / 9;
+  .subtitle {
+    max-width: 100%;
   }
 }
 
 @media (max-width: 640px) {
   .section {
-    padding: 72px 0;
+    padding: 80px 0;
   }
 
   .container {
-    padding: 0 20px;
+    padding: 0 24px;
     gap: 48px;
   }
 
-  .ctaBtn {
-    width: 100%;
-    text-align: center;
+  .glassCard {
+    padding: 24px 20px;
+  }
+
+  .floatingTag {
+    left: 0;
   }
 }

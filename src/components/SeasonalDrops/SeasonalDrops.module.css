@@ -1,187 +1,309 @@
-/* ─── Seasonal Drops Section ─── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;600;700;800&display=swap');
+
 .seasonalDrops {
-  width: 100%;
-  padding: 100px 0;
-  background-color: #3A2C2A;
+  height: 350vh;
+  background: #080707;
   color: #F6F2EA;
+  position: relative;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
 }
 
-.container {
+.seasonalDrops * {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+}
+
+.stickyViewport {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.grid {
+  width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 60px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 0.75fr;
   gap: 80px;
   align-items: center;
 }
 
-/* ─── Left: Content ─── */
-.content {
+/* ── Left column ── */
+.leftCol {
   display: flex;
   flex-direction: column;
 }
 
 .overline {
-  font-family: var(--font-main);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3.5px;
   color: #c9935a;
   text-transform: uppercase;
-  display: block;
   margin-bottom: 20px;
+  display: block;
 }
 
 .title {
-  font-family: var(--font-main);
-  font-size: clamp(28px, 3.5vw, 40px);
-  line-height: 1.2;
-  font-weight: 700;
-  margin-bottom: 20px;
-  max-width: 500px;
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 52px;
 }
 
-.description {
-  font-family: var(--font-main);
-  font-size: 16px;
-  line-height: 1.7;
-  color: rgba(246, 242, 234, 0.65);
-  margin-bottom: 48px;
+.accentText {
+  color: #c9935a;
 }
 
-/* ─── Drops List ─── */
 .dropsList {
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
 .dropItem {
-  background-color: rgba(201, 147, 90, 0.12);
-  border: 1px solid rgba(201, 147, 90, 0.2);
-  border-radius: 12px;
-  padding: 20px 28px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 20px 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 20px;
-  transition: background 0.3s ease, transform 0.3s ease;
+  gap: 16px;
+  cursor: pointer;
+  transition: padding-left 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.35s ease;
+  position: relative;
 }
 
-.dropItem:hover {
-  background-color: rgba(201, 147, 90, 0.2);
-  transform: translateX(4px);
+.dropItem::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: #c9935a;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.dropInfo {
-  flex: 1;
-  min-width: 0;
+.dropItem:hover,
+.dropSelected {
+  padding-left: 16px;
+  border-bottom-color: rgba(201, 147, 90, 0.3);
 }
+
+.dropItem:hover::before,
+.dropSelected::before { transform: scaleY(1); }
+
+.dropNum {
+  font-size: 13px;          /* was 11px */
+  font-weight: 600;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: rgba(201, 147, 90, 0.25);
+  min-width: 32px;
+  line-height: 1;
+  transition: color 0.3s;
+}
+
+.dropItem:hover .dropNum,
+.dropSelected .dropNum { color: rgba(201, 147, 90, 0.65); }
+
+.dropInfo { flex: 1; min-width: 0; }
 
 .dropName {
-  font-family: var(--font-main);
-  font-size: 17px;
+  font-size: 17px;          /* was 15px */
   font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 3px;
   color: #F6F2EA;
-  margin-bottom: 4px;
 }
 
 .dropDesc {
-  font-family: var(--font-main);
-  font-size: 13px;
-  color: rgba(246, 242, 234, 0.6);
+  font-size: 13px;          /* was 12px */
+  font-weight: 400;
+  color: rgba(246, 242, 234, 0.35);
   line-height: 1.5;
 }
 
-/* ─── Status Buttons ─── */
 .statusBtn {
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-family: var(--font-main);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  padding: 7px 14px;
+  border-radius: 2px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   border: none;
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s;
+  position: relative;
 }
+.statusBtn:hover { opacity: 0.8; }
 
-.statusBtn:hover { opacity: 0.85; }
-
-.live {
-  background-color: #c9935a;
-  color: #1a1510;
+.live { background: #c9935a; color: #080707; }
+.live::after {
+  content: '';
+  position: absolute;
+  top: -3px; right: -3px;
+  width: 6px; height: 6px;
+  background: #ff6b35;
+  border-radius: 50%;
+  border: 1.5px solid #080707;
+  animation: blink 1.4s ease-in-out infinite;
 }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
 .reserve {
-  background-color: #3A2C2A;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
   color: #F6F2EA;
-  border: 1px solid rgba(246, 242, 234, 0.3);
 }
-
 .waitlist {
-  background-color: transparent;
-  color: rgba(246, 242, 234, 0.6);
-  border: 1px solid rgba(246, 242, 234, 0.2);
+  background: transparent;
+  color: rgba(255,255,255,0.25);
+  border: 1px solid transparent;
 }
 
-/* ─── Right: Image ─── */
-.imageWrapper {
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+.scrollHint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+  color: rgba(246,242,234,0.22);
+}
+.scrollLine { width: 32px; height: 1px; background: rgba(246,242,234,0.22); }
+.scrollHint span {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 
-.image {
+/* ── Right column ── */
+.rightCol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.frameOuter {
+  position: relative;
   width: 100%;
+  max-width: 420px;
   aspect-ratio: 3 / 4;
+  border-radius: 20px;
+  overflow: hidden;
+  transform: translateZ(0);
+  box-shadow:
+    0 0 0 1px rgba(201, 147, 90, 0.4),
+    0 0 20px 4px rgba(201, 147, 90, 0.25),
+    0 0 60px 12px rgba(201, 147, 90, 0.12),
+    0 24px 60px rgba(0, 0, 0, 0.65);
+}
+
+.frameImg {
+  width: auto;
+  height: 100%;
+  min-width: 100%;
   object-fit: cover;
+  object-position: center center;
   display: block;
-  transition: transform 0.6s ease;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: high-quality;
+  backface-visibility: hidden;
+  transition: opacity 0.4s ease;
 }
 
-.imageWrapper:hover .image {
-  transform: scale(1.04);
+.frameOverlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(0deg, rgba(8,7,7,0.7) 0%, transparent 45%),
+    linear-gradient(180deg, rgba(8,7,7,0.25) 0%, transparent 30%);
+  pointer-events: none;
+  border-radius: 20px;
 }
 
-/* ─── Responsive ─── */
-@media (max-width: 1024px) {
-  .container {
+.ambientGlow {
+  position: absolute;
+  top: -10%; right: -10%;
+  width: 60%; height: 60%;
+  background: radial-gradient(circle, rgba(201,147,90,0.2) 0%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.shimmer {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.02) 0%,
+    rgba(255,255,255,0.05) 50%,
+    rgba(255,255,255,0.02) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+
+.progressTrack {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: rgba(255,255,255,0.07);
+}
+.progressBar {
+  height: 100%;
+  background: #c9935a;
+}
+
+.frameLabel {
+  position: absolute;
+  top: 14px; left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(8,7,7,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 100px;
+  padding: 5px 12px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(246,242,234,0.5);
+}
+.frameLabelDot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #c9935a;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.6)} }
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .grid {
     grid-template-columns: 1fr;
-    gap: 56px;
+    gap: 40px;
+    padding: 0 32px;
   }
-
-  .imageWrapper {
-    max-height: 480px;
-  }
-
-  .image {
-    aspect-ratio: 16 / 9;
-  }
+  .rightCol { justify-content: flex-start; }
+  .frameOuter { max-width: 320px; aspect-ratio: 3/4; }
+  .seasonalDrops { height: 300vh; }
+  .title { margin-bottom: 36px; }
 }
 
 @media (max-width: 640px) {
-  .seasonalDrops {
-    padding: 72px 0;
-  }
-
-  .container {
-    padding: 0 20px;
-    gap: 48px;
-  }
-
-  .dropItem {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-    padding: 20px;
-  }
-
-  .statusBtn {
-    align-self: flex-start;
-  }
+  .grid { padding: 0 20px; }
+  .title { font-size: clamp(28px, 8vw, 44px); }
+  .seasonalDrops { height: 280vh; }
+  .frameOuter { max-width: 280px; aspect-ratio: 3/4; border-radius: 14px; }
+  .dropName { font-size: 14px; }
+  .dropDesc { font-size: 11px; }
+  .statusBtn { padding: 6px 10px; font-size: 8px; }
 }

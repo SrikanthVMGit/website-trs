@@ -1,120 +1,115 @@
-"use client";
-
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Icecreams.module.css";
 
-import blackSesameImg from "../../assets/black_sesame_ice_cream.png";
-import rosePistachioImg from "../../assets/rose_pistachio_ice_cream.png";
-import coffeePralineImg from "../../assets/coffee_praline_ice_cream.png";
+import sundaeVideo1 from "../../assets/sundaes/Ice_Cream_Sundae_In_a_dramatic_macro-cinematic_style_warm_rfadOEVo.mp4";
+import sundaeVideo2 from "../../assets/sundaes/motion2Fast_Ultrarealistic_cinematic_closeup_sequence_of_an_ar_0-2.mp4";
+import sundaeVideo3 from "../../assets/sundaes/Ice_Cream_Sundae_A_spoon_drizzles_mango_sauce_over_scoops_of_4RRWdq1Y.mp4";
+import sundaeVideo4 from "../../assets/sundaes/Ice_Cream_Sundae_A_dessert_bowl_filled_with_two_scoops_of_ice_hMaK4T57.mp4";
 
-const ICE_CREAM_DATA = [
-  {
-    id: 1,
-    title: "Black Sesame",
-    description: "Toasted sesame depth with a smooth nutty finish. Crafted from organic black sesame and whole milk.",
-    details: ["Organic Black Sesame", "Whole Milk", "Toasted Sesame Oil", "Pure Cane Sugar"],
-    image: blackSesameImg,
-  },
-  {
-    id: 2,
-    title: "Rose Pistachio",
-    description: "Fragrant floral notes with roasted pistachio crunch. A rare, delicate blend.",
-    details: ["Damascus Rose Water", "Iranian Pistachios", "Creamy Base", "Crushed Petals"],
-    image: rosePistachioImg,
-  },
-  {
-    id: 3,
-    title: "Coffee Praline",
-    description: "Roasted coffee folded with brittle praline shards and a touch of sea salt.",
-    details: ["Arabica Cold Brew", "Almond Praline", "Sea Salt", "Brown Butter"],
-    image: coffeePralineImg,
-  },
+import berryBlissImg from "../../assets/sundaes/berry_bliss_sundae.png";
+import sithaphalRoyalImg from "../../assets/sundaes/sithaphal_royal_delight.png";
+import royalChocImg from "../../assets/sundaes/royal_chocolate_overload.png";
+import belgianNutImg from "../../assets/sundaes/belgian_nut_indulgence.png";
+
+const SUNDAE_DATA = [
+  { id: 1, title: "Berry Bliss Sundae", description: "Wild berries, berry compote, whipped cream.", video: sundaeVideo1, poster: berryBlissImg },
+  { id: 2, title: "Sithaphal Royal Delight", description: "Custard apple ice cream, gold dust.", video: sundaeVideo2, poster: sithaphalRoyalImg },
+  { id: 3, title: "Royal Chocolate Overload", description: "Dark choc, brownie, fudge drizzle.", video: sundaeVideo3, poster: royalChocImg },
+  { id: 4, title: "Belgian Nut Indulgence", description: "Belgian choc, praline, hazelnut brittle.", video: sundaeVideo4, poster: belgianNutImg },
 ];
 
-const Icecreams = () => {
-  const [flippedId, setFlippedId] = useState<number | null>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [visible, setVisible] = useState<boolean[]>(ICE_CREAM_DATA.map(() => false));
+export default function Icecreams() {
+  const navigate = useNavigate();
+  const [visibleIndices, setVisibleIndices] = useState<Set<number>>(new Set());
+  const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
 
   useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-    cardRefs.current.forEach((el, i) => {
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // stagger each card by 150ms
+            const index = Number(entry.target.getAttribute("data-index"));
             setTimeout(() => {
-              setVisible(v => { const n = [...v]; n[i] = true; return n; });
-            }, i * 160);
-            obs.disconnect();
+              setVisibleIndices((prev) => new Set([...prev, index]));
+            }, index * 100);
+            observer.unobserve(entry.target);
           }
-        },
-        { threshold: 0.15 }
-      );
-      obs.observe(el);
-      observers.push(obs);
-    });
-    return () => observers.forEach(o => o.disconnect());
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const cards = containerRef.current?.querySelectorAll(`.${styles.cardWrapper}`);
+    cards?.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
   }, []);
 
+  const handleMouseEnter = (id: number) => {
+    setHoveredId(id);
+    videoRefs.current[id]?.play().catch(() => {});
+  };
+
+  const handleMouseLeave = (id: number) => {
+    setHoveredId(null);
+    const video = videoRefs.current[id];
+    if (video) { video.pause(); video.currentTime = 0; }
+  };
+
   return (
-    <section className={styles.section} id="icecreams">
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <p className={styles.eyebrow}>— Small Batch</p>
-          <h2 className={styles.title}>Ice Creams</h2>
-          <p className={styles.subtitle}>Slowly churned for a remarkably clean finish.</p>
+    <section className={styles.section} id="sundaes">
+      <div className={styles.container} ref={containerRef}>
+        <div className={styles.topRow}>
+          <div className={styles.header}>
+            <h2 className={styles.title}>Sundaes</h2>
+            <p className={styles.subtitle}>
+              Our signature pints, now in a new format — premium, electric indulgence with no compromise.
+            </p>
+          </div>
+          <button className={styles.seeAllBtn} onClick={() => navigate("/sundaes")}>SEE ALL →</button>
         </div>
 
         <div className={styles.cardsGrid}>
-          {ICE_CREAM_DATA.map((item, idx) => (
-            <div
-              key={item.id}
-              ref={el => { cardRefs.current[idx] = el; }}
-              className={`${styles.flipCard} ${visible[idx] ? styles.revealed : ''}`}
-            >
-              <div className={`${styles.flipCardInner} ${flippedId === item.id ? styles.isFlipped : ""}`}>
-
-                {/* FRONT */}
-                <div className={styles.cardFront}>
-                  <div className={styles.imageContainer} onClick={() => setFlippedId(item.id)}>
-                    <img src={item.image} className={styles.image} alt={item.title} />
-                    <div className={styles.imageOverlay}>
-                      <span className={styles.viewDetails}>Flavor Profile ↗</span>
+          {SUNDAE_DATA.map((item, i) => {
+            const isHovered = hoveredId === item.id;
+            return (
+              <div
+                key={i}
+                data-index={i}
+                className={`${styles.cardWrapper} ${visibleIndices.has(i) ? styles.revealed : ""}`}
+                onMouseEnter={() => handleMouseEnter(item.id)}
+                onMouseLeave={() => handleMouseLeave(item.id)}
+                onClick={() => navigate("/sundaes")}
+                style={{ cursor: "pointer" }}
+              >
+                <div className={styles.cardContent}>
+                  <div className={styles.imageContainer}>
+                    <img
+                      src={item.poster}
+                      alt={item.title}
+                      className={`${styles.image} ${isHovered && item.video ? styles.posterHidden : ""}`}
+                    />
+                    {item.video && (
+                      <video
+                        ref={(el) => { videoRefs.current[item.id] = el; }}
+                        src={item.video}
+                        className={`${styles.image} ${styles.videoEl} ${isHovered ? styles.videoVisible : ""}`}
+                        muted loop playsInline
+                      />
+                    )}
+                    <div className={styles.textOverlay}>
+                      <h3 className={styles.cardTitle}>{item.title}</h3>
+                      <p className={styles.cardDesc}>{item.description}</p>
                     </div>
-                  </div>
-                  <div className={styles.cardBody}>
-                    <h3 className={styles.cardTitle}>{item.title}</h3>
-                    <p className={styles.cardDesc}>{item.description}</p>
-                  </div>
-                </div>
-
-                {/* BACK */}
-                <div className={styles.cardBack}>
-                  <div className={styles.backContent}>
-                    <p className={styles.detailHeader}>Flavor Profile</p>
-                    <h3 className={styles.backTitle}>{item.title}</h3>
-                    <ul className={styles.ingredientsList}>
-                      {item.details.map((ing, i) => (
-                        <li key={i}>— {ing}</li>
-                      ))}
-                    </ul>
-                    <button
-                      className={styles.flipBackBtn}
-                      onClick={(e) => { e.stopPropagation(); setFlippedId(null); }}
-                    >
-                      ← Back
-                    </button>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
   );
-};
-
-export default Icecreams;
+}
