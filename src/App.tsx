@@ -1,4 +1,5 @@
 import { Routes, Route, useNavigate } from 'react-router-dom'
+import ThichshakesPage from './components/ThichshakesPage/ThichshakesPage'
 import ScoopsFullPage from './components/ScoopsPage/ScoopsFullPage'
 import MenuPage from './components/MenuPage/MenuPage'
 import { useState, useCallback, useRef, useEffect } from 'react'
@@ -117,6 +118,7 @@ function App() {
       <Route path="/" element={<MainContent />} />
       <Route path="/ScoopsPage" element={<ScoopsFullPage onBack={() => navigate('/')} />} />
       <Route path="/menu" element={<MenuPage />} />
+      <Route path="/ThichshakesPage" element={<ThichshakesPage onBack={() => navigate('/')} />} />
     </Routes>
   )
 }

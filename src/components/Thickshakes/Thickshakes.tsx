@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import styles from "./Thickshakes.module.css";
 
@@ -94,6 +95,7 @@ const TiltCard = ({ item, active, setActive, isSpotlight, revealed, cardRef }: {
 };
 
 const Thickshakes = () => {
+  const navigate = useNavigate();
   const [active, setActive] = useState<number | null>(null);
   const [spotlightIdx, setSpotlightIdx] = useState(0);
   const [revealed, setRevealed] = useState<boolean[]>(data.map(() => true));
@@ -161,13 +163,22 @@ const Thickshakes = () => {
     trackRef.current.style.cursor = 'grab';
   };
 
+  const handleToggle = () => {
+    navigate("/ThichshakesPage");
+  };
+
   return (
     <section className={styles.section} id="thickshakes">
       <div className={styles.container}>
-        <div className={styles.header}>
-          <p className={styles.eyebrow}>— Premium Blends</p>
-          <h2 className={styles.title}>Thick Shakes</h2>
-          <p className={styles.subtitle}>Premium, electric indulgence — no compromise.</p>
+        <div className={styles.headerRow}>
+          <div className={styles.header}>
+            <p className={styles.eyebrow}>— Premium Blends</p>
+            <h2 className={styles.title}>Thick Shakes</h2>
+            <p className={styles.subtitle}>Premium, electric indulgence — no compromise.</p>
+          </div>
+          <button className={styles.seeAllBtn} onClick={handleToggle}>
+            SEE MORE <span>→</span>
+          </button>
         </div>
 
         <div className={styles.scrollWrapper}>
