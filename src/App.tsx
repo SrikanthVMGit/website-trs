@@ -1,3 +1,5 @@
+import { Routes, Route, useNavigate } from 'react-router-dom'
+import ScoopsFullPage from './components/ScoopsPage/ScoopsFullPage'
 import { useState, useCallback, useRef, useEffect } from 'react'
 import Navbar from './components/Navbar/Navbar'
 import FrameScrollHero from './components/Hero/FrameScrollHero'
@@ -19,7 +21,7 @@ import Icecreams from './components/Icecreams/Icecreams'
 
 
 
-function App() {
+function MainContent() {
   // Raw progress from frame loader (can jump in bursts)
   const rawProgressRef = useRef(0)
   // Smooth display progress — animated via RAF
@@ -104,6 +106,16 @@ function App() {
       <Enquiry />
       <Footer />
     </div>
+  )
+}
+
+function App() {
+  const navigate = useNavigate()
+  return (
+    <Routes>
+      <Route path="/" element={<MainContent />} />
+      <Route path="/ScoopsPage" element={<ScoopsFullPage onBack={() => navigate('/')} />} />
+    </Routes>
   )
 }
 
