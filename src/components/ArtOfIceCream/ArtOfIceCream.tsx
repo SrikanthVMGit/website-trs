@@ -3,38 +3,22 @@ import { useRef, useState } from 'react';
 import styles from './ArtOfIceCream.module.css';
 
 const STEPS = [
-  { n: '01', t: 'Sourcing',   d: 'Estate vanilla, saffron & single-origin cacao' },
-  { n: '02', t: 'Batching',   d: 'Micro-volume churns, controlled to the second'  },
-  { n: '03', t: 'Cold-Chain', d: 'Precision-cooled from studio to your door'      },
+  { n: '01', t: 'Sourcing', d: 'Estate vanilla, saffron & single-origin cacao' },
+  { n: '02', t: 'Batching', d: 'Micro-volume churns, controlled to the second' },
+  { n: '03', t: 'Cold-Chain', d: 'Precision-cooled from studio to your door' },
 ] as const;
 
 export default function ArtOfIceCream() {
   const targetRef = useRef<HTMLElement>(null);
-  const videoRef  = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [ripple,    setRipple]    = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: ['start end', 'end start'],
   });
 
-  const yText  = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  const yText = useTransform(scrollYProgress, [0, 1], [40, -40]);
   const yImage = useTransform(scrollYProgress, [0, 1], [-20, 20]);
-
-  const handleToggle = () => {
-    if (!videoRef.current) return;
-    setRipple(true);
-    setTimeout(() => setRipple(false), 500);
-    if (isPlaying) {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      videoRef.current.muted = true;
-      videoRef.current.play();
-      setIsPlaying(true);
-    }
-  };
 
   return (
     <section ref={targetRef} className={styles.section}>
@@ -70,7 +54,7 @@ export default function ArtOfIceCream() {
                 key={w}
                 style={{ display: 'inline-block', marginRight: '0.2em' }}
                 variants={{
-                  hidden:  { opacity: 0, y: 20 },
+                  hidden: { opacity: 0, y: 20 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
                 }}
               >
@@ -80,7 +64,7 @@ export default function ArtOfIceCream() {
             <motion.span
               className={styles.accentTitle}
               variants={{
-                hidden:  { opacity: 0, y: 20 },
+                hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.65, delay: 0.1, ease: [0.22, 1, 0.36, 1] } },
               }}
             >
@@ -158,20 +142,7 @@ export default function ArtOfIceCream() {
           </motion.div>
 
           {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.35 }}
-          >
-            <motion.button
-              className={styles.ctaBtn}
-              whileTap={{ scale: 0.97 }}
-            >
-              <span>Explore the Studio</span>
-              <span className={styles.ctaArrow} aria-hidden="true" />
-            </motion.button>
-          </motion.div>
+
 
         </motion.div>
 
@@ -186,18 +157,8 @@ export default function ArtOfIceCream() {
               loop
               playsInline
               muted
+              autoPlay
             />
-
-            {/* Play / Pause overlay */}
-            <div className={styles.playOverlay} onClick={handleToggle}>
-              {ripple && <span className={styles.ripple} />}
-              <div className={styles.playBtn}>
-                {isPlaying
-                  ? <div className={styles.pauseIcon} />
-                  : <div className={styles.playIcon}  />
-                }
-              </div>
-            </div>
 
           </div>
 

@@ -15,7 +15,7 @@
   width: 100%;
   margin: 0 auto;
   /* Tight top padding: sits high so fruits/scoops dominate the lower half */
-  padding: 108px 40px 0;
+  padding: 20px 40px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -105,10 +105,10 @@
   border-radius: 4px;
   cursor: pointer;
   background: linear-gradient(135deg,
-    #e8b86d 0%,
-    #C89B6D 35%,
-    #d4a96a 60%,
-    #b8824a 100%);
+      #e8b86d 0%,
+      #C89B6D 35%,
+      #d4a96a 60%,
+      #b8824a 100%);
   box-shadow:
     0 4px 24px rgba(200, 155, 109, 0.50),
     0 1px 0 rgba(255, 220, 160, 0.40) inset,
@@ -125,17 +125,25 @@
   width: 60%;
   height: 100%;
   background: linear-gradient(105deg,
-    transparent 20%,
-    rgba(255, 255, 255, 0.32) 50%,
-    transparent 80%);
+      transparent 20%,
+      rgba(255, 255, 255, 0.32) 50%,
+      transparent 80%);
   animation: shimmer 3s ease-in-out infinite;
   pointer-events: none;
 }
 
 @keyframes shimmer {
-  0%   { left: -100%; }
-  55%  { left: 140%; }
-  100% { left: 140%; }
+  0% {
+    left: -100%;
+  }
+
+  55% {
+    left: 140%;
+  }
+
+  100% {
+    left: 140%;
+  }
 }
 
 .btnPrimary:hover {
@@ -172,9 +180,9 @@
   -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.28);
   transition: transform 0.22s ease,
-              box-shadow 0.28s ease,
-              background 0.28s ease,
-              border-color 0.28s ease;
+    box-shadow 0.28s ease,
+    background 0.28s ease,
+    border-color 0.28s ease;
 }
 
 .btnSecondary:hover {

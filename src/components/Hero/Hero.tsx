@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
@@ -46,21 +46,15 @@ export default function Hero() {
   return (
     <section ref={containerRef} className={styles.hero}>
       <div className={styles.container}>
-        <p className={styles.eyebrow}>Premium Cloud Kitchen</p>
+        <p className={styles.eyebrow}>Premium Icecream</p>
         <h1 className={styles.title}>Created for the Curious</h1>
-        <p className={styles.description}>
-          The Rare Scoop is a premium cloud kitchen bringing small batch pints,
-          limited drops, tasting flights, and concierge delivery to modern dessert lovers.
-        </p>
 
         <div className={styles.buttonGroup}>
-          <button className={styles.btnPrimary}>
-            <span className={styles.btnIcon}>🛵</span>
-            <span>ORDER DELIVERY</span>
+          <button className={styles.btnPrimary} onClick={() => document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' })}>
+            EXPLORE MORE
           </button>
-          <button className={styles.btnSecondary}>
-            <span className={styles.btnIcon}>✦</span>
-            <span>EXPLORE FLAVORS</span>
+          <button className={styles.btnSecondary} onClick={() => document.getElementById('our-story-2')?.scrollIntoView({ behavior: 'smooth' })}>
+            OUR STORY
           </button>
         </div>
       </div>

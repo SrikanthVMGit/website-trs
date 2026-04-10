@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './Navbar.module.css'
-import rarelogo from '../../assets/rarelogo.png'
+import rarelogo from '../../assets/common/rarelogo.png'
 
 export default function Navbar() {
   const navigate = useNavigate()
@@ -45,12 +45,12 @@ export default function Navbar() {
         {/* ── Left: nav links ── */}
         <div className={styles.navLeft}>
           <button className={styles.navLink} onClick={() => navigate('/menu')}>Menu</button>
-          <button className={styles.navLink} onClick={() => scrollTo('categories')}>Collections</button>
-          <button className={styles.navLink} onClick={() => scrollTo('our-story-2')}>Our Story</button>
+
+          <button className={styles.navLink} onClick={() => navigate('/ourstory')}>Our Story</button>
         </div>
 
         {/* ── Centre: logo ── */}
-        <div className={styles.navLogo}>
+        <div className={styles.navLogo} onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
           <img src={rarelogo} alt="The Rare Scoop" className={styles.logoImg} />
           <span className={styles.logoText}>The Rare Scoop</span>
         </div>
@@ -75,8 +75,8 @@ export default function Navbar() {
       {/* ── Mobile drawer ── */}
       <div className={`${styles.mobileMenu} ${menuOpen ? styles.mobileOpen : ''}`}>
         <button className={styles.mobileLink} onClick={() => { navigate('/menu'); setMenuOpen(false); }}>Menu</button>
-        <button className={styles.mobileLink} onClick={() => scrollTo('categories')}>Collections</button>
-        <button className={styles.mobileLink} onClick={() => scrollTo('our-story-2')}>Our Story</button>
+
+        <button className={styles.mobileLink} onClick={() => { navigate('/ourstory'); setMenuOpen(false); }}>Our Story</button>
         <button className={styles.mobileLink} onClick={() => scrollTo('enquiry')}>Enquiry</button>
       </div>
     </>

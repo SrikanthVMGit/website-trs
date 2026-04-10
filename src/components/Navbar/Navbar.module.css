@@ -10,7 +10,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 62px;
+  height: 76px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -33,15 +33,16 @@
   border-bottom: none;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   clip-path: url("#navbarDrip");
-  height: 80px;
-  align-items: flex-start;
-  padding-top: 14px;
+  height: 90px;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 14px;
 }
 
 /* Logo adjusts in dripped state — UNTOUCHED */
 .scrolled .navLogo {
-  top: 15px;
-  transform: translateX(-50%);
+  top: 38px;
+  transform: translate(-50%, -50%);
 }
 
 /* ── Nav Left links ── */
@@ -53,7 +54,7 @@
 
 .navLink {
   font-family: var(--font-main);
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -197,7 +198,7 @@
 .mobileMenu {
   display: none;
   position: fixed;
-  top: 62px;
+  top: 76px;
   left: 0;
   width: 100%;
   background: var(--color-dark, #3A2C2A);
@@ -218,7 +219,7 @@
 
 .mobileLink {
   font-family: var(--font-main);
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.14em;

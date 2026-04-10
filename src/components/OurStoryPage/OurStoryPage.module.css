@@ -1,0 +1,355 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+.page {
+  background: transparent;
+  color: #f5edd8;
+  font-family: 'Space Grotesk', sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 10; /* Above video and overlay */
+}
+
+/* Force global sections to stay transparent so video shows */
+.page section,
+.page footer {
+  background: transparent !important;
+}
+/* Specifically targeting Enquiry and Footer by common selectors if nested */
+.page div[class*="section"],
+.page footer[class*="footer"] {
+  background: transparent !important;
+}
+
+/* ── Navbar-like Row ── */
+.navRow {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  z-index: 100;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(10, 7, 4, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(245, 237, 216, 0.1);
+  color: #f5edd8;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.backBtn:hover {
+  background: #c9935a;
+  color: #0d0a08;
+  border-color: #c9935a;
+}
+
+/* ── Hero Section ── */
+/* ── Fixed Background Video ── */
+.fixedBgVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  opacity: 0.35; /* Subdued for constant background */
+}
+
+/* Global dark overlay for readability */
+.pageOverlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 20%, rgba(10, 7, 4, 0.7) 100%),
+              rgba(10, 7, 4, 0.3);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero {
+  height: 80vh;
+  min-height: 550px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: visible; /* Let it breathe */
+  padding: 0 20px;
+}
+
+.heroContent {
+  max-width: 900px;
+  z-index: 10;
+  position: relative;
+}
+
+.heroTitle {
+  font-size: clamp(40px, 8vw, 100px);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  margin-bottom: 24px;
+}
+
+.heroAccent {
+  color: #c9935a;
+  font-weight: 700;
+}
+
+.heroSubtitle {
+  font-size: 18px;
+  color: rgba(245, 237, 216, 0.5);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ── Timeline Section ── */
+.timelineSection {
+  padding: 100px 20px;
+  position: relative;
+}
+
+.timelineContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Central Vertical Line Container */
+.centralLineContainer {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.centralLineBg {
+  position: absolute;
+  inset: 0;
+  background: rgba(201, 147, 90, 0.1);
+}
+
+.centralLineGlow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, #c9935a, #f5edd8, #c9935a, transparent);
+  box-shadow: 0 0 15px rgba(201, 147, 90, 0.6);
+  z-index: 2;
+}
+
+.timelineItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 120px;
+  position: relative;
+  width: 100%;
+}
+
+/* Central Dot */
+.centralDot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  box-shadow: 0 0 10px rgba(201, 147, 90, 0.4);
+}
+
+/* Year Marker (Left when content is Right, and vice versa) */
+.yearMarker {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 40px;
+}
+
+.yearText {
+  font-size: 48px;
+  font-weight: 700;
+  color: rgba(245, 237, 216, 0.8);
+  letter-spacing: -2px;
+}
+
+.markerLine {
+  height: 1px;
+  flex: 1;
+  opacity: 0.4;
+}
+
+.markerDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* Content Card */
+.contentCard {
+  width: 50%;
+  padding: 0 40px;
+}
+
+.chapterTag {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+
+.chapterTitle {
+  font-size: 32px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.chapterBody {
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgba(245, 237, 216, 0.5);
+  max-width: 480px;
+}
+
+/* Left/Right Logic */
+.itemLeft {
+  flex-direction: row-reverse;
+}
+
+.itemLeft .yearMarker {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.itemRight .yearMarker {
+  text-align: left;
+}
+
+/* Middle Graphic */
+.graphicMiddle {
+  position: absolute;
+  left: 50%;
+  top: 45%; /* Arbitrary placement in center of history */
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
+.graphicCircle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #0a0704;
+  border: 1px solid rgba(201, 147, 90, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c9935a;
+}
+
+/* ── Outro Section ── */
+.outro {
+  padding: 160px 20px;
+  text-align: center;
+  background: radial-gradient(circle at center, rgba(201, 147, 90, 0.05) 0%, transparent 70%);
+}
+
+.outroTitle {
+  font-size: 48px;
+  font-weight: 300;
+  margin-bottom: 24px;
+}
+
+.outroBody {
+  font-size: 18px;
+  color: rgba(245, 237, 216, 0.5);
+  margin-bottom: 48px;
+}
+
+.ctaBtn {
+  background: #c9935a;
+  color: #0d0a08;
+  border: none;
+  padding: 16px 48px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.ctaBtn:hover {
+  background: #f5edd8;
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .centralLineContainer {
+    left: 20px;
+    transform: none;
+  }
+
+  .timelineItem {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 20px;
+    margin-bottom: 80px;
+  }
+
+  .itemLeft {
+    flex-direction: column;
+  }
+
+  .yearMarker, .contentCard {
+    width: 100%;
+    padding: 0 0 0 40px;
+  }
+
+  .itemLeft .yearMarker {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  .markerLine {
+    display: none;
+  }
+
+  .centralDot {
+    left: 0;
+    top: 40px;
+  }
+
+  .yearText {
+    font-size: 32px;
+  }
+
+  .graphicMiddle {
+    display: none;
+  }
+
+  .heroTitle {
+    font-size: 48px;
+  }
+}

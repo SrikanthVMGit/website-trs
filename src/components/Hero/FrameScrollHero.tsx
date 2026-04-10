@@ -3,6 +3,7 @@
  */
 
 import { useEffect, useLayoutEffect, useRef, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from './FrameScrollHero.module.css'
@@ -31,6 +32,7 @@ interface Props {
 
 export default function FrameScrollHero({ onLoadProgress }: Props) {
   const mobile = isMobile()
+  const navigate = useNavigate()
 
   const outerRef = useRef<HTMLDivElement>(null)
   const innerRef = useRef<HTMLDivElement>(null)
@@ -281,20 +283,14 @@ export default function FrameScrollHero({ onLoadProgress }: Props) {
         />
         <div className={styles.vignette} />
         <div className={styles.mobileHeroContent}>
-          <p className={styles.eyebrow}>Premium Cloud Kitchen</p>
+          <p className={styles.eyebrow}>Premium Icecream</p>
           <h1 className={styles.title}>Created for<br />the Curious</h1>
-          <p className={styles.description}>
-            Small batch pints, limited drops, tasting flights —
-            crafted for those who want more from dessert.
-          </p>
           <div className={styles.startCta}>
-            <button className={styles.startBtnPrimary}>
-              <span className={styles.startBtnIcon}>🛵</span>
-              <span>ORDER DELIVERY</span>
+            <button className={styles.startBtnPrimary} onClick={() => navigate('/menu')}>
+              <span>EXPLORE MORE</span>
             </button>
-            <button className={styles.startBtnSecondary}>
-              <span className={styles.startBtnIcon}>✦</span>
-              <span>EXPLORE FLAVORS</span>
+            <button className={styles.startBtnSecondary} onClick={() => navigate('/ourstory')}>
+              <span>OUR STORY</span>
             </button>
           </div>
         </div>
@@ -319,32 +315,24 @@ export default function FrameScrollHero({ onLoadProgress }: Props) {
               <span className={styles.finalBrandName}>The Rare Scoop</span>
             </div>
             <div ref={finalCtaRef} className={styles.finalCta}>
-              <button className={styles.finalBtnPrimary}>
-                <span className={styles.finalBtnIcon}>🛵</span>
-                <span>ORDER DELIVERY</span>
+              <button className={styles.finalBtnPrimary} onClick={() => navigate('/menu')}>
+                <span>EXPLORE MORE</span>
               </button>
-              <button className={styles.finalBtnSecondary}>
-                <span className={styles.finalBtnIcon}>✦</span>
-                <span>EXPLORE FLAVORS</span>
+              <button className={styles.finalBtnSecondary} onClick={() => navigate('/ourstory')}>
+                <span>OUR STORY</span>
               </button>
             </div>
           </div>
         </div>
         <div ref={heroContentRef} className={styles.heroContent}>
-          <p className={styles.eyebrow}>Premium Cloud Kitchen</p>
+          <p className={styles.eyebrow}>Premium Icecream</p>
           <h1 className={styles.title}>Created for the Curious</h1>
-          <p className={styles.description}>
-            Small batch pints, limited drops, tasting flights —<br />
-            crafted for those who want more from dessert.
-          </p>
           <div className={styles.startCta}>
-            <button className={styles.startBtnPrimary}>
-              <span className={styles.startBtnIcon}>🛵</span>
-              <span>ORDER DELIVERY</span>
+            <button className={styles.startBtnPrimary} onClick={() => navigate('/menu')}>
+              <span>EXPLORE MORE</span>
             </button>
-            <button className={styles.startBtnSecondary}>
-              <span className={styles.startBtnIcon}>✦</span>
-              <span>EXPLORE FLAVORS</span>
+            <button className={styles.startBtnSecondary} onClick={() => navigate('/ourstory')}>
+              <span>OUR STORY</span>
             </button>
           </div>
         </div>

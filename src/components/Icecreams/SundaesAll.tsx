@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./SundaesAll.module.css";
+import pageStyles from "../ScoopsPage/ScoopsPage.module.css";
+import Enquiry from "../Enquiry/Enquiry";
+import Footer from "../Footer/Footer";
 
 interface SundaeItem {
   id: number;
@@ -10,65 +13,64 @@ interface SundaeItem {
   isNew?: boolean;
 }
 
-const ROW_ONE: SundaeItem[] = [
-  { 
-    id: 1, 
-    title: "Choco-vanilla Swirl", 
-    description: "Our signature blend featuring double-churned Madagascan vanilla bean paired with a 70% dark cocoa ripple. Finished with handcrafted fudge chunks and a delicate dusting of sea salt for the ultimate balanced indulgence.", 
-    poster: "https://i.pinimg.com/736x/b0/5d/bc/b05dbc63f7ef32d2317b6abe2b605188.jpg" 
+const ALL_SUNDAES: SundaeItem[] = [
+  {
+    id: 1,
+    title: "Berry Bliss Sundae",
+    description: "A vibrant medley of hand-picked wild strawberries, blueberries and raspberries layered over a smooth vanilla custard base. Finished with a house berry compote and white chocolate shavings for delicate sweetness.",
+    poster: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80",
+    isNew: false,
   },
-  { 
-    id: 2, 
-    title: "Strawberry Bliss", 
-    description: "A seasonal delight made with hand-picked Alpine strawberries. We macerate the berries for 24 hours to create a natural syrup that is folded into our rich, creamy base, topped with white chocolate shavings.", 
-    poster: "https://i.pinimg.com/736x/dd/cb/52/ddcb527d006a25df92213fffcd848a8d.jpg" 
+  {
+    id: 2,
+    title: "Sithaphal Royal Delight",
+    description: "An ode to India's most treasured seasonal fruit — the Custard Apple. Slow-churned with hand-scooped Sithaphal pulp, this sundae carries a naturally floral, honey-like sweetness that is unmatched. Served with a dusting of crushed cardamom.",
+    poster: "https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=600&q=80",
+    isNew: true,
   },
-  { 
-    id: 3, 
-    title: "Mango Tango", 
-    description: "Experience the tropics with sun-ripened Alphonso mangoes. This sundae features a vibrant mango coulis, toasted coconut flakes, and a hint of lime zest to cut through the luscious sweetness of the fruit.", 
-    poster: "https://i.pinimg.com/736x/72/07/72/7207724a35e0d8c7f9b072f2c28b060e.jpg" 
+  {
+    id: 3,
+    title: "Royal Chocolate Overload",
+    description: "A pure, uncompromising celebration of chocolate — think dark Valrhona ganache, a fudgy brownie crumble base, rich chocolate sauce ribbons, and a scoop of 72% dark cocoa ice cream. For the truly devoted.",
+    poster: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80",
+    isNew: false,
   },
-  { 
-    id: 4, 
-    title: "Blueberry Dream", 
-    description: "Deep, wild forest blueberries provide a sophisticated tartness. Infused with a touch of lavender and honey, this flavor offers a refreshing floral finish that lingers beautifully on the palate.", 
-    poster: "https://i.pinimg.com/736x/32/c4/9a/32c49aa4ef3db1a84c6a2f77854c528a.jpg" 
+  {
+    id: 4,
+    title: "Belgian Nut Indulgence",
+    description: "Slow-roasted Belgian hazelnuts and Sicilian pistachios ground into a silky praline, folded into a rich gelato base. Topped with a warm Gianduja drizzle and sea-salt-roasted nut clusters for the perfect crunch.",
+    poster: "https://images.unsplash.com/photo-1633933358116-a27b902fad35?w=600&q=80",
+    isNew: false,
+  },
+  {
+    id: 5,
+    title: "Mango Maharaja Sundae",
+    description: "Sun-ripened Alphonso mangoes at the heart of this royal creation — a lush mango sorbet kissed with saffron, topped with fresh mango coulis, a hint of lime zest, and a crown of toasted coconut flakes.",
+    poster: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80",
+    isNew: true,
+  },
+  {
+    id: 6,
+    title: "Coffee Crunch Royale",
+    description: "Cold-brew concentrate churned into a velvety espresso gelato, layered with caramelized toffee shards, dark chocolate-covered coffee beans, and a ribbon of salted caramel. A sophisticated pick-me-up in every spoonful.",
+    poster: "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80",
+    isNew: false,
+  },
+  {
+    id: 7,
+    title: "Chocolate Volcano Sundae",
+    description: "A warm, molten dark chocolate lava cake sits at the center, erupting with rich ganache as it meets two scoops of Madagascar vanilla ice cream. Surrounded by a moat of warm chocolate fudge sauce. Theatrical and unforgettable.",
+    poster: "https://images.unsplash.com/photo-1590080874088-eec64895b423?w=600&q=80",
+    isNew: true,
+  },
+  {
+    id: 8,
+    title: "Royal Nuts Supreme",
+    description: "The pinnacle of our nut collection — cashews, macadamias, pecans and walnuts, all slow-roasted with house-spiced honey and folded into a Madagascan vanilla cream gelato. Drizzled with aged balsamic-fig reduction for a truly regal finish.",
+    poster: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=600&q=80",
+    isNew: false,
   },
 ];
-
-const ROW_TWO: SundaeItem[] = [
-  { 
-    id: 5, 
-    title: "Pistachio Delight", 
-    description: "Authentic Sicilian pistachios are slow-roasted and stone-ground into a silky butter. We fold this into our gelato base along with crushed honey-roasted nuts for a rich, earthy, and crunchy profile.", 
-    poster: "https://i.pinimg.com/1200x/de/3a/a3/de3aa325306311a5f97e749dd13a1fc1.jpg", 
-    isNew: true 
-  },
-  { 
-    id: 6, 
-    title: "Charcoal Sundae", 
-    description: "A bold, avant-garde treat featuring activated coconut charcoal and deep black cocoa. Don't let the moody color fool you; it's a creamy masterpiece with notes of vanilla bean and toasted marshmallow.", 
-    poster: "https://i.pinimg.com/736x/49/14/ba/4914ba33861ca38e3bb60126dadcce03.jpg", 
-    isNew: true 
-  },
-  { 
-    id: 7, 
-    title: "Berry Blast", 
-    description: "A high-intensity medley of antioxidant-rich raspberries, blackberries, and tart red currants. This sundae is layered with a house-made triple-berry jam and topped with dehydrated berry crumbles.", 
-    poster: "https://i.pinimg.com/736x/4f/55/ab/4f55ab7df2a0ad35726b1b9c617e1d76.jpg", 
-    isNew: true 
-  },
-  { 
-    id: 8, 
-    title: "Brownie Surprise", 
-    description: "A chocolate lover's fantasy. We bake fudgy, flourless brownies and crumble them into a thick milk chocolate base, then swirl in a warm, salted caramel ribbon that stays soft even when frozen.", 
-    poster: "https://i.pinimg.com/736x/c6/8d/83/c68d834a089d20855bb0de2057be5254.jpg", 
-    isNew: true 
-  },
-];
-
-const ALL_SUNDAES: SundaeItem[] = [...ROW_ONE, ...ROW_TWO];
 
 export default function SundaesAll() {
   const navigate = useNavigate();
@@ -77,7 +79,12 @@ export default function SundaesAll() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    document.title = "Sundaes — The Rare Scoop";
   }, []);
+
+  const scrollToEnquiry = () => {
+    document.getElementById('enquiry')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -102,10 +109,20 @@ export default function SundaesAll() {
   return (
     <div className={styles.page}>
 
+      {/* ── Minimal Back Button ── */}
+      <div className={pageStyles.navRow}>
+        <button className={pageStyles.backBtn} onClick={() => navigate('/')} aria-label="Go back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+            <path d="M19 12H5M12 5l-7 7 7 7" />
+          </svg>
+          <span>Back</span>
+        </button>
+      </div>
+
       {/* ── Hero ── */}
       <div className={styles.hero} style={{ position: "relative", overflow: "hidden" }}>
         
-        {/* Replacement Video Background */}
+        {/* Animated Video Background */}
         <video 
           autoPlay 
           muted 
@@ -120,7 +137,7 @@ export default function SundaesAll() {
             objectFit: "cover",
             transform: "translate(-50%, -50%)",
             zIndex: 0,
-            opacity: 0.6 // Subtle transparency to keep text readable
+            opacity: 0.6
           }}
         >
           <source src="/videos/sunani.mp4" type="video/mp4" />
@@ -128,7 +145,6 @@ export default function SundaesAll() {
         
 
         <div style={{ position: "relative", zIndex: 1 }}>
-          <button className={styles.backBtn} onClick={() => navigate(-1)}>← Back</button>
           <p className={styles.eyebrow}>The Full Collection</p>
           <h1 className={styles.heroTitle}>
             All <span className={styles.accent}>Sun</span>daes.
@@ -136,6 +152,9 @@ export default function SundaesAll() {
           <p className={styles.heroDesc}>
             Every scoop, every swirl, every sundae we've ever dreamed up — the full lineup, right here.
           </p>
+          <button className={pageStyles.heroEnquiryBtn} onClick={scrollToEnquiry}>
+            Enquire Now
+          </button>
           <div className={styles.divider} />
         </div>
       </div>
@@ -168,6 +187,10 @@ export default function SundaesAll() {
           ))}
         </div>
       </div>
+
+      {/* ── Enquiry + Footer ── */}
+      <Enquiry />
+      <Footer />
     </div>
   );
 }

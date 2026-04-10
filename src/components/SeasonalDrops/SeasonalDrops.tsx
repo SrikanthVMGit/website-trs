@@ -9,23 +9,13 @@ const TOTAL_FRAMES = 50;
 const DROPS = [
   {
     num: '01',
-    name: 'Burnt Vanilla Fig',
-    description: 'Roasted fig jam, vanilla bean custard base, toasted sugar.',
-    
-    
+    name: 'Sithaphal',
+    description: 'Rare custard apple — creamy, floral sweetness with a naturally rich texture. Available only at peak harvest.',
   },
   {
     num: '02',
-    name: 'Yuzu Milk Sorbet',
-    description: 'Bright citrus acidity softened with silk texture.',
-    
-    
-  },
-  {
-    num: '03',
-    name: 'Black Sesame Caramel',
-    description: 'Nutty roasted sesame with dark amber ribbons.',
-    
+    name: 'Mango',
+    description: 'Sun-ripened Alphonso mangoes, slow-churned into a vibrant tropical expression. Pure, unfiltered summer.',
   },
 ];
 

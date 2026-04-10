@@ -6,11 +6,10 @@ import styles from "./Scoops.module.css";
 // import ScoopsFullPage from "../ScoopsFullPage/ScoopsFullPage";
 
 import matchaVideo from "../../video/Matcha video.mp4";
-import mangoVideo from "../../video/Mango video.mp4";
-import cheesecakeVideo from "../../video/NEW YORK CHEESECAKE video.mp4";
+
 import seethaphalVideo from "../../video/Seethapal video.mp4";
 import irishCoffeeVideo from "../../video/Iris coffee video.mp4";
-import laddoVideo from "../../video/Devasthanam ladoo video.mp4";
+import ladooVideo from "../../video/Devasthanam ladoo video.mp4";
 
 interface ScoopItem {
   id: number;
@@ -44,7 +43,7 @@ const data: ScoopItem[] = [
     id: 3,
     title: "Devasthanam Ladoo",
     description: "An auspicious blend of pure ghee, cardamom, and divine heritage in every bite.",
-    video: laddoVideo,
+    video: ladooVideo,
     price: 319,
     position: "center center",
   },
@@ -211,7 +210,7 @@ export default function Scoops() {
 
 
   const handleToggle = () => {
-    navigate("/ScoopsPage");
+    navigate("/scoops");
   };
 
   const startCycle = () => {
@@ -277,7 +276,7 @@ export default function Scoops() {
               <p className={styles.subtitle}>Our most loved artisanal ice cream scoops, crafted with perfection.</p>
             </div>
             <button className={styles.seeAllBtn} onClick={handleToggle}>
-              SEE MORE <span>→</span>
+              SEE MORE
             </button>
           </div>
 

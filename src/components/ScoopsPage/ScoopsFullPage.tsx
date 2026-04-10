@@ -1,313 +1,204 @@
 import { useState, useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
-import ScoopCanvas from './ScoopCanvas';
+import { useNavigate } from 'react-router-dom';
+import Enquiry from '../Enquiry/Enquiry';
+import Footer from '../Footer/Footer';
 
-gsap.registerPlugin(ScrollTrigger);
 import styles from './ScoopsFullPage.module.css';
+import pageStyles from './ScoopsPage.module.css';
 
-import matchaVideo from "../../video/Matcha video.mp4";
-import mangoVideo from "../../video/Mango video.mp4";
-import cheesecakeVideo from "../../video/NEW YORK CHEESECAKE video.mp4";
-import seethaphalVideo from "../../video/seethapal video1.mp4";
-import irishCoffeeVideo from "../../video/Iris coffee video.mp4";
-import laddoVideo from "../../video/Devasthanam ladoo video.mp4";
-import backIcon from "../../assets/dfddf.png";
-import logoIcon from "../../assets/rarelogo.png";
+// Flavour cards data (V2 Refinement - Professional Images)
+import matchaImg from "../../assets/scoops/matcha.png";
+import mangoImg from "../../assets/scoops/mango.png";
+import cheesecakeImg from "../../assets/scoops/cheesecake.png";
+import seethaphalImg from "../../assets/scoops/seethaphal.png";
+import irishCoffeeImg from "../../assets/scoops/irish_coffee.png";
+import ladooImg from "../../assets/scoops/ladoo.png";
 
-// Marquee JPG assets
-import ladooImg from "../../assets/Devasthanam ladoo Scoop.png";
-import irisCoffeeImg from "../../assets/iris coffee scoop.png";
-import mangoImg from "../../assets/Mango_scoop.png";
-import matchaImg from "../../assets/Matcha.png";
-import cheesecakeImg from "../../assets/NY Cheesecake.png";
-import seethaphalImg from "../../assets/seethapal.png";
-
-const luxuryScoops = [
-  { img: matchaImg, name: "Japanese Matcha" },
-  { img: irisCoffeeImg, name: "Irish Coffee" },
-  { img: ladooImg, name: "Devasthanam Ladoo" },
-  { img: seethaphalImg, name: "Seethaphal" },
-  { img: mangoImg, name: "Desi Mango" },
-  { img: cheesecakeImg, name: "NY Cheesecake" },
-];
-
-const romanNumerals = ["I", "II", "III", "IV", "V", "VI"];
-
-interface ScoopItem {
-  id: number;
-  title: string;
-  description: string;
-  video: string;
-  price: number;
-  color: string;
-  subtitle: string;
-}
-
-const data: ScoopItem[] = [
+const SCOOP_FLAVOURS = [
   {
     id: 1,
     title: "Japanese Matcha",
-    subtitle: "Ceremonial Grade",
-    description: "Ceremonial-grade green tea expertly churned into a rich, earthy, and smooth scoop.",
-    video: matchaVideo,
-    price: 279,
-    color: "rgba(167, 243, 208, 0.25)"
+    description: "Ceremonial-grade green tea expertly churned into a rich, earthy, and smooth scoop. Our matcha is sourced from the finest tea gardens in Uji, Japan, ensuring an authentic tasting profile.",
+    poster: matchaImg,
+    isNew: false,
   },
   {
-    id: 2,
-    title: "Desi Mango",
-    subtitle: "Sun-Ripened Tropical",
-    description: "Pure essence of sun-ripened Indian mangoes blended for a vibrant tropical bite.",
-    video: mangoVideo,
-    price: 249,
-    color: "rgba(252, 211, 77, 0.25)"
+    id: 6,
+    title: "Devasthanam Ladoo",
+    description: "Divine sweetness inspired by traditional temple offerings, bursting with rich ghee, cardamom, and roasted gram textures reimagined as a luxurious ice cream.",
+    poster: ladooImg,
+    isNew: false,
   },
   {
     id: 3,
-    title: "N.Y. Cheese Cake",
-    subtitle: "Graham Core",
-    description: "Cream cheese base swirled with a buttery graham crust for the ultimate dessert.",
-    video: cheesecakeVideo,
-    price: 329,
-    color: "rgba(254, 243, 199, 0.2)"
+    title: "N.Y. Cheesecake",
+    description: "A rich cream cheese base swirled with a buttery graham cracker crust for the ultimate dessert-in-a-scoop experience. Dense, tangy, and impossibly creamy.",
+    poster: cheesecakeImg,
+    isNew: true,
   },
   {
     id: 4,
     title: "Seethaphal",
-    subtitle: "Seasonal Harvest",
-    description: "A seasonal delight capturing the creamy, sweet floral notes of fresh custard apple.",
-    video: seethaphalVideo,
-    price: 299,
-    color: "rgba(226, 232, 240, 0.25)"
+    description: "A seasonal delight capturing the creamy, sweet floral notes of fresh custard apple. This rare flavour is available only when the harvest is at its peak.",
+    poster: seethaphalImg,
+    isNew: true,
   },
   {
     id: 5,
     title: "Irish Coffee",
-    subtitle: "Whiskey Infused",
-    description: "Robust coffee flavors interwoven with caramel and whiskey notes for an elegant treat.",
-    video: irishCoffeeVideo,
-    price: 349,
-    color: "rgba(217, 119, 6, 0.25)"
+    description: "Robust cold brew coffee flavors interwoven with rich caramel and subtle whiskey notes for an elegant, sophisticated treat that's unlike anything else.",
+    poster: irishCoffeeImg,
+    isNew: true,
   },
   {
-    id: 6,
-    title: "Devasthanam Laddo",
-    subtitle: "Temple Offering",
-    description: "Divine sweetness inspired by traditional offerings, bursting with rich ghee textures.",
-    video: laddoVideo,
-    price: 349,
-    color: "rgba(245, 158, 11, 0.25)"
+    id: 2,
+    title: "Desi Mango",
+    description: "Pure essence of sun-ripened Indian Alphonso mangoes blended for a vibrant, intensely tropical bite. Made only during peak season for the most authentic flavour.",
+    poster: mangoImg,
+    isNew: false,
   },
 ];
 
-interface ScoopsFullPageProps {
-  onBack: () => void;
-}
-
-export default function ScoopsFullPage({ onBack }: ScoopsFullPageProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [stageVisible, setStageVisible] = useState(false);
-  const [scrollEl, setScrollEl] = useState<HTMLDivElement | null>(null);
-  const splitRef = useRef<HTMLDivElement>(null);
+export default function ScoopsFullPage() {
+  const navigate = useNavigate();
+  const [visibleIndices, setVisibleIndices] = useState<Set<number>>(new Set());
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const activeItem = data[activeIndex];
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Pass ref into state so child elements can hook ScrollTriggers to it on first mount
+  // Scroll to enquiry section
+  const scrollToEnquiry = () => {
+    document.getElementById('enquiry')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Scroll to top on mount
   useEffect(() => {
-    if (wrapperRef.current) {
-      setScrollEl(wrapperRef.current);
-    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.title = 'Artisanal Scoops — The Rare Scoop';
   }, []);
 
-  // GSAP Horizontal Slide tied to vertical scrolling
-  useGSAP(() => {
-    if (!scrollEl) return;
-
-    gsap.to(`.${styles.rowLeft}`, {
-      xPercent: -5,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: `.${styles.scoopSection}`,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1.5,
-        scroller: scrollEl,
-      },
-    });
-
-    gsap.to(`.${styles.rowRight}`, {
-      xPercent: 5,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: `.${styles.scoopSection}`,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1.5,
-        scroller: scrollEl,
-      },
-    });
-  }, { scope: wrapperRef, dependencies: [scrollEl] });
-
-  /* ── IntersectionObserver: trigger zero-gravity anim in split section ── */
+  // Intersection Observer for flavour cards
   useEffect(() => {
-    const el = splitRef.current;
-    if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => setStageVisible(entry.isIntersecting),
-      { threshold: 0.2 }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = Number(entry.target.getAttribute('data-index'));
+            setTimeout(() => {
+              setVisibleIndices((prev) => new Set([...prev, index]));
+            }, index * 80);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.05 }
     );
-    observer.observe(el);
+    const cards = containerRef.current?.querySelectorAll('[data-index]');
+    cards?.forEach((card) => observer.observe(card));
     return () => observer.disconnect();
   }, []);
-
-  /* ── Video Scrubbing on Scroll ── */
-  // The user requested to revert back to autoPlay instead of scroll-scrubbing
 
   return (
     <div ref={wrapperRef} className={styles.fullPageScrollWrapper}>
 
-      {/* ═══════════════ INTRO HEADER ═══════════════ */}
-      <div className={styles.introHeader}>
-        {/* Back button */}
-        <div className={styles.navRow}>
-          <button className={styles.backBtn} onClick={onBack}>
-            <img src={logoIcon} alt="Back" className={styles.backImage} />
-          </button>
-        </div>
+      {/* ── Minimal Back Button ── */}
+      <div className={pageStyles.navRow}>
+        <button className={pageStyles.backBtn} onClick={() => navigate('/')} aria-label="Go back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+            <path d="M19 12H5M12 5l-7 7 7 7" />
+          </svg>
+          <span>Back</span>
+        </button>
+      </div>
 
-        <div className={styles.introContent}>
-          <span className={styles.introEyebrow}>THE FULL COLLECTION</span>
-          <h1 className={styles.introTitle}>All <span className={styles.goldText}>Scoops.</span></h1>
-          <p className={styles.introDesc}>
-            Every scoop, every swirl, every flavour we've ever<br />
-            dreamed up — the full lineup, right here.
+      {/* ═══════════════ HERO SECTION ═══════════════ */}
+      <div className={pageStyles.hero} style={{ position: 'relative', overflow: 'hidden' }}>
+        
+        {/* Animated Background Video */}
+        <video 
+          autoPlay 
+          muted 
+          loop 
+          playsInline
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            transform: "translate(-50%, -50%)",
+            zIndex: 0,
+            opacity: 0.45
+          }}
+        >
+          <source src="/videos/Luxury.mp4" type="video/mp4" />
+        </video>
+
+        {/* Gradient Overlay for Readability */}
+        <div style={{
+          position: "absolute",
+          inset: 0,
+          background: "linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.8) 100%)",
+          zIndex: 0
+        }} />
+
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <p className={pageStyles.eyebrow}>The Full Collection</p>
+          <h1 className={pageStyles.heroTitle}>
+            All <span className={pageStyles.accent}>Scoops.</span>
+          </h1>
+          <p className={pageStyles.heroDesc}>
+            Every scoop, every swirl, every flavour we've ever dreamed up — the full lineup, right here.
           </p>
+          <button className={pageStyles.heroEnquiryBtn} onClick={scrollToEnquiry}>
+            Enquire Now
+          </button>
+          <div className={pageStyles.divider} />
         </div>
       </div>
 
-      {/* ═══════════════ NEW SCROLL REVEAL ROW (GSAP MARQUEE) ═══════════════ */}
-      <div className={styles.scoopSection} data-scoop-section="true">
-        {/* TOP ROW: slides left, scoops rotate counter-clockwise */}
-        <div className={`${styles.scoopRow} ${styles.rowLeft}`}>
-          {Array(6).fill(luxuryScoops).flat().map((scoop, i) => (
-            <div key={`top-${i}`} className={styles.scoopItem}>
-              <ScoopCanvas
-                src={scoop.img}
-                size={170}
-                scrollContainer={scrollEl}
-                direction={-1}
-              />
-            </div>
-          ))}
-        </div>
+      {/* ═══════════════ EXPLORER PORTFOLIO (V2 REFINEMENT) ═══════════════ */}
+      <div className={pageStyles.gridSection} ref={containerRef}>
+        
+        <header className={pageStyles.introHeader}>
+          <span className={pageStyles.gridEyebrow}>Signature Selection</span>
+          <h2 className={pageStyles.gridTitle}>Explorer Portfolio</h2>
+          <p className={pageStyles.gridLabel}>
+            A curated showcase of our most daring and beloved creations. Each scoop is an artisanal journey through premium ingredients and handcrafted textures.
+          </p>
+        </header>
 
-        <div className={styles.centerText}>
-          DISCOVER PURE JOY IN EVERY BITE, WITH EACH FLAVOUR CRAFTED<br />
-          WITH REAL INGREDIENTS, AND A WHOLE LOT OF CARE
-        </div>
-
-        {/* BOTTOM ROW: slides right, scoops rotate clockwise */}
-        <div className={`${styles.scoopRow} ${styles.rowRight}`}>
-          {Array(6).fill(luxuryScoops).flat().reverse().map((scoop, i) => (
-            <div key={`bottom-${i}`} className={styles.scoopItem}>
-              <ScoopCanvas
-                src={scoop.img}
-                size={170}
-                scrollContainer={scrollEl}
-                direction={1}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-
-
-      {/* THE ARCHITECTURAL SPLIT SECTION */}
-      <div ref={splitRef} className={styles.splitSection}>
-
-        {/* LEFT COLUMN: THE INDEX */}
-        <div className={styles.sidebar}>
-
-          {/* Nav Header (Brand text only since back is up top) */}
-          <div className={styles.brandRow}>
-            <span className={styles.brandText}>Velvet & Swirl</span>
-          </div>
-
-          {/* Interactive List */}
-          <div className={styles.indexList}>
-            <p className={styles.indexEyebrow}>— Select Flavor</p>
-            {data.map((item, i) => {
-              const isActive = i === activeIndex;
-              return (
-                <div
-                  key={item.id}
-                  className={`${styles.indexItem} ${isActive ? styles.activeItem : ''}`}
-                  onMouseEnter={() => setActiveIndex(i)}
-                  onClick={() => setActiveIndex(i)}
-                >
-                  <div className={styles.itemNames}>
-                    <h3 className={styles.itemTitle}>{item.title}</h3>
-                    <span className={styles.itemSub}>{item.subtitle}</span>
+        <div className={pageStyles.cardsGrid}>
+          {SCOOP_FLAVOURS.map((item, i) => (
+            <div
+              key={item.id}
+              data-index={i}
+              className={`${pageStyles.cardWrapper} ${visibleIndices.has(i) ? pageStyles.revealed : ''}`}
+            >
+              <div className={pageStyles.cardContent}>
+                {item.isNew && <span className={pageStyles.badge}>New</span>}
+                <div className={pageStyles.imageContainer}>
+                  <img
+                    src={item.poster}
+                    alt={item.title}
+                    className={pageStyles.image}
+                  />
+                  <div className={pageStyles.textOverlay}>
+                    <h3 className={pageStyles.cardTitle}>{item.title}</h3>
+                    <div className={pageStyles.glassBox}>
+                      <p className={pageStyles.cardDesc}>{item.description}</p>
+                    </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-
-
-        </div>
-
-        {/* RIGHT COLUMN: THE SHOWCASE STAGE */}
-        <div className={styles.stage}>
-          {/* Dynamic Background Aura */}
-          <div
-            className={styles.stageAura}
-            style={{ background: `radial-gradient(circle at center, ${activeItem.color} 0%, transparent 60%)` }}
-          />
-
-          {/* Cinematic Watermark */}
-          <div className={styles.watermarkContainer}>
-            <h1 key={activeItem.title} className={styles.watermarkText}>
-              {activeItem.title.toUpperCase()}
-            </h1>
-          </div>
-
-          {/* Floating Video Asset */}
-          <div className={`${styles.floatingVideoWrapper} ${stageVisible ? styles.floatingAnimated : ''}`} key={`vid-${activeItem.id}`}>
-            <video
-              ref={videoRef}
-              src={activeItem.video}
-              className={styles.floatingVideo}
-              autoPlay
-              muted
-              playsInline
-              onEnded={() => {
-                // Auto-advance to next flavor
-                setActiveIndex(prev => (prev + 1) % data.length);
-              }}
-            />
-          </div>
-
-          {/* The Obsidian Spec Plate */}
-          <div className={styles.specPlate}>
-            <div className={styles.specHeader}>
-              <span className={styles.specEyebrow}>Tasting Notes</span>
+              </div>
             </div>
-            <p className={styles.specDesc}>
-              {activeItem.description}
-            </p>
-            <div className={styles.specFooter}>
-              <button className={styles.exploreBtn}>Add to Experience</button>
-              <div className={styles.purityBadge}>100% Artisanal</div>
-            </div>
-          </div>
-
+          ))}
         </div>
       </div>
+
+      {/* ═══════════════ ENQUIRY + FOOTER ═══════════════ */}
+      <Enquiry />
+      <Footer />
     </div>
   );
 }
