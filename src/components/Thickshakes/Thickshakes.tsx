@@ -5,39 +5,39 @@ import { useNavigate } from "react-router-dom";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import styles from "./Thickshakes.module.css";
 
-import chocolateImg from "../../assets/thickshakes/chocolate_hazelnut_shake.png";
-import saltedCaramelImg from "../../assets/thickshakes/salted_caramel_shake.png";
-import peanutButterImg from "../../assets/thickshakes/peanut_butter_fudge_shake.png";
-import strawberryCreamImg from "../../assets/milkshakes/strawberry_cream_milkshake.png";
+import midnightBelgianImg from "../../assets/thickshakes/midnight_belgian_silk.png";
+import alphonsoMangoImg from "../../assets/thickshakes/alphonso_mango_creamery.png";
+import berryVelvetImg from "../../assets/thickshakes/berry_velvet_crush.png";
+import darkRoastImg from "../../assets/thickshakes/dark_roast_creamshake.png";
 
 const data = [
   {
     id: 1,
-    title: "Chocolate Hazelnut",
-    description: "Dark cocoa meets slow-roasted hazelnut in a thick, indulgent blend with a velvety finish.",
-    image: chocolateImg,
-    dripColor: "#3b1e0a",
+    title: "Midnight Belgian Silk",
+    description: "Ultra-dark Belgian cacao meets velvety cream in a thick, indulgent blend with a silk finish that lingers.",
+    image: midnightBelgianImg,
+    dripColor: "#1a0a05",
   },
   {
     id: 2,
-    title: "Salted Caramel",
-    description: "Rich caramel folded with hand-harvested fleur de sel — the perfect sweet-salt balance.",
-    image: saltedCaramelImg,
-    dripColor: "#c9935a",
+    title: "Alphonso Mango Creamery",
+    description: "Sun-ripened Alphonso mangoes pureed into the richest cream — a tropical classic that tastes like summer.",
+    image: alphonsoMangoImg,
+    dripColor: "#e6900a",
   },
   {
     id: 3,
-    title: "Peanut Butter Fudge",
-    description: "Creamy peanut butter ribboned through a deep chocolate fudge base. Uncompromisingly rich.",
-    image: peanutButterImg,
-    dripColor: "#7b4f1a",
+    title: "Berry Velvet Crush",
+    description: "A symphony of mixed berries — blackberries, strawberries, raspberries — crushed into a deep, velvety cream blend.",
+    image: berryVelvetImg,
+    dripColor: "#8b1a6b",
   },
   {
     id: 4,
-    title: "Strawberry Cream",
-    description: "Sun-kissed strawberries blended into a lush, cloud-like cream — delicately sweet and fresh.",
-    image: strawberryCreamImg,
-    dripColor: "#ff8fa3",
+    title: "Dark Roast Creamshake",
+    description: "Cold brew espresso ribboned through silky cream — for those who take their coffee seriously.",
+    image: darkRoastImg,
+    dripColor: "#2c1a0a",
   },
 ];
 
@@ -77,7 +77,7 @@ const TiltCard = ({ item, active, setActive, isSpotlight, revealed, cardRef }: {
         cardRef(el);
       }}
       className={`${styles.card} ${isSpotlight ? styles.spotlight : ''} ${active && active !== item.id ? styles.blur : ""} ${revealed ? styles.revealed : ""}`}
-      style={{ rotateX, rotateY }}
+      style={{ rotateX, rotateY, cursor: 'pointer' }}
       onMouseMove={handleMove}
       onMouseEnter={() => setActive(item.id)}
       onMouseLeave={handleLeave}
@@ -120,6 +120,7 @@ const Thickshakes = () => {
   const trackRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isDragging = useRef(false);
+  const hasDragged = useRef(false);
   const dragStartX = useRef(0);
   const dragScrollLeft = useRef(0);
 
@@ -162,6 +163,7 @@ const Thickshakes = () => {
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!trackRef.current) return;
     isDragging.current = true;
+    hasDragged.current = false;
     dragStartX.current = e.clientX - trackRef.current.offsetLeft;
     dragScrollLeft.current = trackRef.current.scrollLeft;
     trackRef.current.setPointerCapture(e.pointerId);
@@ -171,6 +173,10 @@ const Thickshakes = () => {
     if (!isDragging.current || !trackRef.current) return;
     e.preventDefault();
     const x = e.clientX - trackRef.current.offsetLeft;
+    const distance = Math.abs(x - dragStartX.current);
+    if (distance > 10) {
+      hasDragged.current = true;
+    }
     trackRef.current.scrollLeft = dragScrollLeft.current - (x - dragStartX.current) * 1.2;
   };
   const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -178,6 +184,13 @@ const Thickshakes = () => {
     isDragging.current = false;
     trackRef.current.releasePointerCapture(e.pointerId);
     trackRef.current.style.cursor = 'grab';
+
+    if (!hasDragged.current) {
+      const target = e.target as HTMLElement;
+      if (target.closest(`.${styles.card}`)) {
+        navigate("/thickshakes");
+      }
+    }
   };
 
   const handleToggle = () => {

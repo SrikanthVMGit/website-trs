@@ -68,16 +68,10 @@ export default function Footer() {
           <h3 className={styles.colTitle}>ORDER FROM</h3>
           <div className={styles.orderLogos}>
             <a href="https://www.swiggy.com" target="_blank" rel="noopener noreferrer" className={styles.orderLogoLink}>
-              <div className={styles.swiggyIcon}>
-                <img src={swiggyImg} alt="Swiggy" className={styles.partnerLogo} />
-                <span>Swiggy</span>
-              </div>
+              <img src={swiggyImg} alt="Swiggy" className={styles.partnerLogo} />
             </a>
             <a href="https://www.zomato.com" target="_blank" rel="noopener noreferrer" className={styles.orderLogoLink}>
-              <div className={styles.zomatoIcon}>
-                <img src={zomatoImg} alt="Zomato" className={styles.partnerLogo} />
-                <span>Zomato</span>
-              </div>
+              <img src={zomatoImg} alt="Zomato" className={styles.partnerLogo} />
             </a>
           </div>
         </div>

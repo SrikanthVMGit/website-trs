@@ -7,12 +7,16 @@ import sundaeVideo2 from "../../assets/sundaes/motion2Fast_Ultrarealistic_cinema
 import sundaeVideo3 from "../../assets/sundaes/Ice_Cream_Sundae_A_spoon_drizzles_mango_sauce_over_scoops_of_4RRWdq1Y.mp4";
 import sundaeVideo4 from "../../assets/sundaes/Ice_Cream_Sundae_A_dessert_bowl_filled_with_two_scoops_of_ice_hMaK4T57.mp4";
 
+import berryBlissImg from "../../assets/sundaes/berry_bliss_sundae.png";
+import sithaphalRoyalImg from "../../assets/sundaes/sithaphal_royal_delight.png";
+import royalChocImg from "../../assets/sundaes/royal_chocolate_overload.png";
+import belgianNutImg from "../../assets/sundaes/belgian_nut_indulgence.png";
+
 const SUNDAE_DATA = [
-  { id: 1, title: "Choco-vanilla Swirl", description: "a classic.", video: sundaeVideo1, poster: "https://i.pinimg.com/736x/b0/5d/bc/b05dbc63f7ef32d2317b6abe2b605188.jpg" },
-  { id: 2, title: "Strawberry Bliss", description: "a timeless favorite.", video: sundaeVideo2, poster: "https://i.pinimg.com/736x/dd/cb/52/ddcb527d006a25df92213fffcd848a8d.jpg" },
-  { id: 3, title: "Mango Tango", description: "a tropical twist.", video: sundaeVideo3, poster: "https://i.pinimg.com/736x/72/07/72/7207724a35e0d8c7f9b072f2c28b060e.jpg" },
-  { id: 4, title: "Blueberry Dream", description: "a refreshing twist.", video: sundaeVideo4, poster: "https://i.pinimg.com/736x/32/c4/9a/32c49aa4ef3db1a84c6a2f77854c528a.jpg" },
-  
+  { id: 1, title: "Berry Bliss Sundae", description: "Wild berries, berry compote, whipped cream.", video: sundaeVideo1, poster: berryBlissImg },
+  { id: 2, title: "Sithaphal Royal Delight", description: "Custard apple ice cream, gold dust.", video: sundaeVideo2, poster: sithaphalRoyalImg },
+  { id: 3, title: "Royal Chocolate Overload", description: "Dark choc, brownie, fudge drizzle.", video: sundaeVideo3, poster: royalChocImg },
+  { id: 4, title: "Belgian Nut Indulgence", description: "Belgian choc, praline, hazelnut brittle.", video: sundaeVideo4, poster: belgianNutImg },
 ];
 
 export default function Icecreams() {
@@ -77,6 +81,8 @@ export default function Icecreams() {
                 className={`${styles.cardWrapper} ${visibleIndices.has(i) ? styles.revealed : ""}`}
                 onMouseEnter={() => handleMouseEnter(item.id)}
                 onMouseLeave={() => handleMouseLeave(item.id)}
+                onClick={() => navigate("/sundaes")}
+                style={{ cursor: "pointer" }}
               >
                 <div className={styles.cardContent}>
                   <div className={styles.imageContainer}>

@@ -5,6 +5,11 @@ import pageStyles from "../ScoopsPage/ScoopsPage.module.css";
 import Enquiry from "../Enquiry/Enquiry";
 import Footer from "../Footer/Footer";
 
+import berryBlissImg from "../../assets/sundaes/berry_bliss_sundae.png";
+import sithaphalRoyalImg from "../../assets/sundaes/sithaphal_royal_delight.png";
+import royalChocImg from "../../assets/sundaes/royal_chocolate_overload.png";
+import belgianNutImg from "../../assets/sundaes/belgian_nut_indulgence.png";
+
 interface SundaeItem {
   id: number;
   title: string;
@@ -18,28 +23,28 @@ const ALL_SUNDAES: SundaeItem[] = [
     id: 1,
     title: "Berry Bliss Sundae",
     description: "A vibrant medley of hand-picked wild strawberries, blueberries and raspberries layered over a smooth vanilla custard base. Finished with a house berry compote and white chocolate shavings for delicate sweetness.",
-    poster: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80",
+    poster: berryBlissImg,
     isNew: false,
   },
   {
     id: 2,
     title: "Sithaphal Royal Delight",
     description: "An ode to India's most treasured seasonal fruit — the Custard Apple. Slow-churned with hand-scooped Sithaphal pulp, this sundae carries a naturally floral, honey-like sweetness that is unmatched. Served with a dusting of crushed cardamom.",
-    poster: "https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=600&q=80",
+    poster: sithaphalRoyalImg,
     isNew: true,
   },
   {
     id: 3,
     title: "Royal Chocolate Overload",
     description: "A pure, uncompromising celebration of chocolate — think dark Valrhona ganache, a fudgy brownie crumble base, rich chocolate sauce ribbons, and a scoop of 72% dark cocoa ice cream. For the truly devoted.",
-    poster: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80",
+    poster: royalChocImg,
     isNew: false,
   },
   {
     id: 4,
     title: "Belgian Nut Indulgence",
     description: "Slow-roasted Belgian hazelnuts and Sicilian pistachios ground into a silky praline, folded into a rich gelato base. Topped with a warm Gianduja drizzle and sea-salt-roasted nut clusters for the perfect crunch.",
-    poster: "https://images.unsplash.com/photo-1633933358116-a27b902fad35?w=600&q=80",
+    poster: belgianNutImg,
     isNew: false,
   },
   {
