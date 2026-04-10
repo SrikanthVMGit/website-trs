@@ -113,11 +113,11 @@ function App() {
     <Routes>
       <Route path="/" element={<MainContent />} />
       <Route path="/sundaes" element={<SundaesAll />} />
-      <Route path="/scoops" element={<ScoopsFullPage onBack={() => navigate(-1)} />} />
+      <Route path="/scoops" element={<ScoopsFullPage />} />
       <Route path="/thickshakes" element={<ThickshakesAllPage />} />
       <Route path="/warm-specials" element={<WarmSpecialsAllPage />} />
       <Route path="/ourstory" element={<OurStoryPage />} />
-      <Route path="/ScoopsPage" element={<ScoopsFullPage onBack={() => navigate('/')} />} />
+      <Route path="/ScoopsPage" element={<ScoopsFullPage />} />
       <Route path="/menu" element={<MenuPage />} />
     </Routes>
   )

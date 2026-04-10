@@ -36,7 +36,7 @@ import royalChocImg from '../../assets/sundaes/royal_chocolate_overload.png';
 import belgianNutImg from '../../assets/sundaes/belgian_nut_indulgence.png';
 import mangoScoopImg from '../../assets/scoops/Mango_scoop.png';
 import matchaImg from '../../assets/scoops/Matcha.png';
-import cheesecakeImg from '../../assets/scoops/NY Cheesecake.png';
+import cheesecakeImg from '../../assets/scoops/NY_Cheesecake.png';
 import seethaphalImg from '../../assets/scoops/seethapal.png';
 import seasonalDropImg from '../../assets/seasonal/seasonal_drops_plated_dessert_1774726379052.png';
 
