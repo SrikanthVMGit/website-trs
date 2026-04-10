@@ -145,15 +145,15 @@
   align-items: center;
   gap: 8px;
   overflow: hidden;
-  padding: 10px 28px;
+  padding: 14px 40px;
   font-family: var(--font-main, 'Space Grotesk', sans-serif);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #1a0f00;
   border: none;
-  border-radius: 4px;
+  border-radius: 100px;
   cursor: pointer;
   background: linear-gradient(135deg,
       #e8b86d 0%,
@@ -161,10 +161,9 @@
       #d4a96a 60%,
       #b8824a 100%);
   box-shadow:
-    0 4px 24px rgba(200, 155, 109, 0.55),
-    0 1px 0 rgba(255, 220, 160, 0.4) inset,
-    0 -1px 0 rgba(100, 60, 20, 0.3) inset;
-  transition: transform 0.22s ease, box-shadow 0.28s ease;
+    0 4px 24px rgba(200, 155, 109, 0.4),
+    0 1px 0 rgba(255, 220, 160, 0.3) inset;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Animated shimmer sweep */
@@ -216,26 +215,20 @@
   align-items: center;
   gap: 8px;
   overflow: hidden;
-  padding: 10px 28px;
+  padding: 14px 40px;
   font-family: var(--font-main, 'Space Grotesk', sans-serif);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.92);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(200, 155, 109, 0.45);
-  border-radius: 4px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 100px;
   cursor: pointer;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  box-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.3),
-    0 0 0 0 rgba(200, 155, 109, 0);
-  transition: transform 0.22s ease,
-    box-shadow 0.28s ease,
-    background 0.28s ease,
-    border-color 0.28s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .finalBtnSecondary:hover {
@@ -261,8 +254,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;        /* true vertical centre */
-  margin-top: -40px;              /* slight upward bias so fruits show below */
+  justify-content: center;
+  /* true vertical centre */
+  margin-top: -160px;
+  /* moved higher up as requested */
   padding-inline: 40px;
   text-align: center;
   pointer-events: none;
@@ -384,15 +379,15 @@
   align-items: center;
   gap: 8px;
   overflow: hidden;
-  padding: 16px 28px;
+  padding: 14px 40px;
   font-family: var(--font-main, 'Space Grotesk', sans-serif);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #1a0f00;
   border: none;
-  border-radius: 4px;
+  border-radius: 100px;
   cursor: pointer;
   background: linear-gradient(135deg,
       #e8b86d 0%,
@@ -400,10 +395,8 @@
       #d4a96a 60%,
       #b8824a 100%);
   box-shadow:
-    0 4px 24px rgba(200, 155, 109, 0.50),
-    0 1px 0 rgba(255, 220, 160, 0.40) inset,
-    0 -1px 0 rgba(100, 60, 20, 0.30) inset;
-  transition: transform 0.22s ease, box-shadow 0.28s ease;
+    0 4px 24px rgba(200, 155, 109, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .startBtnPrimary::before {
@@ -454,25 +447,20 @@
   align-items: center;
   gap: 8px;
   overflow: hidden;
-  padding: 16px 28px;
+  padding: 14px 40px;
   font-family: var(--font-main, 'Space Grotesk', sans-serif);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: rgba(245, 236, 215, 0.92);
-  /* Dark bg matching hero so text is clearly readable */
-  background: rgba(42, 28, 22, 0.82);
-  border: 1px solid rgba(200, 155, 109, 0.55);
-  border-radius: 4px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 100px;
   cursor: pointer;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-  transition: transform 0.22s ease,
-    box-shadow 0.28s ease,
-    background 0.28s ease,
-    border-color 0.28s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .startBtnSecondary:hover {
@@ -620,8 +608,15 @@
 }
 
 @keyframes heroBgKen {
-  from { transform: scale(1);    object-position: 50% 45%; }
-  to   { transform: scale(1.06); object-position: 50% 55%; }
+  from {
+    transform: scale(1);
+    object-position: 50% 45%;
+  }
+
+  to {
+    transform: scale(1.06);
+    object-position: 50% 55%;
+  }
 }
 
 .mobileHeroContent {
@@ -637,6 +632,13 @@
 }
 
 @keyframes mobileContentIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

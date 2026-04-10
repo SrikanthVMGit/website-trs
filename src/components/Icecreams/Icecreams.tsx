@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Icecreams.module.css";
 
-import sundaeVideo1 from "../../assets/Ice_Cream_Sundae_In_a_dramatic_macro-cinematic_style_warm_rfadOEVo.mp4";
-import sundaeVideo2 from "../../assets/motion2Fast_Ultrarealistic_cinematic_closeup_sequence_of_an_ar_0-2.mp4";
-import sundaeVideo3 from "../../assets/Ice_Cream_Sundae_A_spoon_drizzles_mango_sauce_over_scoops_of_4RRWdq1Y.mp4";
-import sundaeVideo4 from "../../assets/Ice_Cream_Sundae_A_dessert_bowl_filled_with_two_scoops_of_ice_hMaK4T57.mp4";
+import sundaeVideo1 from "../../assets/sundaes/Ice_Cream_Sundae_In_a_dramatic_macro-cinematic_style_warm_rfadOEVo.mp4";
+import sundaeVideo2 from "../../assets/sundaes/motion2Fast_Ultrarealistic_cinematic_closeup_sequence_of_an_ar_0-2.mp4";
+import sundaeVideo3 from "../../assets/sundaes/Ice_Cream_Sundae_A_spoon_drizzles_mango_sauce_over_scoops_of_4RRWdq1Y.mp4";
+import sundaeVideo4 from "../../assets/sundaes/Ice_Cream_Sundae_A_dessert_bowl_filled_with_two_scoops_of_ice_hMaK4T57.mp4";
 
 const SUNDAE_DATA = [
   { id: 1, title: "Choco-vanilla Swirl", description: "a classic.", video: sundaeVideo1, poster: "https://i.pinimg.com/736x/b0/5d/bc/b05dbc63f7ef32d2317b6abe2b605188.jpg" },
@@ -55,7 +55,7 @@ export default function Icecreams() {
   };
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="sundaes">
       <div className={styles.container} ref={containerRef}>
         <div className={styles.topRow}>
           <div className={styles.header}>

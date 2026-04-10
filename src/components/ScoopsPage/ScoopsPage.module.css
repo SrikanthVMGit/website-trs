@@ -1,0 +1,319 @@
+/* ══════════════════════════════════════════════
+   ScoopsPage.module.css
+   Shared page-level styles for the scoops page
+   (navbar, hero, flavour grid)
+   matching the MenuPage + SundaesAll aesthetic
+═══════════════════════════════════════════════ */
+
+/* ── MINIMAL BACK NAV ───────────────────────── */
+.navRow {
+  position: absolute;
+  top: 40px;
+  left: 60px;
+  z-index: 1000;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.backBtn:hover {
+  background: #c9935a;
+  border-color: #c9935a;
+  color: #000;
+  transform: translateX(-5px);
+}
+
+/* ── HERO ────────────────────────────────────── */
+.hero {
+  max-width: 100%;
+  margin: 0;
+  min-height: 50vh;
+  padding: 180px 80px 100px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: #000; /* Fallback */
+}
+
+.eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  color: #c9935a;
+  font-weight: 700;
+  margin-bottom: 24px;
+  display: block;
+}
+
+.heroTitle {
+  font-size: clamp(48px, 9vw, 110px);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+  color: #fff;
+}
+
+.accent {
+  color: #c9935a;
+}
+
+.heroDesc {
+  font-size: clamp(16px, 1.2vw, 18px);
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 440px;
+  line-height: 1.8;
+  margin-bottom: 40px;
+  font-weight: 400;
+}
+
+.heroEnquiryBtn {
+  background: #c9935a;
+  color: #000;
+  border: none;
+  padding: 16px 42px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  display: inline-block;
+}
+
+.heroEnquiryBtn:hover {
+  background: #fff;
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(201, 147, 90, 0.3);
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.1), transparent);
+  margin-top: 80px;
+}
+
+/* ── FLAVOURS GRID (V2 REFINEMENT) ───────────────── */
+.gridSection {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 60px 160px;
+  /* Reduced top padding to match tighter sundaes transition */
+}
+
+.introHeader {
+  margin-bottom: 60px;
+  /* Reduced from 80px */
+  text-align: center;
+}
+
+.gridEyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  color: #c9935a;
+  margin-bottom: 16px;
+  font-weight: 700;
+  display: block;
+}
+
+.gridTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.gridLabel {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.cardWrapper {
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Stagger removed for professionalism, or kept very subtle if needed */
+.cardWrapper:nth-child(even) {
+  margin-top: 0;
+  /* Reset for better alignment */
+}
+
+.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cardContent {
+  position: relative;
+  border-radius: 16px;
+  aspect-ratio: 1 / 1.25;
+  /* Balanced ratio */
+  background: #000;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+}
+
+.cardWrapper:hover .cardContent {
+  transform: translateY(-8px);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
+}
+
+.imageContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+  filter: brightness(0.8);
+}
+
+.cardWrapper:hover .image {
+  transform: scale(1.1);
+  filter: brightness(0.5) blur(1px);
+}
+
+.textOverlay {
+  position: absolute;
+  inset: 0;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  z-index: 2;
+  background: linear-gradient(to top,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.3) 50%,
+      transparent 100%);
+  transition: all 0.6s ease;
+}
+
+.cardTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #fff;
+  letter-spacing: -0.5px;
+  transition: color 0.3s ease;
+}
+
+.cardWrapper:hover .cardTitle {
+  color: #c9935a;
+}
+
+.glassBox {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0;
+  margin-top: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(15px);
+}
+
+.cardWrapper:hover .glassBox {
+  padding: 16px;
+  margin-top: 12px;
+  max-height: 400px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cardDesc {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #c9935a;
+  color: #000;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  z-index: 10;
+}
+
+/* ── RESPONSIVE ──────────────────────────────── */
+@media (max-width: 1200px) {
+  .gridSection {
+    padding: 80px 40px;
+  }
+
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .gridSection {
+    padding: 60px 24px;
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .gridTitle {
+    font-size: 32px;
+  }
+
+  .hero {
+    padding: 120px 24px 60px;
+    min-height: auto;
+  }
+}

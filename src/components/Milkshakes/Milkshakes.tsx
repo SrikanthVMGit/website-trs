@@ -2,9 +2,9 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./Milkshakes.module.css";
 
-import strawberryImg from "../../assets/strawberry_cream_milkshake.png";
-import vanillaImg from "../../assets/vanilla_malt_milkshake.png";
-import coffeeImg from "../../assets/classic_cold_coffee_milkshake.png";
+import strawberryImg from "../../assets/milkshakes/strawberry_cream_milkshake.png";
+import vanillaImg from "../../assets/milkshakes/vanilla_malt_milkshake.png";
+import coffeeImg from "../../assets/milkshakes/classic_cold_coffee_milkshake.png";
 
 const data = [
   { id: 1, title: "Strawberry Cream", image: strawberryImg, colorClass: styles.pink, description: "Light, fruity, and irresistibly smooth — made with real strawberries.", accent: "#ff4d4d" },

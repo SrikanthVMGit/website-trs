@@ -1,9 +1,6 @@
-import { useState } from "react";
 import styles from "./Enquiry.module.css";
 
 const Enquiry = () => {
-  const [formData, setFormData] = useState({ type: "", timeline: "" });
-
   return (
     <section className={styles.section} id="enquiry">
       <div className={styles.bgAnimation}>
@@ -48,30 +45,12 @@ const Enquiry = () => {
 
             <div className={styles.row}>
               <div className={styles.inputGroup}>
-                <select 
-                  required 
-                  value={formData.type} 
-                  onChange={(e) => setFormData({...formData, type: e.target.value})}
-                >
-                  <option value="" disabled></option>
-                  <option value="corporate">Corporate</option>
-                  <option value="event">Event</option>
-                  <option value="custom">Custom flavours</option>
-                </select>
+                <input type="text" required placeholder=" " />
                 <label>Type of enquiry</label>
               </div>
 
               <div className={styles.inputGroup}>
-                <select 
-                  required 
-                  value={formData.timeline} 
-                  onChange={(e) => setFormData({...formData, timeline: e.target.value})}
-                >
-                  <option value="" disabled></option>
-                  <option value="2weeks">Within 2 weeks</option>
-                  <option value="1month">1 month</option>
-                  <option value="later">Later</option>
-                </select>
+                <input type="text" required placeholder=" " />
                 <label>Timeline</label>
               </div>
             </div>
@@ -81,10 +60,11 @@ const Enquiry = () => {
               <label>Your idea</label>
             </div>
 
-            <button className={styles.flowBtn}>
-              <span className={styles.flowText}>Submit enquiry</span>
-              <span className={styles.flowFill}></span>
-            </button>
+            <div className={styles.buttonGroup}>
+              <button type="submit" className={styles.btnPrimary}>
+                SUBMIT
+              </button>
+            </div>
           </form>
         </div>
       </div>

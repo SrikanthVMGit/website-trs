@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import styles from './LoadingScreen.module.css'
-import rarelogo from '../../assets/rarelogo.png'
+import rarelogo from '../../assets/common/rarelogo.png'
 
 interface Props {
   progress: number
@@ -35,13 +35,7 @@ export default function LoadingScreen({ progress, onComplete }: Props) {
           <img src={rarelogo} alt="The Rare Scoop" className={styles.logo} />
           <div className={styles.logoGlow} />
         </div>
-        <div className={styles.trackWrap}>
-          <div className={styles.track}>
-            <div className={styles.fill} style={{ width: `${progress}%` }} />
-            <div className={styles.dot} style={{ left: `${Math.min(progress, 100)}%` }} />
-          </div>
-          <span className={styles.pct}>{Math.round(progress)}%</span>
-        </div>
+       
         <span className={styles.brand}>The Rare Scoop</span>
         <p className={styles.tagline}>Crafting rare moments</p>
       </div>

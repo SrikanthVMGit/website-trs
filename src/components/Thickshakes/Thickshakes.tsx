@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import styles from "./Thickshakes.module.css";
 
-import chocolateImg from "../../assets/chocolate_hazelnut_shake.png";
-import saltedCaramelImg from "../../assets/salted_caramel_shake.png";
-import peanutButterImg from "../../assets/peanut_butter_fudge_shake.png";
-import strawberryCreamImg from "../../assets/strawberry_cream_milkshake.png";
+import chocolateImg from "../../assets/thickshakes/chocolate_hazelnut_shake.png";
+import saltedCaramelImg from "../../assets/thickshakes/salted_caramel_shake.png";
+import peanutButterImg from "../../assets/thickshakes/peanut_butter_fudge_shake.png";
+import strawberryCreamImg from "../../assets/milkshakes/strawberry_cream_milkshake.png";
 
 const data = [
   {
@@ -16,24 +16,28 @@ const data = [
     title: "Chocolate Hazelnut",
     description: "Dark cocoa meets slow-roasted hazelnut in a thick, indulgent blend with a velvety finish.",
     image: chocolateImg,
+    dripColor: "#3b1e0a",
   },
   {
     id: 2,
     title: "Salted Caramel",
     description: "Rich caramel folded with hand-harvested fleur de sel — the perfect sweet-salt balance.",
     image: saltedCaramelImg,
+    dripColor: "#c9935a",
   },
   {
     id: 3,
     title: "Peanut Butter Fudge",
     description: "Creamy peanut butter ribboned through a deep chocolate fudge base. Uncompromisingly rich.",
     image: peanutButterImg,
+    dripColor: "#7b4f1a",
   },
   {
     id: 4,
     title: "Strawberry Cream",
     description: "Sun-kissed strawberries blended into a lush, cloud-like cream — delicately sweet and fresh.",
     image: strawberryCreamImg,
+    dripColor: "#ff8fa3",
   },
 ];
 
@@ -81,6 +85,19 @@ const TiltCard = ({ item, active, setActive, isSpotlight, revealed, cardRef }: {
     >
       {/* Animated underline bar — slides across the bottom when spotlight */}
       {isSpotlight && <div className={styles.activeBar} />}
+
+      {/* Milkshake-style drip overlay on hover */}
+      <div
+        className={styles.dripOverlay}
+        style={{ '--drip-color': item.dripColor } as React.CSSProperties}
+      >
+        <svg viewBox="0 0 200 100" preserveAspectRatio="none">
+          <path
+            fill="var(--drip-color)"
+            d="M0,0 L200,0 L200,40 C190,40 185,95 175,95 C165,95 160,30 150,30 C140,30 135,100 125,100 C115,100 110,40 100,40 C90,40 85,95 75,95 C65,95 60,30 50,30 C40,30 35,100 25,100 C15,100 10,40 0,40 Z"
+          />
+        </svg>
+      </div>
 
       <div className={styles.imageContainer}>
         <img src={item.image} className={styles.image} alt={item.title} />
@@ -164,7 +181,7 @@ const Thickshakes = () => {
   };
 
   const handleToggle = () => {
-    navigate("/ThichshakesPage");
+    navigate("/thickshakes");
   };
 
   return (

@@ -2,10 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Menu.module.css";
 
-import scoopsImg from '../../assets/Scoops.png';
-import sundaesImg from '../../assets/sundaes.png';
-import thickshakesImg from '../../assets/cat_thickshakes.png';
-import warmSpecialsImg from '../../assets/Warm_specials.jpg';
+import scoopsImg from '../../assets/scoops/Scoops.png';
+import sundaesImg from '../../assets/sundaes/sundaes.png';
+import thickshakesImg from '../../assets/thickshakes/cat_thickshakes.png';
+import warmSpecialsImg from '../../assets/warm-specials/Warm_specials.jpg';
 
 const MENU_ITEMS = [
   {
@@ -14,7 +14,8 @@ const MENU_ITEMS = [
     sub: "Signature flavors",
     img: scoopsImg,
     marquee: "CLASSIC • CHURNED • FRESH •",
-    targetId: "scoops"
+    targetId: "scoops",
+    route: "/scoops"
   },
   {
     id: 2,
@@ -22,7 +23,8 @@ const MENU_ITEMS = [
     sub: "Loaded treats",
     img: sundaesImg,
     marquee: "DECADENT • RICH • SWEET •",
-    targetId: "sundaes"
+    targetId: "sundaes",
+    route: "/sundaes"
   },
   {
     id: 3,
@@ -30,7 +32,8 @@ const MENU_ITEMS = [
     sub: "Dessert-style blends",
     img: thickshakesImg,
     marquee: "RICH • THICK • INDULGENT •",
-    targetId: "thickshakes"
+    targetId: "thickshakes",
+    route: "/thickshakes"
   },
   {
     id: 4,
@@ -38,7 +41,8 @@ const MENU_ITEMS = [
     sub: "Comforting classics",
     img: warmSpecialsImg,
     marquee: "COMFORT • WARM • COZY •",
-    targetId: "warm-specials"
+    targetId: "warm-specials",
+    route: "/warm-specials"
   },
 ];
 
@@ -122,10 +126,7 @@ export default function Menu() {
         onMouseEnter={() => setHoverIdx(idx)}
         onMouseLeave={() => setHoverIdx(-1)}
         onClick={() => {
-          const el = document.getElementById(cat.targetId);
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
+          navigate(cat.route);
         }}
       >
         <div className={styles.imageContainer}>
@@ -183,7 +184,7 @@ export default function Menu() {
               <h2 className={styles.title}>Menu</h2>
               <p className={styles.subtitle}>Our complete collection of frozen treats.</p>
             </div>
-            <button className={styles.seeAllBtn} onClick={() => navigate('/menu')}>SEE FULL MENU <span>→</span></button>
+            <button className={styles.seeAllBtn} onClick={() => navigate('/menu')}>SEE FULL MENU</button>
           </div>
 
           <div className={styles.dots}>

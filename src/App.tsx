@@ -1,15 +1,11 @@
-import { Routes, Route, useNavigate } from 'react-router-dom'
-import ThichshakesPage from './components/ThichshakesPage/ThichshakesPage'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import ScoopsFullPage from './components/ScoopsPage/ScoopsFullPage'
 import MenuPage from './components/MenuPage/MenuPage'
 import { useState, useCallback, useRef, useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar/Navbar'
 import FrameScrollHero from './components/Hero/FrameScrollHero'
 import Thickshakes from './components/Thickshakes/Thickshakes'
-import Milkshakes from './components/Milkshakes/Milkshakes'
-import Scoops from './components/Scoops/Scoops'
-import Categories from './components/Categories/Categories'
+import ScoopsShowcase, { ALL_FLAVOURS } from './components/Scoops/ScoopsShowcase'
 import Menu from './components/Menu/Menu'
 import SeasonalDrops from './components/SeasonalDrops/SeasonalDrops'
 import ArtOfIceCream from './components/ArtOfIceCream/ArtOfIceCream'
@@ -20,20 +16,41 @@ import OurStory2 from './components/ourstory2/ourstory2'
 import Enquiry from './components/Enquiry/Enquiry'
 import LoadingScreen from './components/LoadingScreen/LoadingScreen'
 import SundaesAll from './components/Icecreams/SundaesAll'
+import ThickshakesAllPage from './components/Icecreams/ThickshakesAllPage'
+import WarmSpecialsAllPage from './components/Icecreams/WarmSpecialsAllPage'
+import WarmSpecials from './components/Thickshakes/WarmSpecials'
+import OurStoryPage from './components/OurStoryPage/OurStoryPage'
 import './App.css'
 import Icecreams from './components/Icecreams/Icecreams'
 
-function HomePage() {
-
-
 function MainContent() {
-  // Raw progress from frame loader (can jump in bursts)
+  const location = useLocation()
   const rawProgressRef = useRef(0)
   const [displayProgress, setDisplayProgress] = useState(0)
   const displayProgressRef = useRef(0)
   const rafRef = useRef<number>(0)
   const lastTickRef = useRef<number>(0)
   const [loaded, setLoaded] = useState(false)
+  const isFirstRenderRef = useRef(true)
+
+  // Ensure page starts at top on mount and prevent browser scroll restoration
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    
+    // If this is the first render, scroll to top; otherwise scroll to final hero frame
+    if (isFirstRenderRef.current) {
+      window.scrollTo(0, 0);
+      isFirstRenderRef.current = false;
+    } else {
+      // Scroll to final hero frame (95% of 300vh)
+      const heroEndScroll = window.innerHeight * 3 * 0.95;
+      setTimeout(() => {
+        window.scrollTo(0, heroEndScroll);
+      }, 100);
+    }
+  }, [location]);
 
   useEffect(() => {
     const BASE_SPEED = 120
@@ -84,15 +101,13 @@ function MainContent() {
         />
       )}
 
-
       <Navbar />
       <FrameScrollHero onLoadProgress={handleProgress} />
       <Menu />
-      <Categories />
-      <Scoops />
+      <ScoopsShowcase flavours={ALL_FLAVOURS} showViewAll={true} />
       <Icecreams />
-      <Milkshakes />
       <Thickshakes />
+      <WarmSpecials />
       <SeasonalDrops />
       <ArtOfIceCream />
       <GuestNotes />
@@ -105,20 +120,19 @@ function MainContent() {
 }
 
 function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/sundaes" element={<SundaesAll />} />
   const navigate = useNavigate()
   return (
     <Routes>
       <Route path="/" element={<MainContent />} />
+      <Route path="/sundaes" element={<SundaesAll />} />
+      <Route path="/scoops" element={<ScoopsFullPage onBack={() => navigate(-1)} />} />
+      <Route path="/thickshakes" element={<ThickshakesAllPage />} />
+      <Route path="/warm-specials" element={<WarmSpecialsAllPage />} />
+      <Route path="/ourstory" element={<OurStoryPage />} />
       <Route path="/ScoopsPage" element={<ScoopsFullPage onBack={() => navigate('/')} />} />
       <Route path="/menu" element={<MenuPage />} />
-      <Route path="/ThichshakesPage" element={<ThichshakesPage onBack={() => navigate('/')} />} />
     </Routes>
   )
 }
 
-export default App
 export default App

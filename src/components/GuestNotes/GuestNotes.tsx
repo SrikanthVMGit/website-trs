@@ -43,11 +43,7 @@ export default function GuestNotes() {
             ))}
           </div>
 
-          <div className={styles.ctaCard}>
-            <h3 className={styles.ctaTitle}>Ready for your first rare scoop?</h3>
-            <p className={styles.ctaDesc}>Order tonight, reserve a limited drop, or subscribe for monthly tasting deliveries designed for curious palates.</p>
-            <button className={styles.startBtn}>START ORDER</button>
-          </div>
+
         </div>
       </div>
     </section>
