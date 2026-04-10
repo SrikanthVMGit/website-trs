@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
+import { useLocation, useNavigate, Link } from 'react-router-dom'
 import styles from './Navbar.module.css'
 import rarelogo from '../../assets/rarelogo.png'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,10 +20,28 @@ export default function Navbar() {
   }, [])
 
   const scrollTo = (id: string) => {
+    if (location.pathname !== '/') {
+      navigate('/', { state: { scrollTo: id } })
+      return
+    }
+
     const el = document.getElementById(id)
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
     setMenuOpen(false)
   }
+
+  // Handle scroll to ID after navigation back to home
+  useEffect(() => {
+    if (location.pathname === '/' && location.state && (location.state as any).scrollTo) {
+      const id = (location.state as any).scrollTo
+      setTimeout(() => {
+        const el = document.getElementById(id)
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+      // Clear state to avoid scrolling again on back navigation
+      window.history.replaceState({}, document.title)
+    }
+  }, [location])
 
   // Close menu on scroll
   useEffect(() => {
@@ -29,7 +50,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Invisible SVG definition for the clip-path */}
       <svg width="0" height="0" style={{ position: 'absolute' }}>
         <defs>
           <clipPath id="navbarDrip" clipPathUnits="objectBoundingBox">
@@ -39,25 +59,20 @@ export default function Navbar() {
       </svg>
 
       <nav className={`${styles.navbar} ${isScrolled ? styles.scrolled : ''}`}>
-
-        {/* ── Left: nav links ── */}
         <div className={styles.navLeft}>
-          <button className={styles.navLink} onClick={() => scrollTo('milkshakes')}>Menu</button>
-          <button className={styles.navLink} onClick={() => scrollTo('categories')}>Collections</button>
-          <button className={styles.navLink} onClick={() => scrollTo('art-of-ice-cream')}>Our Story</button>
+          <button className={styles.navLink} onClick={() => scrollTo('menu')}>Menu</button>
+          <button className={styles.navLink} onClick={() => scrollTo('warm-specials')}>Specials</button>
+          <button className={styles.navLink} onClick={() => scrollTo('our-story-2')}>Our Story</button>
         </div>
 
-        {/* ── Centre: logo ── */}
-        <div className={styles.navLogo}>
+        <Link to="/" className={styles.navLogo}>
           <img src={rarelogo} alt="The Rare Scoop" className={styles.logoImg} />
           <span className={styles.logoText}>The Rare Scoop</span>
-        </div>
+        </Link>
 
-        {/* ── Right: enquiry pill + hamburger ── */}
         <div className={styles.navRight}>
           <button className={styles.enquiryBtn} onClick={() => scrollTo('enquiry')}>Enquiry</button>
 
-          {/* Hamburger — mobile only */}
           <button
             className={`${styles.hamburger} ${menuOpen ? styles.open : ''}`}
             onClick={() => setMenuOpen(v => !v)}
@@ -70,11 +85,10 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* ── Mobile drawer ── */}
       <div className={`${styles.mobileMenu} ${menuOpen ? styles.mobileOpen : ''}`}>
-        <button className={styles.mobileLink} onClick={() => scrollTo('milkshakes')}>Menu</button>
-        <button className={styles.mobileLink} onClick={() => scrollTo('categories')}>Collections</button>
-        <button className={styles.mobileLink} onClick={() => scrollTo('art-of-ice-cream')}>Our Story</button>
+        <button className={styles.mobileLink} onClick={() => scrollTo('menu')}>Menu</button>
+        <button className={styles.mobileLink} onClick={() => scrollTo('warm-specials')}>Specials</button>
+        <button className={styles.mobileLink} onClick={() => scrollTo('our-story-2')}>Our Story</button>
         <button className={styles.mobileLink} onClick={() => scrollTo('enquiry')}>Enquiry</button>
       </div>
     </>
