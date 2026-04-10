@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styles from './Navbar.module.css'
 import rarelogo from '../../assets/rarelogo.png'
 
 export default function Navbar() {
+  const navigate = useNavigate()
   const [isScrolled, setIsScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -42,7 +44,7 @@ export default function Navbar() {
 
         {/* ── Left: nav links ── */}
         <div className={styles.navLeft}>
-          <button className={styles.navLink} onClick={() => scrollTo('menu')}>Menu</button>
+          <button className={styles.navLink} onClick={() => navigate('/menu')}>Menu</button>
           <button className={styles.navLink} onClick={() => scrollTo('categories')}>Collections</button>
           <button className={styles.navLink} onClick={() => scrollTo('our-story-2')}>Our Story</button>
         </div>
@@ -72,7 +74,7 @@ export default function Navbar() {
 
       {/* ── Mobile drawer ── */}
       <div className={`${styles.mobileMenu} ${menuOpen ? styles.mobileOpen : ''}`}>
-        <button className={styles.mobileLink} onClick={() => scrollTo('menu')}>Menu</button>
+        <button className={styles.mobileLink} onClick={() => { navigate('/menu'); setMenuOpen(false); }}>Menu</button>
         <button className={styles.mobileLink} onClick={() => scrollTo('categories')}>Collections</button>
         <button className={styles.mobileLink} onClick={() => scrollTo('our-story-2')}>Our Story</button>
         <button className={styles.mobileLink} onClick={() => scrollTo('enquiry')}>Enquiry</button>

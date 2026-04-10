@@ -1,5 +1,6 @@
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import ScoopsFullPage from './components/ScoopsPage/ScoopsFullPage'
+import MenuPage from './components/MenuPage/MenuPage'
 import { useState, useCallback, useRef, useEffect } from 'react'
 import Navbar from './components/Navbar/Navbar'
 import FrameScrollHero from './components/Hero/FrameScrollHero'
@@ -88,7 +89,7 @@ function MainContent() {
           onComplete={handleLoadComplete}
         />
       )}
-      
+
 
       <Navbar />
       <FrameScrollHero onLoadProgress={handleProgress} />
@@ -115,6 +116,7 @@ function App() {
     <Routes>
       <Route path="/" element={<MainContent />} />
       <Route path="/ScoopsPage" element={<ScoopsFullPage onBack={() => navigate('/')} />} />
+      <Route path="/menu" element={<MenuPage />} />
     </Routes>
   )
 }
