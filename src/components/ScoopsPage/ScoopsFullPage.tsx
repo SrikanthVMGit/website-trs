@@ -125,7 +125,7 @@ export default function ScoopsFullPage({ onBack }: ScoopsFullPageProps) {
   // GSAP Horizontal Slide tied to vertical scrolling
   useGSAP(() => {
     if (!scrollEl) return;
-    
+
     gsap.to(`.${styles.rowLeft}`, {
       xPercent: -5,
       ease: 'none',
@@ -229,8 +229,8 @@ export default function ScoopsFullPage({ onBack }: ScoopsFullPageProps) {
       {/* THE ARCHITECTURAL SPLIT SECTION */}
       <div ref={splitRef} className={styles.splitSection}>
 
-          {/* LEFT COLUMN: THE INDEX */}
-          <div className={styles.sidebar}>
+        {/* LEFT COLUMN: THE INDEX */}
+        <div className={styles.sidebar}>
 
           {/* Nav Header (Brand text only since back is up top) */}
           <div className={styles.brandRow}>
