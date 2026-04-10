@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Menu.module.css";
 
 import scoopsImg from '../../assets/Scoops.png';
@@ -45,6 +46,7 @@ const MENU_ITEMS = [
 const IS_MOBILE = typeof window !== 'undefined' && window.innerWidth <= 768;
 
 export default function Menu() {
+  const navigate = useNavigate();
   const outerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [hoverIdx, setHoverIdx] = useState(-1);
@@ -181,7 +183,7 @@ export default function Menu() {
               <h2 className={styles.title}>Menu</h2>
               <p className={styles.subtitle}>Our complete collection of frozen treats.</p>
             </div>
-            <button className={styles.seeAllBtn}>SEE FULL MENU <span>→</span></button>
+            <button className={styles.seeAllBtn} onClick={() => navigate('/menu')}>SEE FULL MENU <span>→</span></button>
           </div>
 
           <div className={styles.dots}>

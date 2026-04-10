@@ -1,3 +1,7 @@
+import { Routes, Route, useNavigate } from 'react-router-dom'
+import ThichshakesPage from './components/ThichshakesPage/ThichshakesPage'
+import ScoopsFullPage from './components/ScoopsPage/ScoopsFullPage'
+import MenuPage from './components/MenuPage/MenuPage'
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar/Navbar'
@@ -20,6 +24,10 @@ import './App.css'
 import Icecreams from './components/Icecreams/Icecreams'
 
 function HomePage() {
+
+
+function MainContent() {
+  // Raw progress from frame loader (can jump in bursts)
   const rawProgressRef = useRef(0)
   const [displayProgress, setDisplayProgress] = useState(0)
   const displayProgressRef = useRef(0)
@@ -75,6 +83,8 @@ function HomePage() {
           onComplete={handleLoadComplete}
         />
       )}
+
+
       <Navbar />
       <FrameScrollHero onLoadProgress={handleProgress} />
       <Menu />
@@ -99,8 +109,16 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/sundaes" element={<SundaesAll />} />
+  const navigate = useNavigate()
+  return (
+    <Routes>
+      <Route path="/" element={<MainContent />} />
+      <Route path="/ScoopsPage" element={<ScoopsFullPage onBack={() => navigate('/')} />} />
+      <Route path="/menu" element={<MenuPage />} />
+      <Route path="/ThichshakesPage" element={<ThichshakesPage onBack={() => navigate('/')} />} />
     </Routes>
   )
 }
 
+export default App
 export default App
