@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import styles from './OurStoryPage.module.css';
 import Enquiry from '../Enquiry/Enquiry';
 import Footer from '../Footer/Footer';

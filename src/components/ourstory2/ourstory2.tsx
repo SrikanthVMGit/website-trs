@@ -52,7 +52,7 @@ const panels: PanelData[] = [
 export default function OurStory() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const followerRef = useRef<HTMLDivElement>(null);
-  const [hoveredPanel, setHoveredPanel] = useState<string | null>(null);
+  const [, setHoveredPanel] = useState<string | null>(null);
 
   useEffect(() => {
     const cursor = cursorRef.current;

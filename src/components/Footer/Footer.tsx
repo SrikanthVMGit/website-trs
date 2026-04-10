@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './Footer.module.css'
 import rarelogo from '../../assets/common/rarelogo.png'
