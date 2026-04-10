@@ -184,13 +184,6 @@ const Thickshakes = () => {
     isDragging.current = false;
     trackRef.current.releasePointerCapture(e.pointerId);
     trackRef.current.style.cursor = 'grab';
-
-    if (!hasDragged.current) {
-      const target = e.target as HTMLElement;
-      if (target.closest(`.${styles.card}`)) {
-        navigate("/thickshakes");
-      }
-    }
   };
 
   const handleToggle = () => {
