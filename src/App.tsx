@@ -1,11 +1,12 @@
+import { Routes, Route, useNavigate } from 'react-router-dom'
+import ScoopsFullPage from './components/ScoopsPage/ScoopsFullPage'
 import { useState, useCallback, useRef, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import WarmSpecialsPage from './pages/WarmSpecialsPage/WarmSpecialsPage'
 import LoadingScreen from './components/LoadingScreen/LoadingScreen'
 import './App.css'
 
-function App() {
+function MainContent() {
   // Raw progress from frame loader (can jump in bursts)
   const rawProgressRef = useRef(0)
   // Smooth display progress — animated via RAF
@@ -65,21 +66,29 @@ function App() {
   }
 
   return (
-    <Router>
-      <div className="appWrapper">
-        {!loaded && (
-          <LoadingScreen
-            progress={displayProgress}
-            onComplete={handleLoadComplete}
-          />
-        )}
-        
-        <Routes>
-          <Route path="/" element={<Home handleProgress={handleProgress} />} />
-          <Route path="/warm-specials" element={<WarmSpecialsPage />} />
-        </Routes>
-      </div>
-    </Router>
+    <div className="appWrapper">
+      {!loaded && (
+        <LoadingScreen
+          progress={displayProgress}
+          onComplete={handleLoadComplete}
+        />
+      )}
+      
+      <Routes>
+        <Route path="/" element={<Home handleProgress={handleProgress} />} />
+        <Route path="/warm-specials" element={<WarmSpecialsPage />} />
+      </Routes>
+    </div>
+  )
+}
+
+function App() {
+  const navigate = useNavigate()
+  return (
+    <Routes>
+      <Route path="/*" element={<MainContent />} />
+      <Route path="/ScoopsPage" element={<ScoopsFullPage onBack={() => navigate('/')} />} />
+    </Routes>
   )
 }
 
