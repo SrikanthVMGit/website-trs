@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Menu.module.css";
 
 import scoopsImg from '../../assets/Scoops.png';
@@ -45,6 +46,7 @@ const MENU_ITEMS = [
 const IS_MOBILE = typeof window !== 'undefined' && window.innerWidth <= 768;
 
 export default function Menu() {
+  const navigate = useNavigate();
   const outerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [hoverIdx, setHoverIdx] = useState(-1);
@@ -120,6 +122,10 @@ export default function Menu() {
         onMouseEnter={() => setHoverIdx(idx)}
         onMouseLeave={() => setHoverIdx(-1)}
         onClick={() => {
+          if (cat.targetId === 'warm-specials') {
+            navigate('/warm-specials');
+            return;
+          }
           const el = document.getElementById(cat.targetId);
           if (el) {
             el.scrollIntoView({ behavior: 'smooth', block: 'start' });

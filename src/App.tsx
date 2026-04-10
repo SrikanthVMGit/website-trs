@@ -1,23 +1,9 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
-import Navbar from './components/Navbar/Navbar'
-import FrameScrollHero from './components/Hero/FrameScrollHero'
-import Thickshakes from './components/Thickshakes/Thickshakes'
-import Milkshakes from './components/Milkshakes/Milkshakes'
-import Scoops from './components/Scoops/Scoops'
-import Categories from './components/Categories/Categories'
-import Menu from './components/Menu/Menu'
-import SeasonalDrops from './components/SeasonalDrops/SeasonalDrops'
-import ArtOfIceCream from './components/ArtOfIceCream/ArtOfIceCream'
-import GuestNotes from './components/GuestNotes/GuestNotes'
-import Footer from './components/Footer/Footer'
-import Ourstory from './components/Ourstory/Ourstory'
-import OurStory2 from './components/ourstory2/ourstory2'
-import './App.css'
-import Enquiry from './components/Enquiry/Enquiry'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import WarmSpecialsPage from './pages/WarmSpecialsPage/WarmSpecialsPage'
 import LoadingScreen from './components/LoadingScreen/LoadingScreen'
-import Icecreams from './components/Icecreams/Icecreams'
-
-
+import './App.css'
 
 function App() {
   // Raw progress from frame loader (can jump in bursts)
@@ -79,31 +65,21 @@ function App() {
   }
 
   return (
-    <div className="appWrapper">
-      {!loaded && (
-        <LoadingScreen
-          progress={displayProgress}
-          onComplete={handleLoadComplete}
-        />
-      )}
-      
-
-      <Navbar />
-      <FrameScrollHero onLoadProgress={handleProgress} />
-      <Menu />
-      <Categories />
-      <Scoops />
-      <Icecreams />
-      <Milkshakes />
-      <Thickshakes />
-      <SeasonalDrops />
-      <ArtOfIceCream />
-      <GuestNotes />
-      <OurStory2 />
-      <Ourstory />
-      <Enquiry />
-      <Footer />
-    </div>
+    <Router>
+      <div className="appWrapper">
+        {!loaded && (
+          <LoadingScreen
+            progress={displayProgress}
+            onComplete={handleLoadComplete}
+          />
+        )}
+        
+        <Routes>
+          <Route path="/" element={<Home handleProgress={handleProgress} />} />
+          <Route path="/warm-specials" element={<WarmSpecialsPage />} />
+        </Routes>
+      </div>
+    </Router>
   )
 }
 
