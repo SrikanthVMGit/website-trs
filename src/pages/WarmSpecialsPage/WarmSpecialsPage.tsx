@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import styles from "./WarmSpecialsPage.module.css";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
@@ -10,7 +10,6 @@ import halwaImg from "../../assets/halwa_warm.png";
 import gulabJamunImg from "../../assets/gulab_jamun_warm.png";
 import lavaCakeImg from "../../assets/lava_cake_warm.png";
 import malpuaImg from "../../assets/malpua_warm.png";
-import heroBg from "../../assets/warm_specials_hero_bg.png";
 import premiumBg from "../../assets/warm_hero_premium_bg.png";
 
 // Cinematic Particles
