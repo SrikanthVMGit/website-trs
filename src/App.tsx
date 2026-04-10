@@ -4,7 +4,7 @@ import Navbar from './components/Navbar/Navbar'
 import FrameScrollHero from './components/Hero/FrameScrollHero'
 import Thickshakes from './components/Thickshakes/Thickshakes'
 import Milkshakes from './components/Milkshakes/Milkshakes'
-import Icecreams from './components/Icecreams/Icecreams'
+import Scoops from './components/Scoops/Scoops'
 import Categories from './components/Categories/Categories'
 import Menu from './components/Menu/Menu'
 import SeasonalDrops from './components/SeasonalDrops/SeasonalDrops'
@@ -17,6 +17,7 @@ import Enquiry from './components/Enquiry/Enquiry'
 import LoadingScreen from './components/LoadingScreen/LoadingScreen'
 import SundaesAll from './components/Icecreams/SundaesAll'
 import './App.css'
+import Icecreams from './components/Icecreams/Icecreams'
 
 function HomePage() {
   const rawProgressRef = useRef(0)
@@ -78,6 +79,7 @@ function HomePage() {
       <FrameScrollHero onLoadProgress={handleProgress} />
       <Menu />
       <Categories />
+      <Scoops />
       <Icecreams />
       <Milkshakes />
       <Thickshakes />
