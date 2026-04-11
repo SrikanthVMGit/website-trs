@@ -22,10 +22,9 @@ const frameSrc = (n: number) =>
 const isMobile = () => typeof window !== 'undefined' && window.innerWidth <= 768
 
 const getMobileFrameNumbers = () => {
-  const step = Math.ceil(TOTAL_FRAMES / MOBILE_TARGET_FRAMES)
+  // Use frames 0001 to 0120 for mobile view animation
   const nums: number[] = []
-  for (let n = 1; n <= TOTAL_FRAMES; n += step) nums.push(n)
-  if (nums[nums.length - 1] !== TOTAL_FRAMES) nums.push(TOTAL_FRAMES)
+  for (let n = 1; n <= 120; n++) nums.push(n)
   return nums
 }
 

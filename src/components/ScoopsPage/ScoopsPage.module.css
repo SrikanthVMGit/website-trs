@@ -9,7 +9,8 @@
 .navRow {
   position: absolute;
   top: 40px;
-  left: 60px;
+  left: 0;
+  padding-left: 20px;
   z-index: 1000;
 }
 
