@@ -180,6 +180,26 @@
   .cardsGrid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 650px) {
-  .cardsGrid { grid-template-columns: 1fr; }
-  .title { font-size: 38px; }
+  .container { padding: 0 24px; }
+  .topRow { 
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+  .header { 
+    flex: 1;
+    min-width: 0;
+  }
+  .cardsGrid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .title { font-size: 32px; }
+  .subtitle { font-size: 14px; }
+  .cardTitle { font-size: 1rem; font-weight: 600; }
+  .cardDesc { font-size: 0.7rem; }
+  .seeAllBtn { 
+    padding: 10px 16px; 
+    font-size: 11px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
 }

@@ -531,13 +531,28 @@
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
+  .overlay {
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+  }
+
+  .overlayInner {
+    gap: 16px;
+    transform: translateY(-22px);
+  }
+
   .heroContent {
     padding-top: 110px;
-    padding-inline: 24px;
+    padding-inline: 18px;
   }
 
   .title {
-    font-size: clamp(36px, 9vw, 58px);
+    width: auto;
+    max-width: 100%;
+    white-space: nowrap;
+    font-size: clamp(28px, 6.6vw, 42px);
+    line-height: 1;
     letter-spacing: -1px;
   }
 
@@ -559,25 +574,31 @@
   }
 
   .finalBrandName {
-    font-size: clamp(24px, 7vw, 44px);
+    font-size: clamp(28px, 8.6vw, 42px);
+    padding: 0 20px;
   }
 
   .finalBrandLogo {
-    width: clamp(32px, 7vw, 48px);
+    width: clamp(36px, 9vw, 52px);
   }
 
   .finalCta {
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
+    display: flex;
     width: 100%;
-    max-width: 300px;
+    max-width: 360px;
+    justify-content: center;
+    gap: 10px;
+    padding-bottom: 0;
   }
 
   .finalBtnPrimary,
   .finalBtnSecondary {
-    width: 100%;
-    padding: 15px 32px;
+    flex: 1;
+    min-width: 0;
+    max-width: 154px;
+    padding: 10px 12px;
+    font-size: 9px;
+    letter-spacing: 1.2px;
     justify-content: center;
   }
 }
@@ -593,8 +614,9 @@
   overflow: hidden;
   background: #000;
   display: flex;
-  align-items: flex-end;
-  padding-bottom: 90px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
 }
 
 .mobileHeroBg {
@@ -623,12 +645,76 @@
   position: relative;
   z-index: 4;
   width: 100%;
-  padding: 0 28px;
+  max-width: 380px;
+  margin: 0 auto;
+  margin-top: -20px;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   gap: 12px;
   animation: mobileContentIn 1s ease 0.3s both;
+}
+
+.mobileHero .eyebrow {
+  justify-content: center;
+}
+
+.mobileHero .title {
+  width: 100%;
+  white-space: nowrap;
+  font-size: clamp(36px, 8.5vw, 50px);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.mobileHero .startCta {
+  width: 100%;
+  max-width: 360px;
+  justify-content: center;
+  gap: 6px;
+}
+
+.mobileHero .startBtnPrimary,
+.mobileHero .startBtnSecondary {
+  flex: 1;
+  min-width: 0;
+  max-width: 116px;
+  justify-content: center;
+  padding: 7px 8px;
+  font-size: 7px;
+  letter-spacing: 0.9px;
+}
+
+@media (max-width: 420px) {
+  .mobileHero {
+    padding: 0 12px;
+  }
+
+  .mobileHeroContent {
+    max-width: 340px;
+    margin-top: -20px;
+  }
+
+  .mobileHero .title {
+    font-size: clamp(32px, 8vw, 44px);
+  }
+
+  .mobileHero .startCta {
+    max-width: 330px;
+    gap: 5px;
+  }
+
+  .mobileHero .startBtnPrimary,
+  .mobileHero .startBtnSecondary,
+  .mobileHero .startBtnPrimary,
+  .mobileHero .startBtnSecondary {
+    max-width: 108px;
+    padding: 6px 7px;
+    font-size: 6px;
+    letter-spacing: 0.8px;
+  }
 }
 
 @keyframes mobileContentIn {

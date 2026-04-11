@@ -43,12 +43,11 @@ export default function Categories() {
   const outerRef = useRef<HTMLDivElement>(null);
   const [activeIdx, setActiveIdx] = useState(-1);
   const hoverActiveRef = useRef<number>(-1); // -1 = no hover override
+  const scrollRequestRef = useRef<number | null>(null);
 
-  // ── Desktop: scroll-driven highlight ───────────────────────
+  // ── Scroll-driven highlight: optimized with RAF (works on all devices) ───────────────────────
   useEffect(() => {
-    if (IS_MOBILE) return;
-
-    const onScroll = () => {
+    const updateActiveIdx = () => {
       // If a card is being hovered, keep that highlight — don't override it
       if (hoverActiveRef.current >= 0) return;
 
@@ -67,9 +66,26 @@ export default function Categories() {
       setActiveIdx(idx);
     };
 
+    const onScroll = () => {
+      // Use RAF for smooth 60fps updates on all devices including mobile
+      if (scrollRequestRef.current !== null) {
+        cancelAnimationFrame(scrollRequestRef.current);
+      }
+      
+      scrollRequestRef.current = requestAnimationFrame(() => {
+        updateActiveIdx();
+        scrollRequestRef.current = null;
+      });
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    updateActiveIdx();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (scrollRequestRef.current !== null) {
+        cancelAnimationFrame(scrollRequestRef.current);
+      }
+    };
   }, []);
 
   // ── Hover: snap highlight instantly, no forced scroll ───────
@@ -137,29 +153,9 @@ export default function Categories() {
     );
   };
 
-  // ── MOBILE: simple static section, no scroll tricks ─────────
-  if (IS_MOBILE) {
-    return (
-      <section className={styles.mobileSection} id="categories">
-        <div className={styles.container}>
-          <div className={styles.header}>
-            <div>
-              <p className={styles.eyebrow}>— Our Offerings</p>
-              <h2 className={styles.title}>Categories</h2>
-              <p className={styles.subtitle}>The house favourites, refined and memorable.</p>
-            </div>
-          </div>
-          <div className={styles.mobileGrid}>
-            {CATEGORIES.map((cat, idx) => renderCard(cat, idx))}
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // ── DESKTOP: sticky scroll-driven reveal ─────────────────────
+  // ── Unified render: sticky scroll on all devices (desktop + mobile) ─────────────────────
   return (
-    <div ref={outerRef} className={styles.outer} id="categories">
+    <div ref={outerRef} className={`${styles.outer} ${IS_MOBILE ? styles.outerMobile : ''}`} id="categories">
       <div className={styles.sticky}>
         <div className={styles.container}>
 
@@ -169,7 +165,7 @@ export default function Categories() {
               <h2 className={styles.title}>Categories</h2>
               <p className={styles.subtitle}>The house favourites, refined and memorable.</p>
             </div>
-            <button className={styles.seeAllBtn}>SEE ALL <span>→</span></button>
+            {!IS_MOBILE && <button className={styles.seeAllBtn}>SEE ALL <span>→</span></button>}
           </div>
 
           <div className={styles.dots}>
@@ -181,7 +177,7 @@ export default function Categories() {
             ))}
           </div>
 
-          <div className={styles.cardsGrid}>
+          <div className={`${styles.cardsGrid} ${IS_MOBILE ? styles.cardsGridMobile : ''}`}>
             {CATEGORIES.map((cat, idx) => renderCard(cat, idx))}
           </div>
 

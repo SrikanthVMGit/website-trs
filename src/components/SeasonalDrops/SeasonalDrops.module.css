@@ -37,6 +37,7 @@
 .leftCol {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .overline {
@@ -53,7 +54,9 @@
   font-size: clamp(36px, 4vw, 52px);
   font-weight: 800;
   letter-spacing: -0.03em;
-  margin-bottom: 52px;
+  margin-bottom: 40px;
+  text-align: center;
+  margin-top: 40px;
 }
 
 .accentText {
@@ -292,18 +295,49 @@
     gap: 40px;
     padding: 0 32px;
   }
-  .rightCol { justify-content: flex-start; }
+  .rightCol { justify-content: center; }
   .frameOuter { max-width: 320px; aspect-ratio: 3/4; }
   .seasonalDrops { height: 300vh; }
   .title { margin-bottom: 36px; }
 }
 
 @media (max-width: 640px) {
-  .grid { padding: 0 20px; }
-  .title { font-size: clamp(28px, 8vw, 44px); }
+  .stickyViewport {
+    justify-content: center;
+  }
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 0 20px;
+    align-items: center;
+    justify-content: center;
+  }
+  .leftCol {
+    display: contents;
+  }
+  .overline {
+    order: 0;
+    text-align: center;
+    width: 100%;
+  }
+  .title {
+    font-size: clamp(28px, 8vw, 44px);
+    padding-top: 30px;
+    order: 1;
+    width: 100%;
+    max-width: 550px;
+    text-align: center;
+    margin-bottom: 0;
+  }
+  .rightCol {
+    order: 2;
+    width: 100%;
+  }
   .seasonalDrops { height: 280vh; }
   .frameOuter { max-width: 280px; aspect-ratio: 3/4; border-radius: 14px; }
   .dropName { font-size: 14px; }
   .dropDesc { font-size: 11px; }
   .statusBtn { padding: 6px 10px; font-size: 8px; }
+  .dropsList { display: none; }
 }

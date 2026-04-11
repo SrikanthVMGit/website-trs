@@ -2,7 +2,7 @@
  * FrameScrollHero.tsx
  */
 
-import { useEffect, useLayoutEffect, useRef, useCallback } from 'react'
+import { useEffect, useLayoutEffect, useRef, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -12,12 +12,22 @@ gsap.registerPlugin(ScrollTrigger)
 
 const TOTAL_FRAMES = 384
 const READY_AT = 20
+const MOBILE_TARGET_FRAMES = 64
+const MOBILE_READY_AT = 8
 const FRAME_BASE = '/frames/frame_'
 
 const frameSrc = (n: number) =>
   `${FRAME_BASE}${String(n).padStart(4, '0')}.webp`
 
 const isMobile = () => typeof window !== 'undefined' && window.innerWidth <= 768
+
+const getMobileFrameNumbers = () => {
+  const step = Math.ceil(TOTAL_FRAMES / MOBILE_TARGET_FRAMES)
+  const nums: number[] = []
+  for (let n = 1; n <= TOTAL_FRAMES; n += step) nums.push(n)
+  if (nums[nums.length - 1] !== TOTAL_FRAMES) nums.push(TOTAL_FRAMES)
+  return nums
+}
 
 const PHASES = [
   { start: 0.08, end: 0.35, text: 'Crafted with Obsession', glass: false },
@@ -32,6 +42,14 @@ interface Props {
 
 export default function FrameScrollHero({ onLoadProgress }: Props) {
   const mobile = isMobile()
+  const activeFrameNumbers = useMemo(
+    () => (mobile
+      ? getMobileFrameNumbers()
+      : Array.from({ length: TOTAL_FRAMES }, (_, i) => i + 1)),
+    [mobile]
+  )
+  const activeTotalFrames = activeFrameNumbers.length
+  const readyThreshold = mobile ? MOBILE_READY_AT : READY_AT
   const navigate = useNavigate()
 
   const outerRef = useRef<HTMLDivElement>(null)
@@ -67,7 +85,7 @@ export default function FrameScrollHero({ onLoadProgress }: Props) {
 
     ctx.clearRect(0, 0, cW, cH)
     ctx.drawImage(img, dx, dy, dW, dH)
-  }, [])
+  }, [mobile])
 
   const scheduleRender = useCallback((idx: number) => {
     pendingIdx.current = idx
@@ -99,6 +117,19 @@ export default function FrameScrollHero({ onLoadProgress }: Props) {
     const brand = finalBrandRef.current
     const cta = finalCtaRef.current
     if (!el || !text) return
+
+    if (mobile) {
+      const showFinal = progress >= 0.9
+      el.style.opacity = showFinal ? '1' : '0'
+      text.style.display = 'none'
+      if (brand) brand.style.display = showFinal ? 'flex' : 'none'
+      if (cta) {
+        cta.style.opacity = showFinal ? '1' : '0'
+        cta.style.transform = showFinal ? 'translateY(0)' : 'translateY(12px)'
+        cta.style.pointerEvents = showFinal ? 'all' : 'none'
+      }
+      return
+    }
 
     const lastPhase = PHASES[PHASES.length - 1]
     let hit: typeof PHASES[0] | null = null
@@ -147,11 +178,6 @@ export default function FrameScrollHero({ onLoadProgress }: Props) {
   }, [resizeCanvas, mobile])
 
   useEffect(() => {
-    if (mobile) {
-      onLoadProgress?.(100)
-      return
-    }
-
     requestAnimationFrame(() => resizeCanvas())
 
     let loaded = 0
@@ -171,14 +197,14 @@ export default function FrameScrollHero({ onLoadProgress }: Props) {
 
       if (i === 0) scheduleRender(0)
 
-      if (loaded === READY_AT && !readyFired) {
+      if (loaded === readyThreshold && !readyFired) {
         readyFired = true
         clearInterval(fakeInterval)
         onLoadProgress?.(100)
         initScrollTrigger()
       }
 
-      if (loaded === TOTAL_FRAMES && !readyFired) {
+      if (loaded === activeTotalFrames && !readyFired) {
         readyFired = true
         clearInterval(fakeInterval)
         onLoadProgress?.(100)
@@ -186,26 +212,27 @@ export default function FrameScrollHero({ onLoadProgress }: Props) {
       }
     }
 
-    for (let i = 0; i < TOTAL_FRAMES; i++) {
+    for (let i = 0; i < activeTotalFrames; i++) {
       const img = new Image()
+      img.decoding = 'async'
       frames.current[i] = img
       img.onload = () => onFrameLoad(i, img)
       img.onerror = () => {
         loaded++
-        if (loaded === READY_AT && !readyFired) {
+        if (loaded === readyThreshold && !readyFired) {
           readyFired = true
           clearInterval(fakeInterval)
           onLoadProgress?.(100)
           initScrollTrigger()
         }
-        if (loaded === TOTAL_FRAMES && !readyFired) {
+        if (loaded === activeTotalFrames && !readyFired) {
           readyFired = true
           clearInterval(fakeInterval)
           onLoadProgress?.(100)
           initScrollTrigger()
         }
       }
-      img.src = frameSrc(i + 1)
+      img.src = frameSrc(activeFrameNumbers[i])
     }
 
     function initScrollTrigger() {
@@ -217,15 +244,15 @@ export default function FrameScrollHero({ onLoadProgress }: Props) {
         pin: true,
         pinSpacing: true,
         start: 'top top',
-        end: '+=300%',
-        scrub: 1.2,
+        end: mobile ? '+=180%' : '+=300%',
+        scrub: mobile ? 0.45 : 1.2,
         onUpdate: (self) => {
           const raw = self.progress
           const eased = raw < 0.5
             ? 4 * raw * raw * raw
             : 1 - Math.pow(-2 * raw + 2, 3) / 2
 
-          const idx = Math.min(Math.floor(eased * (TOTAL_FRAMES - 1)), TOTAL_FRAMES - 1)
+          const idx = Math.min(Math.floor(eased * (activeTotalFrames - 1)), activeTotalFrames - 1)
 
           if (idx !== currentIdx.current) {
             currentIdx.current = idx
@@ -235,9 +262,11 @@ export default function FrameScrollHero({ onLoadProgress }: Props) {
           updateOverlay(raw)
 
           if (heroContentRef.current) {
-            const op = Math.max(0, 1 - raw / 0.2)
+            const fadeWindow = mobile ? 0.45 : 0.2
+            const lift = mobile ? 24 : 50
+            const op = Math.max(0, 1 - raw / fadeWindow)
             heroContentRef.current.style.opacity = String(op)
-            heroContentRef.current.style.transform = `translateY(${raw * -50}px)`
+            heroContentRef.current.style.transform = `translateY(${raw * -lift}px)`
           }
         },
         onLeave: () => {
@@ -270,37 +299,7 @@ export default function FrameScrollHero({ onLoadProgress }: Props) {
       ScrollTrigger.getAll().forEach(st => st.kill())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  if (mobile) {
-    return (
-      <div className={styles.mobileHero}>
-        <img
-          src="/frames/frame_0001.webp"
-          alt=""
-          className={styles.mobileHeroBg}
-          fetchPriority="high"
-        />
-        <div className={styles.vignette} />
-        <div className={styles.mobileHeroContent}>
-          <p className={styles.eyebrow}>Premium Icecream</p>
-          <h1 className={styles.title}>Created for<br />the Curious</h1>
-          <div className={styles.startCta}>
-            <button className={styles.startBtnPrimary} onClick={() => navigate('/menu')}>
-              <span>EXPLORE MORE</span>
-            </button>
-            <button className={styles.startBtnSecondary} onClick={() => navigate('/ourstory')}>
-              <span>OUR STORY</span>
-            </button>
-          </div>
-        </div>
-        <div className={styles.scrollHint}>
-          <div className={styles.chevron} />
-          <span>Scroll to explore</span>
-        </div>
-      </div>
-    )
-  }
+  }, [activeFrameNumbers, activeTotalFrames, mobile, onLoadProgress, resizeCanvas, scheduleRender, updateOverlay])
 
   return (
     <div ref={outerRef} className={styles.outer}>
