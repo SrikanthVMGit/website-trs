@@ -20,6 +20,7 @@
   overflow: hidden;
   display: flex;
   align-items: center;
+  padding-top: 80px;
 }
 
 .grid {
@@ -54,9 +55,9 @@
   font-size: clamp(36px, 4vw, 52px);
   font-weight: 800;
   letter-spacing: -0.03em;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 0;
 }
 
 .accentText {
@@ -175,7 +176,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 32px;
+  margin-top: 16px;
   color: rgba(246,242,234,0.22);
 }
 .scrollLine { width: 32px; height: 1px; background: rgba(246,242,234,0.22); }
@@ -320,18 +321,20 @@
     order: 0;
     text-align: center;
     width: 100%;
+    padding-top: 130px;
+    padding-bottom: 0px;
   }
   .title {
     font-size: clamp(28px, 8vw, 44px);
-    padding-top: 30px;
+    padding-top: 0px !important;
     order: 1;
     width: 100%;
     max-width: 550px;
     text-align: center;
-    margin-bottom: 0;
+    margin-bottom: 0px;
   }
   .rightCol {
-    order: 2;
+    order: 3;
     width: 100%;
   }
   .seasonalDrops { height: 280vh; }
@@ -339,5 +342,13 @@
   .dropName { font-size: 14px; }
   .dropDesc { font-size: 11px; }
   .statusBtn { padding: 6px 10px; font-size: 8px; }
-  .dropsList { display: none; }
+  .dropsList {
+    order: 2;
+    width: 100%;
+    max-width: 550px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .scrollHint { display: none; }
 }
