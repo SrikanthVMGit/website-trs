@@ -1,9 +1,14 @@
-/* Menu.module.css — Pinned scroll-driven card reveal (Copied from Categories) */
+/* Menu.module.css — Pinned scroll-driven card reveal (Desktop + Mobile optimized) */
 
 .outer {
   /* Increased height to force complete card spread before allowing user to scroll to next section */
   height: 250vh;
   position: relative;
+}
+
+/* ── Mobile: reduced scroll distance for better UX ── */
+.outerMobile {
+  height: 180vh;
 }
 
 /* ── Sticky inner panel — stays at top while outer scrolls ── */
@@ -176,6 +181,12 @@
   align-items: stretch;
 }
 
+/* ── Mobile: 2-column grid with optimized sizing ── */
+.cardsGridMobile {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
 /* ═══════════════════════════════════════════
    Card base — all transitions here
    ═══════════════════════════════════════════ */
@@ -186,7 +197,9 @@
   border-radius: 18px;
   overflow: hidden;
   cursor: pointer;
-  will-change: transform;
+  will-change: transform, opacity;
+  /* GPU acceleration for smooth 60fps animations on mobile */
+  transform: translate3d(0, 0, 0);
 
   opacity: 1;
 
@@ -366,45 +379,68 @@
   }
 }
 
-/* ── Mobile static section (rendered instead of sticky/outer) ── */
-.mobileSection {
-  background-color: #c9935a;
-  padding: 60px 0 72px;
-  width: 100%;
-}
+/* ── Mobile smooth scroll optimizations ── */
+@media (max-width: 768px) {
+  .outer {
+    height: 180vh;
+  }
 
-.mobileSection .container {
-  padding: 0 20px;
-}
+  .sticky {
+    /* Optimize for mobile: reduce motion perception */
+    /* Slightly reduce height slightly on small devices for better UX */
+  }
 
-.mobileSection .header {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0;
-  margin-bottom: 24px;
-}
+  .container {
+    padding: 0 16px;
+  }
 
-.mobileSection .title {
-  font-size: 30px;
-}
+  .header {
+    margin-top: 40px;
+    margin-bottom: 16px;
+  }
 
-/* 2-column card grid for mobile */
-.mobileGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
+  .title {
+    font-size: 24px;
+  }
 
-.mobileGrid .card {
-  height: 220px;
-  border-radius: 14px;
-  /* Reset scroll-state transforms so all cards look identical on mobile */
-  opacity: 1 !important;
-  transform: none !important;
-  filter: none !important;
-}
+  .subtitle {
+    max-width: 100%;
+    font-size: 12px;
+  }
 
-/* Keep hover effects on mobile cards */
-.mobileGrid .card:active .marqueeOverlay {
-  transform: translateY(0);
+  .dots {
+    margin-bottom: 16px;
+  }
+
+  .dot {
+    width: 16px;
+    height: 2px;
+    gap: 6px;
+  }
+
+  .dotActive {
+    width: 32px;
+  }
+
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .card {
+    height: 200px;
+    border-radius: 12px;
+    /* Reduce shadow for better performance on mobile */
+  }
+
+  .scrollCue {
+    font-size: 10px;
+    bottom: 20px !important;
+  }
+
+  .ambientGlow1,
+  .ambientGlow2 {
+    /* Reduce or disable bloom effects on mobile for performance */
+    opacity: 0.5;
+  }
 }

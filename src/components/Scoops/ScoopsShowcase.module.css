@@ -17,30 +17,208 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  /* GPU acceleration for smooth mobile animations */
+  will-change: contents;
+}
+
+/* ─── Full Width Stage (no sidebar) ─── */
+.fullWidthStage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ─── Flavor Name Overlay ─── */
+.flavorInfoOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: none;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  z-index: 5;
+  pointer-events: none;
+  padding: 5rem 2rem;
+}
+
+.flavorNameContainer {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 0;
+}
+
+.flavorName {
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 800;
+  color: #f5ede3;
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  animation: fadeIn 0.5s ease;
+}
+
+.flavorSubtitle {
+  font-size: 14px;
+  color: #c9935a;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0;
+  opacity: 0.8;
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Override styles for full-width layout ─── */
+.stageAura {
+  position: absolute;
+  inset: 0;
+  transition: background 1.2s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.floatingVideoWrapper {
+  position: relative;
+  width: 100%;
+  height: clamp(380px, 58vh, 720px);
+  z-index: 10;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.8));
+  /* GPU acceleration */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+.floatingAnimated {
+  /* Animation disabled - video stays still */
+}
+
+@keyframes zeroGravity {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-30px); }
+  100% { transform: translateY(0px); }
+}
+
+.floatingVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* GPU acceleration for smooth playback */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: auto;
+}
+
+/* ─── Spec plate repositioned ─── */
+.specPlate {
+  position: absolute;
+  bottom: 2rem;
+  right: 4rem;
+  width: 360px;
+  background: rgba(15, 15, 15, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2.5rem;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  animation: slideUpSpec 0.8s ease forwards;
+}
+
+@keyframes slideUpSpec {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.specHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+}
+
+.specEyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.specDesc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.specFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.exploreBtn {
+  background: #c9935a;
+  color: #131212;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.exploreBtn:hover {
+  background: #e6a56d;
+  transform: translateY(-2px);
+}
+
+.purityBadge {
+  font-size: 0.75rem;
+  color: #c9935a;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
 /* ─── Top Header (Matches Thickshakes/Sundaes) ─── */
 .topRow {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: 40px 40px 20px;
-  z-index: 10;
-}
-
-.topRow::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 35%;
-  min-width: 380px;
-  max-width: 500px;
-  height: 100%;
-  background-color: #131212;
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
-  z-index: -1;
+  display: none;
 }
 
 .header {
@@ -175,13 +353,104 @@
   100% { transform: scaleY(0); transform-origin: bottom; }
 }
 
-/* ─── Mobile: disable sticky scroll-jacking ─── */
+/* ─── Mobile & Tablet: optimized sticky scroll ─── */
 @media (max-width: 1024px) {
-  .outerWrapper { height: auto !important; }
-  .stickyInner  { position: relative; height: auto; min-height: 100vh; }
-  .topRow::before {
-    width: 100%;
-    max-width: none;
+  .outerWrapper {
+    /* Keep the height so sticky scroll works smoothly */
   }
-  .scrollHint   { display: none; }
+
+  .stickyInner {
+    /* Keep sticky positioning on mobile for smooth scroll experience */
+    position: sticky;
+    height: 100vh;
+  }
+
+  .flavorInfoOverlay {
+    padding: 3.5rem 1.5rem;
+  }
+
+  .flavorName {
+    font-size: clamp(36px, 5.5vw, 72px);
+  }
+
+  .floatingVideoWrapper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .specPlate {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+    width: auto;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .scrollHint {
+    opacity: 0.3;
+  }
+}
+
+@media (max-width: 640px) {
+  .flavorInfoOverlay {
+    padding: 6rem 1rem;
+  }
+
+  .flavorName {
+    font-size: clamp(28px, 4.5vw, 48px);
+  }
+
+  .floatingVideoWrapper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .specPlate {
+    width: auto;
+    padding: 1.5rem;
+    font-size: 0.85rem;
+    bottom: 0.5rem;
+  }
+
+  .progressDots {
+    bottom: 1rem;
+  }
+
+  .scrollHint {
+    top: 1.5rem;
+    right: 1rem;
+  }
+}
+
+/* ─── Small mobile: further optimizations ─── */
+@media (max-width: 768px) {
+  .topRow {
+    padding: 32px 20px 16px;
+  }
+
+  .scrollHint {
+    display: none;
+  }
+}
+
+/* ─── Desktop: Full-screen video background with title at top ─── */
+@media (min-width: 1025px) {
+  .floatingVideoWrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+
+  .specPlate {
+    position: absolute;
+    bottom: 2rem;
+    right: 4rem;
+  }
+
+  .stageAura {
+    display: none;
+  }
 }

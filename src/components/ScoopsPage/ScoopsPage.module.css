@@ -316,4 +316,14 @@
     padding: 120px 24px 60px;
     min-height: auto;
   }
+
+  .heroEnquiryBtn {
+    padding: 12px 28px;
+    font-size: 11px;
+  }
+
+  .backBtn {
+    padding: 8px 18px;
+    font-size: 10px;
+  }
 }

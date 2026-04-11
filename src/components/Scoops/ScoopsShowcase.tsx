@@ -30,12 +30,12 @@ export interface ScoopFlavour {
 }
 
 export const ALL_FLAVOURS: ScoopFlavour[] = [
+  { id: 6, title: 'Devasthanam Ladoo', subtitle: 'Temple Offering',       description: 'Divine sweetness inspired by traditional offerings, bursting with rich ghee textures.',         video: ladooVideo,      color: 'rgba(245, 158, 11, 0.25)' },
   { id: 1, title: 'Japanese Matcha',   subtitle: 'Ceremonial Grade',     description: 'Ceremonial-grade green tea expertly churned into a rich, earthy, and smooth scoop.',           video: matchaVideo,     color: 'rgba(167, 243, 208, 0.25)' },
   { id: 2, title: 'Desi Mango',        subtitle: 'Sun-Ripened Tropical',  description: 'Pure essence of sun-ripened Indian mangoes blended for a vibrant tropical bite.',               video: mangoVideo,      color: 'rgba(252, 211, 77, 0.25)'  },
   { id: 3, title: 'N.Y. Cheese Cake',  subtitle: 'Graham Core',           description: 'Cream cheese base swirled with a buttery graham crust for the ultimate dessert.',               video: cheesecakeVideo, color: 'rgba(254, 243, 199, 0.2)'  },
   { id: 4, title: 'Seethaphal',        subtitle: 'Seasonal Harvest',      description: 'A seasonal delight capturing the creamy, sweet floral notes of fresh custard apple.',           video: seethaphalVideo, color: 'rgba(226, 232, 240, 0.25)' },
   { id: 5, title: 'Irish Coffee',      subtitle: 'Whiskey Infused',       description: 'Robust coffee flavors interwoven with caramel and whiskey notes for an elegant treat.',         video: irishCoffeeVideo,color: 'rgba(217, 119, 6, 0.25)'  },
-  { id: 6, title: 'Devasthanam Ladoo', subtitle: 'Temple Offering',       description: 'Divine sweetness inspired by traditional offerings, bursting with rich ghee textures.',         video: ladooVideo,      color: 'rgba(245, 158, 11, 0.25)' },
 ];
 
 interface Props {
@@ -57,15 +57,16 @@ export default function ScoopsShowcase({
   const videoRef  = useRef<HTMLVideoElement>(null);
   const [stageVisible, setStageVisible] = useState(true);
   const splitRef  = useRef<HTMLDivElement>(null);
+  const scrollRequestRef = useRef<number | null>(null);
 
   const activeItem = flavours[activeIndex];
 
-  // ── Scroll-driven sticky: each "page" advances one flavour ─────────────
+  // ── Scroll-driven sticky: optimized with RAF throttling ─────────────
   useEffect(() => {
     const outer = outerRef.current;
     if (!outer) return;
 
-    const onScroll = () => {
+    const updateActiveIndex = () => {
       const rect      = outer.getBoundingClientRect();
       const scrolled  = -rect.top;                           // px scrolled into outer
       const maxScroll = outer.offsetHeight - window.innerHeight; // total scroll range
@@ -80,17 +81,44 @@ export default function ScoopsShowcase({
       setActiveIndex(idx);
     };
 
+    const onScroll = () => {
+      // Use RAF for smooth 60fps updates on mobile
+      if (scrollRequestRef.current !== null) {
+        cancelAnimationFrame(scrollRequestRef.current);
+      }
+      
+      scrollRequestRef.current = requestAnimationFrame(() => {
+        updateActiveIndex();
+        scrollRequestRef.current = null;
+      });
+    };
+
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    updateActiveIndex();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (scrollRequestRef.current !== null) {
+        cancelAnimationFrame(scrollRequestRef.current);
+      }
+    };
   }, [count]);
 
-  // ── Reload + play video on flavour change ──────────────────────────────
+  // ── Play video on flavour change (smooth playback) ──────────────────────
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    v.load();
-    v.play().catch(() => {});
+    
+    // Just reset position instead of full reload
+    v.currentTime = 0;
+    
+    // Trigger playback
+    const playPromise = v.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(err => {
+        // Autoplay may be blocked by browser
+        console.debug('Autoplay failed:', err);
+      });
+    }
   }, [activeIndex]);
 
   // ── Stage visibility (for floatingAnimated class) ──────────────────────
@@ -119,95 +147,61 @@ export default function ScoopsShowcase({
   };
 
   return (
-    // Outer tall container  — height = count × 100 vh
+    // Outer tall container  — height = count × 70 vh
     <div
       ref={outerRef}
       id="scoops"
       className={showcaseStyles.outerWrapper}
-      style={{ height: `${count * 100}vh` }}
+      style={{ height: `${count * 70}vh` }}
     >
       {/* ── Sticky viewport ── */}
       <div className={showcaseStyles.stickyInner}>
 
-        {/* ─── Top Header matching Thickshakes ─── */}
-        <div className={showcaseStyles.topRow}>
-          <div className={showcaseStyles.header}>
-            <p className={showcaseStyles.eyebrow}>— Signature Flavours</p>
-            <h2 className={showcaseStyles.title}>Scoops</h2>
-            <p className={showcaseStyles.subtitle}>Hand-churned, every single day.</p>
-          </div>
-          {showViewAll && (
-            <button className={showcaseStyles.seeAllBtn} onClick={() => navigate('/scoops')}>
-              SEE MORE <span>→</span>
-            </button>
-          )}
-        </div>
-
-        {/* ══════════════ EXACT splitSection from ScoopsFullPage ══════════════ */}
-        <div ref={splitRef} className={styles.splitSection} style={{ flex: 1, minHeight: 0 }}>
-
-          {/* LEFT: sidebar */}
-          <div className={styles.sidebar} style={{ paddingTop: '1rem' }}>
-
-            <div className={styles.indexList}>
-              <p className={styles.indexEyebrow}>— Select Flavor</p>
-
-              {flavours.map((item, i) => (
-                <div
-                  key={item.id}
-                  className={`${styles.indexItem} ${i === activeIndex ? styles.activeItem : ''}`}
-                  onMouseEnter={() => setActiveIndex(i)}
-                  onClick={() => jumpTo(i)}
-                >
-                  <div className={styles.itemNames}>
-                    <h3 className={styles.itemTitle}>{item.title}</h3>
-                    <span className={styles.itemSub}>{item.subtitle}</span>
-                  </div>
-                </div>
-              ))}
+        {/* ══════════════ Full-width stage (no sidebar) ══════════════ */}
+        <div ref={splitRef} className={showcaseStyles.fullWidthStage}>
+          {/* ─────────────────────────────────── */}
+          {/* Flavor name and description container */}
+          {/* ─────────────────────────────────── */}
+          <div className={showcaseStyles.flavorInfoOverlay}>
+            <div className={showcaseStyles.flavorNameContainer}>
+              <h1 key={activeItem.title} className={showcaseStyles.flavorName}>
+                {activeItem.title}
+              </h1>
+              <p className={showcaseStyles.flavorSubtitle}>{activeItem.subtitle}</p>
             </div>
           </div>
 
-          {/* RIGHT: stage */}
-          <div className={styles.stage}>
             {/* Aura */}
             <div
-              className={styles.stageAura}
+              className={showcaseStyles.stageAura}
               style={{ background: `radial-gradient(circle at center, ${activeItem.color} 0%, transparent 60%)` }}
             />
 
-            {/* Watermark */}
-            <div className={styles.watermarkContainer}>
-              <h1 key={activeItem.title} className={styles.watermarkText}>
-                {activeItem.title.toUpperCase()}
-              </h1>
-            </div>
-
             {/* Floating video */}
             <div
-              className={`${styles.floatingVideoWrapper} ${stageVisible ? styles.floatingAnimated : ''}`}
-              key={`vid-${activeItem.id}`}
+              className={`${showcaseStyles.floatingVideoWrapper} ${stageVisible ? showcaseStyles.floatingAnimated : ''}`}
             >
               <video
                 ref={videoRef}
                 src={activeItem.video}
-                className={styles.floatingVideo}
+                className={showcaseStyles.floatingVideo}
                 autoPlay
                 muted
                 loop
                 playsInline
+                preload="metadata"
               />
             </div>
 
             {/* Spec plate */}
-            <div className={styles.specPlate}>
-              <div className={styles.specHeader}>
-                <span className={styles.specEyebrow}>Tasting Notes</span>
+            <div className={showcaseStyles.specPlate}>
+              <div className={showcaseStyles.specHeader}>
+                <span className={showcaseStyles.specEyebrow}>Tasting Notes</span>
               </div>
-              <p className={styles.specDesc}>{activeItem.description}</p>
-              <div className={styles.specFooter}>
-                <button className={styles.exploreBtn} onClick={scrollToEnquiry}>Enquire</button>
-                <div className={styles.purityBadge}>100% Artisanal</div>
+              <p className={showcaseStyles.specDesc}>{activeItem.description}</p>
+              <div className={showcaseStyles.specFooter}>
+                <button className={showcaseStyles.exploreBtn} onClick={scrollToEnquiry}>Enquire</button>
+                <div className={showcaseStyles.purityBadge}>100% Artisanal</div>
               </div>
             </div>
 
@@ -229,9 +223,8 @@ export default function ScoopsShowcase({
                 <span>scroll</span>
               </div>
             )}
-          </div>
         </div>
-        {/* ══════════════ end splitSection ══════════════ */}
+        {/* ══════════════ end fullWidthStage ══════════════ */}
 
       </div>
     </div>
