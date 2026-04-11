@@ -54,35 +54,57 @@ export default function Menu() {
   const outerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [hoverIdx, setHoverIdx] = useState(-1);
+  const scrollRequestRef = useRef<number | null>(null);
 
-  // ── Desktop: continuous scroll mapping (Fan-out effect) ──────
+  // ── Scroll handler with RAF throttling for smooth mobile performance ──────
+  const updateScroll = (outer: HTMLElement) => {
+    const rect = outer.getBoundingClientRect();
+    let scrolled = -rect.top;
+    const maxScroll = outer.offsetHeight - window.innerHeight;
+
+    if (scrolled <= 0) {
+      setProgress(0);
+    } else if (scrolled >= maxScroll) {
+      setProgress(1);
+    } else {
+      setProgress(scrolled / maxScroll);
+    }
+  };
+
+  // ── Both Desktop and Mobile: continuous scroll mapping (optimized) ──────
   useEffect(() => {
-    if (IS_MOBILE) return;
-
     const onScroll = () => {
       const outer = outerRef.current;
       if (!outer) return;
 
-      const rect = outer.getBoundingClientRect();
-      let scrolled = -rect.top;
-
-      const maxScroll = outer.offsetHeight - window.innerHeight;
-
-      if (scrolled <= 0) { setProgress(0); return; }
-      if (scrolled >= maxScroll) { setProgress(1); return; }
-
-      setProgress(scrolled / maxScroll);
+      // Use RAF for smooth rendering, prevents jank on mobile
+      if (scrollRequestRef.current !== null) {
+        cancelAnimationFrame(scrollRequestRef.current);
+      }
+      
+      scrollRequestRef.current = requestAnimationFrame(() => {
+        updateScroll(outer);
+        scrollRequestRef.current = null;
+      });
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    const outer = outerRef.current;
+    if (outer) updateScroll(outer);
+    
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (scrollRequestRef.current !== null) {
+        cancelAnimationFrame(scrollRequestRef.current);
+      }
+    };
   }, []);
 
-  // ── Shared card renderer ─────────────────────────────────────
+  // ── Shared card renderer (works on all devices) ─────────────────────────────────
   const renderCard = (cat: typeof MENU_ITEMS[0], idx: number) => {
-    // Make the fan out happen a little faster (complete by 80% scroll)
-    const p = Math.min(1, progress * 1.25);
+    // Adapt animation speed based on device
+    const speedMult = IS_MOBILE ? 1.35 : 1.25; // Spread faster on mobile for smoother feel
+    const p = Math.min(1, progress * speedMult);
 
     const spreadOffsetsX = [160, 54, -54, -160];
     const spreadRotations = [-12, -4, 4, 12];
@@ -107,9 +129,8 @@ export default function Menu() {
       finalScale = IS_MOBILE ? 1 : 0.96; // slightly recede
     }
 
-    const transformStyle = !IS_MOBILE
-      ? `translateX(${currentX}%) translateY(${finalY}px) rotate(${finalRot}deg) scale(${finalScale})`
-      : 'none';
+    // Use will-change and gpu acceleration on mobile for smooth transforms
+    const transformStyle = `translateX(${currentX}%) translateY(${finalY}px) rotate(${finalRot}deg) scale(${finalScale})`;
 
     return (
       <div
@@ -152,29 +173,9 @@ export default function Menu() {
     );
   };
 
-  // ── MOBILE: simple static section, no scroll tricks ─────────
-  if (IS_MOBILE) {
-    return (
-      <section className={styles.mobileSection} id="menu">
-        <div className={styles.container}>
-          <div className={styles.header}>
-            <div>
-              <p className={styles.eyebrow}>— Our Menu</p>
-              <h2 className={styles.title}>Menu</h2>
-              <p className={styles.subtitle}>Our complete collection of frozen treats.</p>
-            </div>
-          </div>
-          <div className={styles.mobileGrid}>
-            {MENU_ITEMS.map((cat, idx) => renderCard(cat, idx))}
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // ── DESKTOP: sticky scroll-driven reveal ─────────────────────
+  // ── Unified render: sticky scroll on all devices (desktop + mobile) ─────────────────────
   return (
-    <div ref={outerRef} className={styles.outer} id="menu">
+    <div ref={outerRef} className={`${styles.outer} ${IS_MOBILE ? styles.outerMobile : ''}`} id="menu">
       <div className={styles.sticky}>
         <div className={styles.container}>
 
@@ -184,12 +185,13 @@ export default function Menu() {
               <h2 className={styles.title}>Menu</h2>
               <p className={styles.subtitle}>Our complete collection of frozen treats.</p>
             </div>
-            <button className={styles.seeAllBtn} onClick={() => navigate('/menu')}>SEE FULL MENU</button>
+            {!IS_MOBILE && <button className={styles.seeAllBtn} onClick={() => navigate('/menu')}>SEE FULL MENU</button>}
           </div>
 
           <div className={styles.dots}>
             {MENU_ITEMS.map((_, i) => {
-              const p = Math.min(1, progress * 1.25);
+              const speedMult = IS_MOBILE ? 1.35 : 1.25;
+              const p = Math.min(1, progress * speedMult);
               let activeDot = Math.min(Math.floor(p * MENU_ITEMS.length), MENU_ITEMS.length - 1);
 
               // Override active dot if the user is hovering over a specific card
@@ -206,7 +208,7 @@ export default function Menu() {
             })}
           </div>
 
-          <div className={styles.cardsGrid}>
+          <div className={`${styles.cardsGrid} ${IS_MOBILE ? styles.cardsGridMobile : ''}`}>
             {MENU_ITEMS.map((cat, idx) => renderCard(cat, idx))}
           </div>
 

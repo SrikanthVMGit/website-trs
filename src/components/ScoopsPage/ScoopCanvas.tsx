@@ -61,7 +61,7 @@ export default function ScoopCanvas({
         end: 'bottom top',
         scrub: 1.5, // Increased scrub smoothing from 1 to 1.5
         scroller: scrollContainer,
-        onUpdate: (self) => {
+        onUpdate: () => {
           draw(angleRef.current.deg);
         },
       },

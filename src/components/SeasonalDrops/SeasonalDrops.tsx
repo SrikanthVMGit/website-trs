@@ -135,8 +135,7 @@ export default function SeasonalDrops() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.1 }}
             >
-              The Limited<br />
-              <em className={styles.accentText}>Winter Series</em>
+              The Limited <em className={styles.accentText}>Series</em>
             </motion.h2>
 
             <div className={styles.dropsList}>

@@ -229,7 +229,9 @@
 }
 
 @media (max-width: 650px) {
-  .cardsGrid { grid-template-columns: 1fr; }
+  .cardsGrid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .cardTitle { font-size: 1rem; font-weight: 600; }
+  .cardDesc { font-size: 0.7rem; }
   .hero { padding: 80px 24px 40px; }
   .gridSection { padding: 40px 24px 80px; }
 }

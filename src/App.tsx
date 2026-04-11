@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import ScoopsFullPage from './components/ScoopsPage/ScoopsFullPage'
 import MenuPage from './components/MenuPage/MenuPage'
 import { useState, useCallback, useRef, useEffect } from 'react'
@@ -108,7 +108,6 @@ function MainContent() {
 }
 
 function App() {
-  const navigate = useNavigate()
   return (
     <Routes>
       <Route path="/" element={<MainContent />} />
