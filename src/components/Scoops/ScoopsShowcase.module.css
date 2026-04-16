@@ -1,0 +1,503 @@
+/* ScoopsShowcase.module.css
+   Only contains: sticky wrapper + extras (dots, viewAllBtn, scrollHint).
+   ALL visual styles (sidebar, stage, specPlate, etc.) come from
+   ScoopsFullPage.module.css which is also imported in the component.
+*/
+
+/* ─── Sticky scroll shell ─── */
+.outerWrapper {
+    position: relative;
+    width: 100%;
+}
+
+.stickyInner {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    /* GPU acceleration for smooth mobile animations */
+    will-change: contents;
+    animation: sectionFadeIn 0.8s ease forwards;
+}
+
+@keyframes sectionFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ─── Full Width Stage (no sidebar) ─── */
+.fullWidthStage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* ─── Flavor Name Overlay ─── */
+.flavorInfoOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    z-index: 5;
+    pointer-events: none;
+    padding: 5rem 2rem;
+}
+
+.flavorNameContainer {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 0;
+}
+
+.flavorName {
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 800;
+    color: #f5ede3;
+    margin: 0;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    animation: fadeIn 0.5s ease;
+}
+
+.flavorSubtitle {
+    font-size: 14px;
+    color: #c9935a;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0;
+    opacity: 0.8;
+    font-weight: 600;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ─── Override styles for full-width layout ─── */
+.stageAura {
+    position: absolute;
+    inset: 0;
+    transition: background 1.2s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.floatingVideoWrapper {
+    position: relative;
+    width: 100%;
+    height: clamp(380px, 58vh, 720px);
+    z-index: 10;
+    mix-blend-mode: screen;
+    filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.8));
+    /* GPU acceleration */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    animation: videoFadeIn 0.6s ease forwards;
+}
+
+@keyframes videoFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.floatingAnimated {
+    /* Animation disabled - video stays still */
+}
+
+@keyframes zeroGravity {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-30px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.floatingVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* GPU acceleration for smooth playback */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: auto;
+}
+
+/* ─── Spec plate repositioned ─── */
+.specPlate {
+    position: absolute;
+    bottom: 2rem;
+    right: 4rem;
+    width: 360px;
+    background: rgba(15, 15, 15, 0.6);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 2.5rem;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+    animation: slideUpSpec 0.8s ease forwards;
+}
+
+@keyframes slideUpSpec {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.specHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1rem;
+}
+
+.specEyebrow {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.specDesc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+.specFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.exploreBtn {
+    background: #c9935a;
+    color: #131212;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.exploreBtn:hover {
+    background: #e6a56d;
+    transform: translateY(-2px);
+}
+
+.purityBadge {
+    font-size: 0.75rem;
+    color: #c9935a;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* ─── Top Header (Matches Thickshakes/Sundaes) ─── */
+.topRow {
+    display: none;
+}
+
+.header {
+    margin-bottom: 0;
+}
+
+.eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: rgba(201, 147, 90, 0.6);
+    margin-bottom: 12px;
+}
+
+.title {
+    font-size: 56px;
+    font-weight: 800;
+    color: #f5ede3;
+    line-height: 1;
+    margin: 0 0 12px;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: rgba(245, 237, 227, 0.4);
+    margin: 0;
+}
+
+.seeAllBtn {
+    background: transparent;
+    color: #c9935a;
+    border: 1px solid rgba(201, 147, 90, 0.35);
+    padding: 12px 24px;
+    border-radius: 40px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.seeAllBtn:hover {
+    background: rgba(201, 147, 90, 0.1);
+    border-color: #c9935a;
+}
+
+/* ─── "View All" button ─── */
+.viewAllBtn {
+    margin-top: 2.5rem;
+    background: none;
+    border: 1px solid rgba(201, 147, 90, 0.35);
+    color: #c9935a;
+    padding: 12px 24px;
+    border-radius: 40px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.viewAllBtn:hover {
+    background: rgba(201, 147, 90, 0.1);
+    border-color: #c9935a;
+}
+
+/* ─── Progress dots ─── */
+.progressDots {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 30;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.dotActive {
+    background: #c9935a;
+    transform: scale(1.5);
+}
+
+/* ─── Scroll hint ─── */
+.scrollHint {
+    position: absolute;
+    top: 2.5rem;
+    right: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 30;
+    opacity: 0.45;
+}
+
+.scrollHint span {
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    writing-mode: vertical-rl;
+}
+
+.scrollLine {
+    width: 1px;
+    height: 55px;
+    background: #c9935a;
+    transform-origin: top;
+    animation: stretchLine 2s ease-in-out infinite;
+}
+
+@keyframes stretchLine {
+    0% {
+        transform: scaleY(0);
+        transform-origin: top;
+    }
+
+    50% {
+        transform: scaleY(1);
+        transform-origin: top;
+    }
+
+    51% {
+        transform: scaleY(1);
+        transform-origin: bottom;
+    }
+
+    100% {
+        transform: scaleY(0);
+        transform-origin: bottom;
+    }
+}
+
+/* ─── Mobile & Tablet: optimized sticky scroll ─── */
+@media (max-width: 1024px) {
+    .outerWrapper {
+        /* Keep the height so sticky scroll works smoothly */
+    }
+
+    .stickyInner {
+        /* Keep sticky positioning on mobile for smooth scroll experience */
+        position: sticky;
+        height: 100vh;
+    }
+
+    .flavorInfoOverlay {
+        padding: 3.5rem 1.5rem;
+    }
+
+    .flavorName {
+        font-size: clamp(36px, 5.5vw, 72px);
+    }
+
+    .floatingVideoWrapper {
+        width: 100%;
+        height: 100%;
+    }
+
+    .specPlate {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        left: 1rem;
+        width: auto;
+        max-width: 360px;
+        margin: 0 auto;
+    }
+
+    .scrollHint {
+        opacity: 0.3;
+    }
+}
+
+@media (max-width: 640px) {
+    .flavorInfoOverlay {
+        padding: 6rem 1rem;
+    }
+
+    .flavorName {
+        font-size: clamp(28px, 4.5vw, 48px);
+    }
+
+    .floatingVideoWrapper {
+        width: 100%;
+        height: 100%;
+    }
+
+    .specPlate {
+        width: auto;
+        padding: 1.5rem;
+        font-size: 0.85rem;
+        bottom: 0.5rem;
+    }
+
+    .progressDots {
+        bottom: 1rem;
+    }
+
+    .scrollHint {
+        top: 1.5rem;
+        right: 1rem;
+    }
+}
+
+/* ─── Small mobile: further optimizations ─── */
+@media (max-width: 768px) {
+    .topRow {
+        padding: 32px 20px 16px;
+    }
+
+    .scrollHint {
+        display: none;
+    }
+}
+
+/* ─── Desktop: Full-screen video background with title at top ─── */
+@media (min-width: 1025px) {
+    .floatingVideoWrapper {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        inset: 0;
+    }
+
+    .specPlate {
+        position: absolute;
+        bottom: 2rem;
+        right: 4rem;
+    }
+
+    .stageAura {
+        display: none;
+    }
+}

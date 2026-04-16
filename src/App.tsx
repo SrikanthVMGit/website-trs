@@ -5,7 +5,7 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import Navbar from './components/Navbar/Navbar'
 import FrameScrollHero from './components/Hero/FrameScrollHero'
 import Thickshakes from './components/Thickshakes/Thickshakes'
-import Scoops from './components/Scoops/Scoops'
+import ScoopsShowcase, { ALL_FLAVOURS } from './components/Scoops/ScoopsShowcase'
 import Menu from './components/Menu/Menu'
 import SeasonalDrops from './components/SeasonalDrops/SeasonalDrops'
 import ArtOfIceCream from './components/ArtOfIceCream/ArtOfIceCream'
@@ -92,7 +92,7 @@ function MainContent() {
       <Navbar />
       <FrameScrollHero onLoadProgress={handleProgress} />
       <Menu />
-      <Scoops />
+      <ScoopsShowcase flavours={ALL_FLAVOURS} showViewAll={true} />
       <Icecreams />
       <Thickshakes />
       <WarmSpecials />
