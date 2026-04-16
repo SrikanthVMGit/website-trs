@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ScoopsShowcase, { ALL_FLAVOURS } from '../Scoops/ScoopsShowcase';
+import Scoops from '../Scoops/Scoops';
 import styles from './SundaesAll.module.css'; /* reuse page/hero/back btn styles */
 
 export default function ScoopsAllPage() {
@@ -30,7 +30,7 @@ export default function ScoopsAllPage() {
       </div>
 
       {/* Full showcase with all 6 flavours — no "View All" button needed */}
-      <ScoopsShowcase flavours={ALL_FLAVOURS} showViewAll={false} />
+      <Scoops />
     </div>
   );
 }
