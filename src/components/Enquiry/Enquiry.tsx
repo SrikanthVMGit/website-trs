@@ -8,61 +8,37 @@ const Enquiry = () => {
         <span></span>
         <span></span>
       </div>
-      
       <div className={styles.container}>
         <div className={styles.hero}>
-          <p className={styles.tag}>Enquiry</p>
-          <h1 className={styles.title}>Craft something unforgettable.</h1>
+          <p className={styles.tag}>Get in Touch</p>
+          <h1 className={styles.title}>Bulk orders & enquiries.</h1>
           <p className={styles.subtitle}>
-            Whether it’s an intimate celebration or a statement event,
-            let’s create a dessert experience that feels rare.
+            Placing a bulk order, planning ahead, or just have a question?
+    Drop us a message and we'll get back to you within 24 hours.
           </p>
         </div>
-
         <div className={styles.formWrapper}>
           <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-            <div className={styles.row}>
-              <div className={styles.inputGroup}>
-                <input type="text" required placeholder=" " />
-                <label>First Name</label>
-              </div>
-              <div className={styles.inputGroup}>
-                <input type="text" required placeholder=" " />
-                <label>Last Name</label>
-              </div>
-            </div>
-
-            <div className={styles.row}>
-              <div className={styles.inputGroup}>
-                <input type="email" required placeholder=" " />
-                <label>Email</label>
-              </div>
-              <div className={styles.inputGroup}>
-                <input type="tel" required placeholder=" " />
-                <label>Phone</label>
-              </div>
-            </div>
-
-            <div className={styles.row}>
-              <div className={styles.inputGroup}>
-                <input type="text" required placeholder=" " />
-                <label>Type of enquiry</label>
-              </div>
-
-              <div className={styles.inputGroup}>
-                <input type="text" required placeholder=" " />
-                <label>Timeline</label>
-              </div>
-            </div>
-
             <div className={styles.inputGroup}>
-              <textarea required placeholder=" " />
-              <label>Your idea</label>
+              <input type="text" required placeholder=" " />
+              <label>Name</label>
             </div>
-
+            <div className={styles.inputGroup}>
+              <input type="tel" required placeholder=" " />
+              <label>Phone Number</label>
+            </div>
+            <div className={styles.inputGroup}>
+              <input type="text" required placeholder=" " />
+              <label>Type of Enquiry</label>
+            </div>
+            <div className={styles.inputGroup}>
+              <textarea rows={5} required placeholder=" " />
+              <label>Write your enquiry</label>
+            </div>
             <div className={styles.buttonGroup}>
               <button type="submit" className={styles.btnPrimary}>
-                SUBMIT
+                <span className={styles.btnText}>SUBMIT</span>
+                <span className={styles.shimmer}></span>
               </button>
             </div>
           </form>
