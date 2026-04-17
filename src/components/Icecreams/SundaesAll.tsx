@@ -9,6 +9,10 @@ import berryBlissImg from "../../assets/sundaes/berry_bliss_sundae.png";
 import sithaphalRoyalImg from "../../assets/sundaes/sithaphal_royal_delight.png";
 import royalChocImg from "../../assets/sundaes/royal_chocolate_overload.png";
 import belgianNutImg from "../../assets/sundaes/belgian_nut_indulgence.png";
+import mangoMaharajaImg from "../../assets/sundaes/Mango Maharaja Sundae.png";
+import coffeeCrunchImg from "../../assets/sundaes/Coffee Crunch Royale.png";
+import chocVolcanoImg from "../../assets/sundaes/Chocolate Volcano Sundae.png";
+import royalNutsImg from "../../assets/sundaes/Royal Nuts Supreme.png";
 
 interface SundaeItem {
   id: number;
@@ -51,28 +55,28 @@ const ALL_SUNDAES: SundaeItem[] = [
     id: 5,
     title: "Mango Maharaja Sundae",
     description: "Sun-ripened Alphonso mangoes at the heart of this royal creation — a lush mango sorbet kissed with saffron, topped with fresh mango coulis, a hint of lime zest, and a crown of toasted coconut flakes.",
-    poster: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80",
+    poster: mangoMaharajaImg,
     isNew: true,
   },
   {
     id: 6,
     title: "Coffee Crunch Royale",
     description: "Cold-brew concentrate churned into a velvety espresso gelato, layered with caramelized toffee shards, dark chocolate-covered coffee beans, and a ribbon of salted caramel. A sophisticated pick-me-up in every spoonful.",
-    poster: "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80",
+    poster: coffeeCrunchImg,
     isNew: false,
   },
   {
     id: 7,
     title: "Chocolate Volcano Sundae",
     description: "A warm, molten dark chocolate lava cake sits at the center, erupting with rich ganache as it meets two scoops of Madagascar vanilla ice cream. Surrounded by a moat of warm chocolate fudge sauce. Theatrical and unforgettable.",
-    poster: "https://images.unsplash.com/photo-1590080874088-eec64895b423?w=600&q=80",
+    poster: chocVolcanoImg,
     isNew: true,
   },
   {
     id: 8,
     title: "Royal Nuts Supreme",
     description: "The pinnacle of our nut collection — cashews, macadamias, pecans and walnuts, all slow-roasted with house-spiced honey and folded into a Madagascan vanilla cream gelato. Drizzled with aged balsamic-fig reduction for a truly regal finish.",
-    poster: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=600&q=80",
+    poster: royalNutsImg,
     isNew: false,
   },
 ];
