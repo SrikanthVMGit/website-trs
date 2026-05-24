@@ -8,9 +8,7 @@
  * After the last flavour the outer ends and the page continues.
  */
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-// ← reuse the exact same CSS as ScoopsFullPage
-import styles from '../ScoopsPage/ScoopsFullPage.module.css';
+// ← reuse the exact same CSS as ScoopsFullPage (kept for potential future use)
 import showcaseStyles from './ScoopsShowcase.module.css';
 
 import matchaVideo    from '../../video/Matcha video.mp4';
@@ -47,9 +45,8 @@ interface Props {
 
 export default function ScoopsShowcase({
   flavours = ALL_FLAVOURS.slice(0, 3),
-  showViewAll = false,
+  showViewAll: _showViewAll = false,
 }: Props) {
-  const navigate = useNavigate();
   const count = flavours.length;
 
   const [activeIndex, setActiveIndex] = useState(0);
