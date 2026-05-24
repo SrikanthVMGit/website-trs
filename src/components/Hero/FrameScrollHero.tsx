@@ -12,7 +12,6 @@ gsap.registerPlugin(ScrollTrigger)
 
 const TOTAL_FRAMES = 384
 const READY_AT = 20
-const MOBILE_TARGET_FRAMES = 64
 const MOBILE_READY_AT = 8
 const FRAME_BASE = '/frames/frame_'
 
